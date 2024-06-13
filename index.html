@@ -1,605 +1,302 @@
-<!DOCTYPE html>
-<html class="no-js" lang="zxx">
-<head>
-        <!-- Meta tag -->
-		<meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-		<meta name="description" content="">
-		<meta name='copyright' content='codeglim'>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">	
-		
-		<!-- Title Tag -->
-        <title>Learning System Design</title>
-		
-		<!-- Favicon -->
-		<link rel="icon" type="image/png" href="images/favicon.png">	
-		
-        <!-- Google Font -->
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet"> 
-		
-		<!-- Animate CSS -->
-        <link rel="stylesheet" href="css/animate.min.css">
-		
-		<!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-		
-		<!-- Fancy Box CSS -->
-        <link rel="stylesheet" href="css/jquery.fancybox.min.css">
-		
-		<!-- Slick Nav CSS -->
-        <link rel="stylesheet" href="css/slicknav.min.css">
-		
-		<!-- Animate Text -->
-        <link rel="stylesheet" href="css/animate-text.css">
-		
-		<!-- Owl Carousel CSS -->
-		<link rel="stylesheet" href="css/owl.theme.default.css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css">
-		
-		<!-- Bootstrap Css -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-		
-		<!-- Sufia StyleShet -->
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="css/reset.css">	
-        <link rel="stylesheet" href="css/responsive.css">	
-		
-		<!-- Maheraj Template Color -->
-		<link rel="stylesheet" href="css/color/color.css">
-    </head>
-    <body>
-	
-		<!-- Preloader -->
-		<div class="loader">
-			<div class="loader-inner">
-				<div class="k-line k-line11-1"></div>
-				<div class="k-line k-line11-2"></div>
-				<div class="k-line k-line11-3"></div>
-				<div class="k-line k-line11-4"></div>
-				<div class="k-line k-line11-5"></div>
-			</div>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Learning System Design</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="shortcut icon" href="images/icon.png">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+	<!-- Sidebar -->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+				<ul>
+					<li><a href="#intro">Home</a></li>
+					<li><a href="#basic">Basic System Design Components</a></li>
+					<li><a href="#designs">High Level Designs</a></li>
+					<li><a href="#say-hello">Come Say Hello</a></li>
+					<li><a href="#author">About Author</a></li>
+				</ul>
+			</nav>
 		</div>
-		<!-- End Preloader -->
-		
-		<!-- Start Header -->
-		<header id="header">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-2 col-sm-12 col-xs-12">
-						<!-- Logo -->
-						<div class="logo">
-							<link rel="icon" type="image/png" href="images/favicon.png">
-							<a href="#">Learning System Design</a>
-						</div>
-						<!--/ End Logo -->
-						<div class="mobile-nav"></div>
-					</div>
-					<div class="col-md-10 col-sm-12 col-xs-12">
-						<div class="nav-area">
-							<!-- Main Menu -->
-							<nav class="mainmenu">
-								<div class="collapse navbar-collapse">
-									<ul class="nav navbar-nav menu">
-										<li class="active"><a href="#personal-area"><i class="fa fa-home"></i>Homepage</a>
-										</li>
-										<li><a href="#portfolio"><i class="fa fa-briefcase"></i>Designs</a>
-										</li>
-										<li><a href="#contact"><i class="fa fa-address-book"></i>Contact</a></li>		
-									</ul>
-								</div>
-							</nav>
-							<!--/ End Main Menu -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
-		<!--/ End Header -->
-			
-		<!-- Start Personal Area -->
-		<section id="personal-area">
-			<div class="personal-main">
-				<div class="personal-single">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12 col-sm-12 col-xs-12">
-								<!-- Personal Text -->
-								<div class="personal-text">
-									<div class="my-info">
-										<h1>My Name Is Chaitra Boggaram</h1>
-										<h2 class="cd-headline clip is-full-width">
-										   A Professional
-										   <span class="cd-words-wrapper">
-											   <b class="is-visible">Software Developer</b>
-											   <b>Cloud Engineer</b>
-											</span>
-										</h2>
-										<div class="button">
-											<a href="#contact" class="btn primary shine"><i class="fa fa-rocket"></i>Contact Me</a>
-											<a href="#portfolio" class="btn shine"><i class="fa fa-briefcase"></i>System Designs</a>
-										</div>
-									</div>
-								</div>
-								<!--/ End Personal Text -->
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Personal Area -->
-		
-		<!-- Start About Me -->
-		<section id="about-me" class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12 fix">
-						<!-- About Tab -->
-						<div class="tabs-main">
-							<!-- Tab Menu -->
-							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><span class="tooltips">About Me</span><a href="#welcome" role="tab" data-toggle="tab"><i class="fa fa-user"></i></a></li>
-								<li role="presentation"><span class="tooltips">My Skills</span><a href="#skill" role="tab"  data-toggle="tab"><i class="fa fa-rocket"></i></a></li>
-							</ul>
-							<!--/ End Tab Menu -->
-							<div class="tab-content">
-								<!-- Single Tab -->
-								<div role="tabpanel" class="tab-pane fade in active" id="welcome">
-									<div class="about-text">
-										<h2 class="tab-title">About Me</h2>
-										<div class="row">
-											<div class="col-md-4 col-sm-4 col-xs-12">
-												<!-- About Image -->
-												<div class="single-image">
-													<img src="images/personal/chaitra1.png" alt="">
-												</div>
-											</div>
-											<!-- End About Image -->
-											<div class="col-md-8 col-sm-12 col-xs-12">
-												<div class="content">
-													<p>Hello 👋, I'm Chaitra, a software engineer with 5 years of experience and expertise in Python 🐍, Java ☕, C++ 🧑‍💻, and cloud technologies like AWS ☁️ and Azure 🌐. I specialize in developing robust applications and systems, including microservices architecture 🏗️ and cloud-based solutions ☁️. I've led projects that enhance user experience and efficiency, leveraging technologies like Kubernetes 🚢 and GenAI 🧠.
-													<br><br>
-													Recently, I built a Kubernetes Key-Value Store 🗝️ and developed blockchain infrastructure ⛓️, showcasing my ability to tackle complex challenges 🏋️‍♂️.
-													<br><br>
-													Additionally, I created a plagiarism detector for ChatGPT 🤖, and my research paper on this was accepted at the 8th International Conference on Computer and Information Science and Technology 📝.
-													<br><br>
-													I am always on the lookout for learning new tools and technologies to enhance user experience 🌟.
-													</p>
-												</div>
-												<div class="social">
-													<ul>
-														<li><a href="https://github.com/chaitraboggaram" target="_blank"><i class="fa fa-github"></i></a></li>
-														<li><a href="https://www.linkedin.com/in/chaitraboggaram/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-														<li><a href="https://twitter.com/BoggaramChaitra" target="_blank"><i class="fa fa-twitter"></i></a></li>
-														<li><a href="https://www.instagram.com/ipadhu/" target="_blank"><i class="fa fa-instagram"></i></a></li>
-														<li><a href="https://www.youtube.com/@chaitraboggaram" target="_blank"><i class="fa fa-youtube"></i></a></li>
-														<li><a href="https://chaitraboggaram.github.io/" target="_blank"><i class="fa fa-link"></i></a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!--/ End Single Tab -->
-								Single Tab
-								<div role="tabpanel" class="tab-pane fade" id="skill">
-									<h2 class="tab-title">My Skill</h2>
-									<div class="row">				
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>Python</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"><span>90%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>React JS</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span>60%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>HTML5 / CSS3</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"><span>80%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>Amazon Web Services</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"><span>80%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>C</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"><span>65%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>C++</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span>50%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>Kubernetes</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"><span>70%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<!-- Single Skill -->
-											<div class="single-skill">
-												<div class="skill-info">
-													<h4>Web Development</h4>
-												</div>
-												<div class="progress">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"><span>70%</span></div>
-												</div>
-											</div>
-											<!--/ End Single Skill -->
-										</div>
-									</div>
-								</div>
-								<!--/ End Single Tab -->
-							</div>
-						</div>
-						<!--/ End About Tab -->
-					</div>
-				</div>
-			</div>
-		</section>		
-		<!--/ End About Me -->	
-		
-		<!-- Start portfolio -->
-		<section id="portfolio" class="section">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="section-title">
-							<h1>Learn System Design<i class="fa fa-briefcase"></i></h1>
-							<p>"A design is truly done when it begins working for you, instead of you working for it"</p>
-						</div>
-					</div>
-				</div>
-						
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<!-- portfolio Nav -->
-						<div class="portfolio-nav">
-							<ul>
-								<li class="active" data-filter="*"><i class="fa fa-tasks"></i>All</li>
-								<li data-filter=".common"><i class="fa fa-briefcase"></i>Common Interview Questions</li>
-								<li data-filter=".system"><i class="fa fa-pencil"></i>Other System Designs</li>
-								<!-- <li data-filter=".object"><i class="fa fa-pencil"></i>Object Oriented Design</li> -->
-							</ul>
-						</div>
-						<!--/ End portfolio Nav -->
-					</div>
-				</div>
-						
-				<div class="portfolio-inner">
+	</section>
 
-					<!-- Row Start -->
-					<div class="row stylex">	
-						<div class="isotop-active">
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix ">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/tinyrul.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>TinyURL</span></h4>
-										<p>TinyURL simplifies web link sharing with its efficient URL shortening feature, ensuring reliability and ease of use. Its robust architecture and user-friendly interface enable effortless sharing and access to shortened links, enhancing online communication across various digital platforms.</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/tinyrul.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7176413580324450304-iZKd?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>	
-										</div>
-									</div>
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Intro -->
+			<section id="intro" class="wrapper style1 fullscreen fade-up">
+				<div class="inner">
+					<a href="#" class="image"><img src="images/picture.png" alt="" width="960" height="540"/></a>
+					<h1 style="font-size: 70px">System Design Guru</h1>
+					<p>Level up your skills and dominate your system design interviews!<br /></p>
+					<ul class="actions">
+						<li><a href="#basic" class="button primary scrolly">Start Learning!</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<!-- Basic System Design Components Start -->
+			<section id="basic" class="wrapper style1-alt">
+				<div class="inner">
+					<h1>Basic System Design Components</h1>
+					<p>Learn from scratch and become a pro!</p>
+					<br>
+
+					<div id="wrapper">
+						<section id="one" class="wrapper">
+							<h2>Core System Design Concepts</h2>
+							<div class="row">
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="availability.html">Availability</a></h3>
+									<a href="availability.html">
+										<img src="images/basic/availability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Scalability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="performance.html">Performance</a></h3>
+									<a href="performance.html">
+										<img src="images/basic/performance.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Reliability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/reliability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Fault Tolerance</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/fault-tolerance.png" alt="" width="200" height="200">
+									</a>
 								</div>
 							</div>
-
-							<div class="mix common col-md-2 col-sm-6 col-xs-12 col-fix "></div>
-
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/twitter.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>Twitter</span></h4>
-										<p>Twitter is a free social media platform that allows users to post short messages, or tweets, to share their thoughts with a large audience. Tweets can contain text, photos, videos, or links, and can be up to 280 characters long. Twitter can be used for a variety of purposes, including News, Marketing, Reporting and Social media.</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/twitter.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7179000938152546304-Z669?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>	
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-						</div>
+						</section>
 					</div>
-					<!--/ Row End -->
+
+					<br>
+					<div id="wrapper">
+						<section id="two" class="wrapper">
+							<h2>Scalability and Performance</h2>
+							<div class="row">
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Load Balancing</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Caching</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Database Sharding</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Database Replication</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Scalability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+							</div>
+						</section>
+					</div>
+
+					<br>
+					<div id="wrapper">
+						<section id="three" class="wrapper">
+							<h2>Storage Systems</h2>
+							<div class="row">
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Databases</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Data Partitioning</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Data Consistency Models</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Indexing</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Scalability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+							</div>
+						</section>
+					</div>
+
+					<br>
+					<div id="wrapper">
+						<section id="four" class="wrapper">
+							<h2>Networking and Communication</h2>
+							<div class="row">
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Protocols</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Content Delivery Networks</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Message Queues</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Scalability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+								<div class="column">
+									<h3 style="text-align: center;"><a class="button-link" href="scalability.html">Scalability</a></h3>
+									<a href="scalability.html">
+										<img src="images/basic/scalability.png" alt="" width="200" height="200">
+									</a>
+								</div>
+							</div>
+						</section>
+					</div>
+
+					<br><br>
+					<ul class="actions">
+						<li><a href="#say-hello" class="button primary scrolly">Impressive?! Contact Author!</a></li>
+					</ul>
 					
-					<!-- Row Start -->
-					<div class="row stylex">
-						<br><br>
-						<div class="isotop-active">
-							<div class="mix system col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix system col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/content upload service.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>Content Upload Service</span></h4>
-										<p>A Content Upload Service for streaming platforms like YouTube that manages media files uploaded by creators, ensuring compliance, processing for streaming efficiency, and integrating with content management systems for streamlined administration and user feedback.</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/Content Upload Service Architecture.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7181384495881707520-wnE5?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>							
-							<div class="mix system col-md-2 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix system col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/content view service.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>Content View Service</span></h4>
-										<p>The ContentViewService is the heartbeat of our video streaming platform, orchestrating the entire viewing experience for our users. It's the engine behind seamless playback, intuitive user interfaces, and engaging interactions with video content. 
-</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/ContentViewServiceArchitecture.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7181384495881707520-wnE5?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="mix system col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-						</div>
-					</div>
-					<!--/ Row End -->
-
-					<!-- Row Start -->
-					<div class="row stylex">
-						<br><br>
-						<div class="isotop-active">
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/news aggregator.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>Google News</span></h4>
-										<p>Google News aggregates headlines and stories from various news sources, offering a comprehensive view of current events across the globe. Users can customize their news feed to receive relevant articles and breaking news alerts, ensuring they stay informed on topics of interest.
-										</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/News aggregator.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-systemdesign-engineering-activity-7189019278757498880-Pf_3?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>							
-							<div class="mix common col-md-2 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/parking lot.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>Parking Lot</span></h4>
-										<p>Parking lots provide designated spaces for vehicle parking, serving as critical infrastructure for businesses, shopping centers, airports, and other facilities. Properly designed parking lots balance efficiency, safety, and accessibility, accommodating a large number of vehicles while ensuring smooth traffic flow and user-friendly navigation.</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/parking lot.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7181384495881707520-wnE5?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-						</div>
-					</div>
-					<!--/ Row End -->
-					
-					<!-- Row Start -->
-					<div class="row stylex">
-						<br><br>
-						<div class="isotop-active">
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/pastebin.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>PasteBin</span></h4>
-										<p>Pastebin simplifies online text and code sharing with its intuitive interface and anonymity feature. It caters to a diverse range of users, from developers sharing code snippets to individuals disseminating notes and messages. Its collaborative capabilities foster teamwork and productivity, making it a trusted tool for millions worldwide.
-										</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/pastebin.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-techdesign-engineeringexcellence-activity-7173911439915511809-a0AS?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>							
-							<div class="mix common col-md-2 col-sm-6 col-xs-12 col-fix "></div>
-							<div class="mix common col-md-4 col-sm-6 col-xs-12 col-fix">
-								<div class="portfolio-single" style="box-shadow: 0px 4px 10px #222222;">
-									<div class="portfolio-head">
-										<img src="images/system designs/chat application.jpg" alt=""/>
-									</div>
-									<div class="portfolio-hover">
-										<h4><span>WhatsApp</span></h4>
-										<p>A chat application like WhatsApp facilitates real-time communication, allowing users to send text messages, voice notes, multimedia files, and more. It creates a seamless platform for individuals and groups to connect instantly, with features like end-to-end encryption ensuring secure and private conversations.</p>
-										<div class="button">
-											<a data-fancybox="gallery" href="images/system designs/chat application.jpg"><i class="fa fa-search"></i></a>
-											<a href="https://www.linkedin.com/posts/chaitraboggaram_systemdesignwednesday-whatsapp-engineering-activity-7194064925667872768-LE6P?utm_source=share&utm_medium=member_desktop" class="primary" target="_blank"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="mix common col-md-1 col-sm-6 col-xs-12 col-fix "></div>
-						</div>
-					</div>
-					<!--/ Row End -->
-					
-
 				</div>
-			</div>
-		</section>
-		<!--/ End portfolio -->
-		
-		<!-- Start Contact -->
-		<section id="contact" class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="section-title">
-							<h1><span>Contact</span> Me<i class="fa fa-star"></i></h1>
-							<p>"When We Contact Each Other, We Change Each Other. We Are Constantly Making Each Other"</p>
-						</div>
+			</section>
+			<!-- Basic System Design Components End -->
+
+			<!-- Designs Start -->
+			<section id="designs" class="wrapper style1 fade-up fullscreen">
+				<div class="inner">
+					<h2>High Level Designs</h2>
+					<p>Well done! You're now ahead of the game in system design interviews. Keep it up!</p>
+					<br>
+
+					<section id="1"></section>
+					<p><h3><a class="button-link" href="system-design-template.html">
+						System Design Template
+					</a></h3></p>
+
+					<ul class="actions">
+						<li><a href="#say-hello" class="button primary scrolly">Impressive?! Contact Author!</a></li>
+					</ul>
+				</div>
+			</section>
+			<!-- Designs End -->
+
+			<!-- Send a message Start -->
+			<section id="say-hello" class="wrapper style1-alt">
+				<div class="inner">
+					<h2>Send a Quick Message</h2>
+					<div class="style1">
+						<section>
+							<form action="https://formspree.io/f/mgegzpoy" method="POST">
+								<div class="fields">
+									<div class="field half">
+										<input type="text" name="name" placeholder="Name" class="form-control" required>
+									</div>
+									<br>
+									<div class="field half">
+										<input type="text" name="email" placeholder="Email" class="form-control" required>
+									</div>
+									<br>
+									<div class="field">
+										<textarea name="message" placeholder="Your message" rows="3" class="form-control" required></textarea>
+									</div>
+									<br>
+									<input type="hidden" name="_subject" value="New email from Portfolio Site!" class="form-control">
+									<input type="hidden" name="_next" value="thanks.html" />
+								</div>
+								<br>
+								<div class="form-group">
+									<input type="submit" value="Send" class="button primary scrolly" style="background: white; border: 2px solid black;
+									color: black; padding: 10px 28px;
+									font-size: 16px; border-radius: 20px;
+									cursor: pointer;">
+								</div>
+							</form>
+						</section>
 					</div>
 				</div>
-				<div class="row">
-					<!-- Contact Address -->
-					<div class="col-sm-12 col-xs-12 wow fadeInRight" data-wow-delay="0.8s">
-						<div class="contact">
-							<!-- Single Address -->
-							<div class="single-address col-md-4">
-								<i class="fa fa-phone"></i> 
-								<div class="title">
-									<h4>My Phone</h4>
-									<p><a href="tel:+16692928310" style="color: black">+1 (669) 292-8310</a></p>
-								</div>
-							</div>
-							<!--/ End Single Address -->
-							<!-- Single Address -->
-							<div class="single-address col-md-4">
-								<i class="fa fa-envelope"></i> 
-								<div class="title">
-									<h4>Email Address</h4>
-									<p><a href="mailto:chaitraboggaram@gmail.com" style="color: black">chaitraboggaram@gmail.com</a></p>
-								</div>
-							</div>
-							<!--/ End Single Address -->
-							<!-- Single Address -->
-							<div class="single-address col-md-4">
-								<i class="fa fa-map"></i> 
-								<div class="title">
-									<h4>My Location</h4>
-									<p>California, USA</p>
-								</div>
-							</div>
-							<!--/ End Single Address -->
-						</div>
-					</div>
-					<!--/ End Contact Address -->
+			</section>
+			<!-- Send a message End -->
+
+			<!-- Author Start -->	
+			<section id="author" class="wrapper style2-alt">
+				<div class="inner">
+					<h2><a href="https://chaitraboggaram.github.io/" target="_blank" style="align-items: left;margin-right: 10px;">
+						<i class="fas fa-user-alt"></i>
+						<span class="label">Author</span>
+					</a></h2>
+					<ul class="icons">
+						<li><a href="mailto:chaitrabsarathy@gmail.com" class="fa fa-envelope-o"><span class="label">Email</span></a></li>
+						<li><a href="https://www.linkedin.com/in/chaitraboggaram/" class="fa fa-linkedin-square"><span class="label">LinkedIn</span></a></li>
+						<li><a href="https://github.com/chaitraboggaram/" class="fa fa-github"><span class="label">GitHub</span></a></li>
+						<li><a class="btn btn-light btn-social mr-2" href="https://leetcode.com/chaitraboggaram/" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104a5.35 5.35 0 0 0-.125.513a5.527 5.527 0 0 0 .062 2.362a5.83 5.83 0 0 0 .349 1.017a5.938 5.938 0 0 0 1.271 1.818l4.277 4.193l.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019l-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523a2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0m-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382a1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382a1.38 1.38 0 0 0-1.38-1.382z"/></svg><i class="fab fa-leetcode"></i></a></li>
+						<li><a href="https://www.instagram.com/ipadhu/" class="fa fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="https://www.youtube.com/@chaitraboggaram" class="fab fa-youtube"><span class="label">YouTube</span></a></li>
+					</ul>
 				</div>
-			</div>
-		</section>
-		<!--/ End Contact -->
-		
-		<!-- Jquery -->
-		<script type="text/javascript" src="js/jquery.min.js" defer></script>
-		
-		<!-- Colors JS -->
-		<script type="text/javascript" src="js/colors.js" defer></script>
-			
-		<!-- Modernizr JS -->
-		<script type="text/javascript" src="js/modernizr.min.js" defer></script>
-			
-		<!-- WOW JS -->
-		<script type="text/javascript" src="js/wow.min.js" defer></script>
-		
-		<!-- Fancybox js -->
-		<script type="text/javascript" src="js/jquery.fancybox.min.js" defer></script>
-		
-		<!-- Animate Text JS -->
-		<script type="text/javascript" src="js/animate-text.js" defer></script>
-		
-		<!-- Mobile Menu JS -->
-    	<script type="text/javascript" src="js/jquery.slicknav.min.js" defer></script>
-		
-		<!-- Jquery Parallax -->
-    	<script type="text/javascript" src="js/jquery.stellar.min.js" defer></script>
-		
-		<!-- Jquery Easing -->
-    	<script type="text/javascript" src="js/easing.js" defer></script>
-		
-		<!-- One Page Nav JS -->
-    	<script type="text/javascript" src="js/jquery.nav.js" defer></script>
-		
-		<!-- Slider Carousel JS -->
-		<script type="text/javascript" src="js/owl.carousel.min.js" defer></script>
+			</section>
+			<!-- Author End -->	
 
-		<!-- Youtube Player JS -->
-		<script type="text/javascript" src="js/ytplayer.min.js" defer></script>
+		</div>
 
-		<!-- Particle JS -->
-		<script type="text/javascript" src="js/particles.min.js" defer></script>
-		
-		<!-- Counter JS -->
-		<script type="text/javascript" src="js/waypoints.min.js" defer></script>
-		<script type="text/javascript" src="js/jquery.counterup.min.js" defer></script>
-		
-		<!-- Mixitup JS -->
-		<script type="text/javascript" src="js/isotope.pkgd.min.js" defer></script>
-		
-		<!-- Bootstrap JS -->
-		<script type="text/javascript" src="js/bootstrap.min.js" defer></script>
-		
-		<!-- Main JS -->
-		<script type="text/javascript" src="js/main.js" defer></script>
-    </body>
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
 
-<!-- Mirrored from codeglim.com/templates/meheraj/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2019 08:42:09 GMT -->
+	</body>
 </html>

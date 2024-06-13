@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>A Comprehensive Guide to System Design for Modern Applications</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a href="index.html#1" class="title">Back</a>
+    <nav>
+        <ul>
+            <li><a href="index.html" style="color:white">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <section id="main" class="wrapper">
+        <div class="inner">
+            <h1 class="major">A Comprehensive Guide to System Design for Modern Applications</h1>
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!.</p>
+            </div>
+            <br>
+            <h2>1. Feature Expectations [5 mins]</h2>
+            <div>
+                <h3>(1) Use Cases</h3>
+                <p>Understanding the primary and secondary functionalities of your system is essential. Clearly define the main features your system will provide and any additional features that support these primary functions.</p>
+            </div>
+            <div>
+                <h3>(2) Scenarios That Will Not Be Covered</h3>
+                <p>It's equally important to delineate what is out of scope for your system. This helps manage stakeholder expectations and focuses development efforts.</p>
+            </div>
+            <div>
+                <h3>(3) Who Will Use</h3>
+                <p>Identify the target users of your system. Knowing your audience helps tailor the design to meet their specific needs.</p>
+            </div>
+            <div>
+                <h3>(4) How Many Will Use</h3>
+                <p>Estimate the number of active users. This estimation informs various aspects of system design, including scalability and performance requirements.</p>
+            </div>
+            <div>
+                <h3>(5) Usage Patterns</h3>
+                <p>Describe typical usage patterns and frequency. Understanding how users interact with your system guides performance and capacity planning.</p>
+            </div>
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>2. Estimations [5 mins]</h2>
+            <div>
+                <h3>(1) Throughput</h3>
+                <p>Estimate the queries per second (QPS) for both read and write operations. This helps in designing the system's capacity and performance.</p>
+            </div>
+            <div>
+                <h3>(2) Latency</h3>
+                <p>Define expected latency for read and write queries. Low latency is often crucial for a good user experience.</p>
+            </div>
+            <div>
+                <h3>(3) Read/Write Ratio</h3>
+                <p>Determine the proportion of read to write queries. This ratio influences database design and caching strategies.</p>
+            </div>
+            <div>
+                <h3>(4) Traffic Estimates</h3>
+                <p>Estimate traffic in terms of QPS and data volume for both read and write operations. This guides infrastructure planning.</p>
+            </div>
+            <div>
+                <h3>(5) Storage Estimates</h3>
+                <p>Calculate total storage requirements. This includes database storage and any additional data storage needs.</p>
+            </div>
+            <div>
+                <h3>(6) Memory Estimates</h3>
+                <p>If using a cache, define the type of data to be cached, the amount of RAM required, and the number of machines needed. Also, estimate the amount of data to store on disk/SSD.</p>
+            </div>
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>3. Design Goals [5 mins]</h2>
+            <div>
+                <h3>(1) Latency and Throughput Requirements</h3>
+                <p>Set specific targets for latency and throughput. These goals drive the design and optimization of your system.</p>
+            </div>
+            <div>
+                <h3>(2) Consistency vs. Availability</h3>
+                <p>Decide on the level of consistency (weak, strong, or eventual) and availability requirements. Plan for failover and replication strategies to ensure high availability.</p>
+            </div>
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels for robust system design</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <div>
+                <h3>(1) APIs for Read/Write Scenarios</h3>
+                <p>Define key APIs for core functionalities. Ensure they are designed for efficiency and scalability.</p>
+            </div>
+            <div>
+                <h3>(2) Database Schema</h3>
+                <p>Outline the database schema. A well-designed schema is foundational to system performance and maintainability.</p>
+            </div>
+            <div>
+                <h3>(3) Basic Algorithm</h3>
+                <p>Describe core algorithms used in the system. These should be optimized for performance and scalability.</p>
+            </div>
+            <div>
+                <h3>(4) High-Level Design for Read/Write Scenarios</h3>
+                <p>Provide an overview of the architecture for handling read and write operations. Include key components and data flow.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            <div>
+                <h3>(1) Scaling the Algorithm</h3>
+                <p>Detail strategies to scale your algorithms efficiently.</p>
+            </div>
+            <div>
+                <h3>(2) Scaling Individual Components</h3>
+                <p>Analyze and plan for scaling each component, including DNS, CDN, load balancers, reverse proxies, application layers, and databases. Address availability, consistency, and scalability for each.</p>
+            </div>
+            <div>
+                <h3>(3) Components to Consider</h3>
+                <p>DNS<br>
+                    CDN (Push vs. Pull)<br>
+                    Load Balancers (Active-Passive, Active-Active, Layer 4, Layer 7)<br>
+                    Reverse Proxy<br>
+                    Application Layer Scaling (Microservices, Service Discovery)<br>
+                    Database Options (RDBMS, NoSQL, Graph, NewSQL, Time Series, Vector databases)<br>
+                    Caches (Different caching strategies and eviction policies)<br>
+                    Asynchronism (Message queues, task queues, back pressure)<br>
+                    Communication (TCP, UDP, REST, RPC, WebSockets)</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>6. Justify [5 mins]</h2>
+            <div>
+                <h3>(1) Throughput of Each Layer</h3>
+                <p>Analyze throughput for each system layer.</p>
+            </div>
+            <div>
+                <h3>(2) Latency Caused Between Each Layer</h3>
+                <p>Identify and justify latency at each layer.</p>
+            </div>
+            <div>
+                <h3>(3) Overall Latency Justification</h3>
+                <p>Explain overall system latency and its impact on user experience.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>7. Key Metrics to Measure [3 mins]</h2>
+            <div>
+                <h3>(1) Identify Key Metrics</h3>
+                <p>Define metrics for availability, latency, throttling, request patterns/volume, and customer experience.</p>
+            </div>
+            <div>
+                <h3>(2) Metrics for Infrastructure and Resources</h3>
+                <p>Utilize tools like Grafana with Prometheus, and AppDynamics to measure and monitor these metrics.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>8. System Health Monitoring [2 mins]</h2>
+            <div>
+                <h3>(1) Measure App Index and Latency of Microservices</h3>
+                <p>Use monitoring tools such as New Relic and AppDynamics.</p>
+            </div>
+            <div>
+                <h3>(2) Canaries</h3>
+                <p>Implement canaries to detect and address service degradation proactively.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>9. Log Systems [2 mins]</h2>
+            <div>
+                <h3>(1) Implement Tools to Gather and Visualize Metrics</h3>
+                <p>Use ELK (Elastic, Logstash, Kibana) or Splunk for log collection and analysis.</p>
+            </div>
+            <div>
+                <h3>(2) Performance Monitoring</h3>
+                <p>Discuss leveraging logs for performance monitoring and troubleshooting system bottlenecks.</p>
+            </div>
+            <div>
+                <h3>(3) Compliance and Retention</h3>
+                <p>Address compliance requirements and define log retention policies to meet regulatory standards.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <h2>10. Security [2 mins]</h2>
+            <div>
+                <h3>(1) Firewall, Encryptions at Rest and In Transit</h3>
+                <p>Implement robust firewall policies and encryption to secure data.</p>
+            </div>
+            <div>
+                <h3>(2) TLS</h3>
+                <p>Ensure data encryption in transit with TLS.</p>
+            </div>
+            <div>
+                <h3>(3) Authentication, Authorization (AuthN/Z)</h3>
+                <p>Implement strong authentication and authorization mechanisms.</p>
+            </div>
+            <div>
+                <h3>(4) Limited Egress/Ingress</h3>
+                <p>Control data flow to enhance security.</p>
+            </div>
+            <div>
+                <h3>(5) Principle of Least Privilege</h3>
+                <p>Limit access to necessary permissions only to minimize security risks.</p>
+            </div>
+            <div class="note">
+                <p>Cover only relevant security topics during the interview and ensure they are within the allotted time limit.</p>
+            </div>
+            <br>
+        </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
+

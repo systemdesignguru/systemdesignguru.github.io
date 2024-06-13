@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability</title>
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a href="index.html#basic" class="title">Back</a>
+    <nav>
+        <ul>
+            <li><a href="index.html" style="color:white">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper">
+        <div class="inner">
+            <h1 class="major">Availability</h1>
+
+            <!-- Content -->
+            <article>
+                <p><strong>Availability</strong> refers to a system or service's ability to remain operational and accessible to users over time, typically measured as uptime percentage, reflecting its reliability.</p>
+
+                <h2>Availability in System Design</h2>
+                <p>In system design, availability ensures continuous operation and accessibility. Achieving this involves redundancy, fault tolerance, and proactive monitoring. Redundancy duplicates critical components to prevent failures, while fault tolerance handles errors effectively for seamless operation. Strategies like load balancing and replication minimize downtime, crucial for maintaining user satisfaction and business continuity, especially in online services and e-commerce.</p>
+
+                <h2>Factors Affecting Availability</h2>
+                <ol>
+                    <li>
+                        <h3>Single Points of Failure (SPOF):</h3>
+                        <ul>
+                            <li>Identify and eliminate SPOFs by introducing redundancy and failover mechanisms.</li>
+                            <li>Examples: redundant servers, power supplies, network paths.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>Fault Tolerance:</h3>
+                        <ul>
+                            <li>Design systems to continue operating despite hardware or software failures.</li>
+                            <li>Implement error handling, retries, and fallback mechanisms.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>High Availability (HA):</h3>
+                        <ul>
+                            <li>Ensure systems can handle a high percentage of uptime through redundancy and rapid recovery.</li>
+                            <li>Use load balancing, replication, and automated monitoring.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h2>Strategies for Achieving High Availability</h2>
+                <ol>
+                    <li>
+                        <h3>Redundancy:</h3>
+                        <ul>
+                            <li>Duplicate critical components (servers, databases) to eliminate single points of failure.</li>
+                            <li>Employ active-active or active-passive redundancy configurations.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>Load Balancing:</h3>
+                        <ul>
+                            <li>Distribute incoming traffic across multiple servers to avoid overload and ensure continuous service availability.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>Fault Detection and Recovery:</h3>
+                        <ul>
+                            <li>Implement monitoring tools to detect failures quickly.</li>
+                            <li>Use automated recovery mechanisms such as auto-scaling, service restarts, or failover to secondary systems.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="note">
+                    <p>In summary, availability in system design ensures that systems operate continuously and remain accessible to users. This is achieved by implementing redundancy, fault tolerance measures, and proactive monitoring. Candidates should be proficient in discussing techniques like load balancing, redundancy strategies, and fault detection. It's crucial to showcase practical experience in designing systems that prioritize high availability.</p>
+                </div>
+            </article>
+            <!-- End Content -->
+        </div>
+    </section>
+    <!-- End Main -->
+</div>
+<!-- End Wrapper -->
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<!-- End Scripts -->
+
+</body>
+</html>
