@@ -44,3 +44,7 @@ The content on this platform is released under the [MIT License](https://choosea
 ## Template
 
 Website Template: [Hyperspace by HTML5 UP](https://html5up.net/hyperspace)
+
+## Copywrite
+
+Images and some content are owned by their respective creators.

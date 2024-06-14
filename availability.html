@@ -29,32 +29,32 @@
 
             <!-- Content -->
             <article>
-                <p><strong>Availability</strong> refers to a system or service's ability to remain operational and accessible to users over time, typically measured as uptime percentage, reflecting its reliability.</p>
+                <p><strong>Availability</strong> refers to how well a system or service stays operational and accessible to users over time. It's usually measured by uptime percentage, which shows its reliability.</p>
 
                 <h2>Availability in System Design</h2>
-                <p>In system design, availability ensures continuous operation and accessibility. Achieving this involves redundancy, fault tolerance, and proactive monitoring. Redundancy duplicates critical components to prevent failures, while fault tolerance handles errors effectively for seamless operation. Strategies like load balancing and replication minimize downtime, crucial for maintaining user satisfaction and business continuity, especially in online services and e-commerce.</p>
+                <p>In system design, availability ensures that a system keeps running and remains accessible. Achieving this involves redundancy, fault tolerance, and proactive monitoring. Redundancy means having backups of critical parts to prevent failures. Fault tolerance handles errors smoothly, keeping the system running without interruption. Techniques like load balancing and data replication help reduce downtime, which is crucial for services like online platforms and e-commerce.</p>
 
                 <h2>Factors Affecting Availability</h2>
                 <ol>
                     <li>
-                        <h3>Single Points of Failure (SPOF):</h3>
+                        <h3>Single Points of Failure (SPOF)</h3>
                         <ul>
-                            <li>Identify and eliminate SPOFs by introducing redundancy and failover mechanisms.</li>
-                            <li>Examples: redundant servers, power supplies, network paths.</li>
+                            <li>To avoid SPOFs, duplicate critical components and set up failover systems.</li>
+                            <li>Examples include redundant servers, power supplies, and network paths.</li>
                         </ul>
                     </li>
                     <li>
-                        <h3>Fault Tolerance:</h3>
+                        <h3>Fault Tolerance</h3>
                         <ul>
-                            <li>Design systems to continue operating despite hardware or software failures.</li>
-                            <li>Implement error handling, retries, and fallback mechanisms.</li>
+                            <li>Design systems to handle hardware or software failures gracefully.</li>
+                            <li>Implement error handling, retry mechanisms, and fallback options.</li>
                         </ul>
                     </li>
                     <li>
-                        <h3>High Availability (HA):</h3>
+                        <h3>High Availability (HA)</h3>
                         <ul>
-                            <li>Ensure systems can handle a high percentage of uptime through redundancy and rapid recovery.</li>
-                            <li>Use load balancing, replication, and automated monitoring.</li>
+                            <li>Ensure systems can maintain high uptime by using redundancy and fast recovery methods.</li>
+                            <li>Use load balancing, data replication, and automated monitoring.</li>
                         </ul>
                     </li>
                 </ol>
@@ -62,29 +62,29 @@
                 <h2>Strategies for Achieving High Availability</h2>
                 <ol>
                     <li>
-                        <h3>Redundancy:</h3>
+                        <h3>Redundancy</h3>
                         <ul>
-                            <li>Duplicate critical components (servers, databases) to eliminate single points of failure.</li>
-                            <li>Employ active-active or active-passive redundancy configurations.</li>
+                            <li>Create duplicates of critical components like servers and databases to eliminate single points of failure.</li>
+                            <li>Set up active-active or active-passive redundancy setups.</li>
                         </ul>
                     </li>
                     <li>
-                        <h3>Load Balancing:</h3>
+                        <h3>Load Balancing</h3>
                         <ul>
-                            <li>Distribute incoming traffic across multiple servers to avoid overload and ensure continuous service availability.</li>
+                            <li>Distribute incoming traffic across multiple servers to prevent overload and ensure continuous service.</li>
                         </ul>
                     </li>
                     <li>
-                        <h3>Fault Detection and Recovery:</h3>
+                        <h3>Fault Detection and Recovery</h3>
                         <ul>
-                            <li>Implement monitoring tools to detect failures quickly.</li>
-                            <li>Use automated recovery mechanisms such as auto-scaling, service restarts, or failover to secondary systems.</li>
+                            <li>Use monitoring tools to quickly detect failures.</li>
+                            <li>Implement automated recovery actions such as scaling resources, restarting services, or switching to backup systems.</li>
                         </ul>
                     </li>
                 </ol>
 
                 <div class="note">
-                    <p>In summary, availability in system design ensures that systems operate continuously and remain accessible to users. This is achieved by implementing redundancy, fault tolerance measures, and proactive monitoring. Candidates should be proficient in discussing techniques like load balancing, redundancy strategies, and fault detection. It's crucial to showcase practical experience in designing systems that prioritize high availability.</p>
+                    <p>In summary, availability in system design ensures that systems operate continuously and remain accessible to users. This is achieved by using redundancy, fault tolerance measures, and proactive monitoring. It's important to be familiar with concepts like load balancing, redundancy strategies, and fault detection when designing systems to prioritize high availability.</p>
                 </div>
             </article>
             <!-- End Content -->
