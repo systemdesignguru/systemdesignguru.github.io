@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Authentication</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -27,13 +27,42 @@
         <div class="inner">
             <h1 class="major">Authentication</h1>
             <!-- Start Content -->
+            <p>Authentication is the process of verifying the identity of a user. It's essential for security, ensuring that only authorized individuals can access a system.</p>
+            <p>Authentication works by having users provide credentials, such as a username and password, which are then checked against stored information in a database. If the credentials match, the user is granted access. If not, access is denied.</p>
             
+            <h2>Types of Authentication</h2>
+            <p>There are several methods of authentication:</p>
+            <ul>
+                <li><strong>Password-Based Authentication</strong>: Users log in using a username and password. This is the most common form of authentication.</li>
+                <li><strong>Two-Factor Authentication (2FA)</strong>: Provides an additional layer of security. After entering the password, users must also enter a code sent to their phone or email.</li>
+                <li><strong>Biometric Authentication</strong>: Uses physical traits such as fingerprints, facial recognition, or voice recognition. This method offers a high level of security.</li>
+                <li><strong>OAuth (Open Authorization)</strong>: Allows users to log in using their credentials from another service, like Google or Facebook. This is often used in web and mobile applications.</li>
+                <li><strong>Token-Based Authentication</strong>: After a successful login, the system issues a token (a small piece of data) to the user. The user includes this token in their requests to access protected resources. Tokens usually expire after a set time and can be renewed or revoked as needed.</li>
+            </ul>
+            
+            <h2>Best Practices for Implementing Authentication</h2>
+            <p>Best practices for implementing authentication include:</p>
+            <ul>
+                <li>Securely storing passwords using strong hashing algorithms like bcrypt</li>
+                <li>Ensuring all communication is encrypted with HTTPS</li>
+                <li>Using two-factor authentication</li>
+                <li>Limiting login attempts to prevent brute-force attacks</li>
+                <li>Regularly updating and patching the authentication system</li>
+                <li>Monitoring and logging access to detect suspicious activities</li>
+            </ul>
+            <div class="note">
+                <p>Authentication is a crucial part of system design, ensuring that only authorized users can access services and data. By implementing strong authentication methods and following best practices, the security of systems is significantly enhanced, protecting sensitive information from unauthorized access.</p>
+            </div>
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

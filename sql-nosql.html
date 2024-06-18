@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Databases</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -25,15 +25,84 @@
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">SQL vs NoSQL</h1>
+            <h1 class="major">Databases</h1>
             <!-- Start Content -->
-            
+            <h2>SQL Databases</h2>
+            <p>SQL (Structured Query Language) databases are relational databases that store data in tables with predefined schemas. They use SQL for querying and manipulating data, ensuring ACID (Atomicity, Consistency, Isolation, Durability) transactions.</p>            
+
+            <h2>NoSQL Databases</h2>
+            <p>NoSQL (Not only SQL) databases are non-relational databases designed for flexibility, scalability, and performance. They store data in flexible schemas like key-value pairs, documents, or graphs, and use various query languages.</p>            
+
+            <h2>SQL vs NoSQL</h2>
+            <table>
+                <tr>
+                    <th>Characteristic</th>
+                    <th>SQL Databases</th>
+                    <th>NoSQL Databases</th>
+                </tr>
+                <tr>
+                    <td>Schema</td>
+                    <td>Requires a predefined schema with fixed tables and columns.</td>
+                    <td>Adaptable schemas that can evolve over time.</td>
+                </tr>
+                <tr>
+                    <td>ACID Compliance</td>
+                    <td>Ensures data integrity through transactions.</td>
+                    <td>Emphasizes availability and partition tolerance over strong consistency (BASE).</td>
+                </tr>
+                <tr>
+                    <td>Data Model</td>
+                    <td>Relational model with tables and relationships using foreign keys.</td>
+                    <td>Supports various data models like key-value, document, or graph.</td>
+                </tr>
+                <tr>
+                    <td>Query Language</td>
+                    <td>Uses SQL (Structured Query Language) for querying and manipulating data.</td>
+                    <td>Supports different query languages depending on the database type (not limited to SQL).</td>
+                </tr>
+                <tr>
+                    <td>Scalability</td>
+                    <td>Primarily scales vertically (increasing hardware resources like CPU and RAM).</td>
+                    <td>Scales horizontally by adding more servers (nodes) to the database cluster.</td>
+                </tr>
+                <tr>
+                    <td>Examples</td>
+                    <td>MySQL, PostgreSQL, Oracle.</td>
+                    <td>MongoDB, Cassandra, Redis.</td>
+                </tr>
+                <tr>
+                    <td>Use Cases</td>
+                    <td>
+                        <ul>
+                            <li>Applications with complex queries and transactions.</li>
+                            <li>Data with a structured format and relationships.</li>
+                            <li>Scenarios requiring strong consistency and data integrity.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Big data and real-time web applications.</li>
+                            <li>Dynamic and rapidly evolving data structures.</li>
+                            <li>Scalable and distributed systems with high availability needs.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="note">
+                <p>The choice between SQL and NoSQL databases depends on specific application requirements, including data structure, scalability needs, performance goals, and consistency requirements. Many modern applications use both SQL and NoSQL databases in a polyglot persistence approach to leverage the strengths of each.</p>
+            </div>
+
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

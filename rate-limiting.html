@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Rate Limiting</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -27,13 +27,56 @@
         <div class="inner">
             <h1 class="major">Rate Limiting</h1>
             <!-- Start Content -->
-            
+            <p>Rate limiting is a technique used in system design to control the rate of requests or data flow between clients and servers. It is employed to prevent abuse, protect system resources, ensure fair usage, and optimize performance.</p>
+
+            <h2>Key Concepts</h2>
+
+            <h3>Usage Scenarios</h3>
+            <p>Rate limiting is applied in various scenarios:</p>
+            <ul>
+                <li><strong>API Rate Limiting:</strong> Controlling the number of API requests per client to prevent overload and maintain service availability.</li>
+                <li><strong>Server Resource Protection:</strong> Limiting concurrent connections or requests to safeguard server resources (CPU, memory, bandwidth).</li>
+                <li><strong>Data Ingestion:</strong> Regulating the rate at which data is ingested into the system to ensure smooth processing.</li>
+            </ul>
+
+            <h3>Implementation Strategies</h3>
+            <p>Common strategies for implementing rate limiting include:</p>
+            <ul>
+                <li><strong>Token Bucket Algorithm:</strong> Tokens are added to a bucket at a specified rate. Each request consumes tokens, and requests are throttled if tokens are insufficient.</li>
+                <li><strong>Fixed Window Counters:</strong> Counts requests within fixed time windows (e.g., per second, per minute) and enforces limits accordingly.</li>
+                <li><strong>Sliding Window Counters:</strong> Tracks requests over a sliding time window, adjusting limits dynamically.</li>
+            </ul>
+
+            <h2>Benefits of Rate Limiting</h2>
+
+            <ul>
+                <li><strong>Protection from Abuse:</strong> Prevents malicious or excessive use of resources, improving system stability.</li>
+                <li><strong>Enhanced Performance:</strong> Ensures that critical services remain responsive by preventing overload.</li>
+                <li><strong>Fair Usage:</strong> Provides equitable access to resources for all users or clients.</li>
+                <li><strong>Resource Optimization:</strong> Optimizes server resources by controlling traffic peaks and troughs.</li>
+            </ul>
+
+            <h2>Considerations</h2>
+
+            <ul>
+                <li><strong>Thresholds:</strong> Define appropriate rate limits based on system capacity, usage patterns, and expected load.</li>
+                <li><strong>Monitoring and Alerts:</strong> Implement monitoring to track usage patterns, detect anomalies, and adjust rate limits as needed.</li>
+                <li><strong>Error Handling:</strong> Provide informative error messages or status codes (e.g., 429 Too Many Requests) when rate limits are exceeded.</li>
+            </ul>
+
+            <div class="note">
+                <p>Rate limiting is a crucial mechanism in system design to ensure reliability, protect resources, and optimize performance. By implementing effective rate limiting strategies and considering usage patterns, developers can design resilient and scalable systems capable of handling varying levels of demand.</p>
+            </div>
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

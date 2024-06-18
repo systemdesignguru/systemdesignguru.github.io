@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Indexing</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -27,13 +27,59 @@
         <div class="inner">
             <h1 class="major">Indexing</h1>
             <!-- Start Content -->
-            
+            <p>In system design, indexing plays a crucial role in optimizing database performance by enabling faster data retrieval operations. It involves creating data structures (indexes) that allow the database system to efficiently locate and access rows in a table based on certain columns.</p>
+
+            <h3>What is Indexing?</h3>
+            <p>Indexing is a technique used to improve the speed of data retrieval operations on a database table at the cost of additional storage space and processing time during data modification. By creating indexes on columns frequently used in search conditions (e.g., WHERE clauses), the database can quickly locate the rows matching those conditions without scanning the entire table.</p>
+
+            <h3>Key Concepts</h3>
+
+            <h4>Types of Indexes:</h4>
+            <ul>
+                <li><strong>Primary Index</strong>: Automatically created on the primary key column(s) of a table. It uniquely identifies each row in the table and enforces data integrity.</li>
+                <li><strong>Secondary Index</strong>: Created on columns other than the primary key to optimize query performance based on frequently searched columns.</li>
+                <li><strong>Composite Index</strong>: Index created on multiple columns to optimize queries involving multiple conditions.</li>
+            </ul>
+
+            <h4>How Indexing Works:</h4>
+            <ul>
+                <li><strong>Data Structures</strong>: Indexes are typically implemented as B-trees or hash tables, depending on the database system.</li>
+                <li><strong>Maintenance</strong>: Indexes need to be maintained whenever data in the table is inserted, updated, or deleted to ensure consistency and optimal query performance.</li>
+            </ul>
+
+            <h3>Benefits of Indexing</h3>
+            <ul>
+                <li><strong>Improved Query Performance</strong>: Speeds up data retrieval operations, especially for large datasets.</li>
+                <li><strong>Faster Sorting</strong>: Helps in sorting operations when the indexed column(s) are involved.</li>
+                <li><strong>Enhanced Data Integrity</strong>: Primary indexes enforce unique constraints, preventing duplicate entries.</li>
+            </ul>
+
+            <h3>Challenges of Indexing</h3>
+            <ul>
+                <li><strong>Increased Storage</strong>: Indexes consume additional storage space, impacting overall database size.</li>
+                <li><strong>Overhead in Updates</strong>: Inserting, updating, or deleting rows requires updating corresponding indexes, which can impact performance.</li>
+            </ul>
+
+            <h3>Best Practices for Implementing Indexing</h3>
+            <ul>
+                <li><strong>Identify Query Patterns</strong>: Analyze frequently executed queries and create indexes on columns used in WHERE, JOIN, and ORDER BY clauses.</li>
+                <li><strong>Monitor Index Usage</strong>: Regularly review index usage and performance metrics to optimize indexing strategy.</li>
+                <li><strong>Avoid Over-Indexing</strong>: Index only columns that significantly improve query performance. Too many indexes can degrade performance.</li>
+            </ul>
+
+            <div class="note">
+                <p>Indexing is a critical aspect of database design aimed at improving query performance by facilitating rapid data access. By understanding the types of indexes, their benefits, challenges, and best practices for implementation, you can effectively optimize database performance to meet application requirements.</p>
+            </div>
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

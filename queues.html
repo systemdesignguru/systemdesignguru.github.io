@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Queues</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -25,15 +25,60 @@
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">Message Queues</h1>
+            <h1 class="major">Queues</h1>
             <!-- Start Content -->
-            
+            <p>A queue is a fundamental data structure used in system design to manage and process asynchronous tasks or messages. It follows the First-In-First-Out (FIFO) principle, where the first item added to the queue is the first one to be processed or dequeued.</p>
+
+            <h2>Key Concepts</h2>
+
+            <h3>Usage Scenarios</h3>
+            <p>Queues are used in various scenarios:</p>
+            <ul>
+                <li><strong>Task Queue:</strong> Managing background tasks or jobs asynchronously, ensuring they are processed in order.</li>
+                <li><strong>Message Queue:</strong> Facilitating communication between different parts of a distributed system, ensuring reliable message delivery.</li>
+                <li><strong>Request Queue:</strong> Handling incoming requests in systems where processing might be delayed or requires sequential handling.</li>
+            </ul>
+
+            <h3>Characteristics</h3>
+            <ul>
+                <li><strong>First-In-First-Out (FIFO):</strong> Ensures that items are processed in the order they are added.</li>
+                <li><strong>Concurrency:</strong> Multiple consumers can dequeue items concurrently from the same queue.</li>
+                <li><strong>Reliability:</strong> Guarantees that messages or tasks are not lost due to system failures.</li>
+                <li><strong>Scalability:</strong> Queues can handle varying loads by buffering tasks during peak times.</li>
+            </ul>
+
+            <h2>Benefits of Using Queues</h2>
+
+            <ul>
+                <li><strong>Decoupling:</strong> Allows components to communicate asynchronously, reducing dependencies and improving system flexibility.</li>
+                <li><strong>Load Balancing:</strong> Distributes work evenly across multiple consumers or processing nodes.</li>
+                <li><strong>Error Handling:</strong> Facilitates retry mechanisms for failed tasks or messages without blocking the system.</li>
+                <li><strong>Scalability:</strong> Supports horizontal scaling by adding more consumers to process tasks concurrently.</li>
+            </ul>
+
+            <h2>Implementing Queues</h2>
+
+            <p>Implementing queues involves selecting an appropriate queueing system or technology, such as:</p>
+            <ul>
+                <li><strong>Message Brokers:</strong> Kafka, RabbitMQ, ActiveMQ</li>
+                <li><strong>Cloud Services:</strong> AWS SQS, Azure Queue Storage, Google Cloud Pub/Sub</li>
+                <li><strong>Database-backed Queues:</strong> Redis, PostgreSQL, MySQL with transactional support</li>
+            </ul>
+
+            <div class="note">
+                <p>Queues are essential in system design for managing asynchronous tasks, ensuring reliable message delivery, and improving system scalability and fault tolerance. By understanding their principles, characteristics, benefits, and implementation options, developers can effectively integrate queues into their architectures to enhance system performance and reliability.</p>
+            </div>
+
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

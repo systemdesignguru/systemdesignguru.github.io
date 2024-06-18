@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Backup and Disaster Recovery</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -25,15 +25,62 @@
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">Backups and Recovery</h1>
+            <h1 class="major">Backup and Disaster Recovery</h1>
             <!-- Start Content -->
-            
+            <article>
+                <h3>Backup</h3>
+
+                <p>Backup refers to the process of creating copies of data to safeguard against accidental loss or deletion. It involves making regular copies of important files and storing them securely in a separate location from the original data.</p>
+
+                <h3>Types of Backup</h3>
+
+                <ul>
+                    <li><strong>Full Backup:</strong> Copies all data in its entirety. Provides complete restoration but requires more storage space and time.</li>
+                    <li><strong>Incremental Backup:</strong> Copies only changes made since the last backup. Takes less time and storage space but requires the full backup and all subsequent incremental backups to restore data.</li>
+                    <li><strong>Differential Backup:</strong> Copies changes made since the last full backup. Faster than incremental backup for restoration, as it requires only the full backup and the most recent differential backup.</li>
+                </ul>
+
+                <h3>Disaster Recovery</h3>
+
+                <p>Disaster recovery focuses on restoring IT infrastructure and operations after a disruptive event. It encompasses processes, policies, and procedures to recover and protect a business's IT infrastructure in the event of a disaster.</p>
+
+                <h3>Key Components of Disaster Recovery</h3>
+
+                <ul>
+                    <li><strong>Backup Systems:</strong> Regularly scheduled backups of critical data and systems.</li>
+                    <li><strong>Recovery Point Objective (RPO):</strong> Defines the maximum allowable data loss in case of a disruption. Determines the frequency of backups.</li>
+                    <li><strong>Recovery Time Objective (RTO):</strong> Specifies the acceptable downtime for systems and services to resume normal operations after a disruption.</li>
+                    <li><strong>Disaster Recovery Plan (DRP):</strong> Documented procedures outlining steps to recover IT infrastructure and operations after a disaster.</li>
+                    <li><strong>Testing and Validation:</strong> Regular testing of the DR plan to ensure readiness and identify gaps or weaknesses.</li>
+                </ul>
+
+
+                <h3>Importance of Backup and Disaster Recovery</h3>
+
+                <p>Backup and disaster recovery are critical for:</p>
+
+                <ul>
+                    <li>Minimizing downtime and ensuring business continuity.</li>
+                    <li>Protecting against data loss, corruption, and cyber threats.</li>
+                    <li>Meeting regulatory compliance and legal requirements.</li>
+                    <li>Preserving customer trust and reputation.</li>
+                </ul>
+                
+                <div class="note">
+                    <p>Backup and disaster recovery (DR) are vital for a robust IT strategy, ensuring data and systems can be restored in case of loss, corruption, or a catastrophic event like a natural disaster or cyberattack, thereby providing data resilience, business continuity, and protection against disruptions.</p>
+                </div>
+
+            </article>
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>

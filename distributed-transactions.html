@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Distributed Transactions</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -27,11 +27,60 @@
         <div class="inner">
             <h1 class="major">Distributed Transactions</h1>
             <!-- Start Content -->
-            
+            <h2>Understanding Distributed Transactions: A Simplified Guide</h2>
+
+            <h3>Introduction</h3>
+            <p>In system design, managing transactions across multiple databases or services is crucial for ensuring data consistency and reliability. Distributed transactions address the challenge of maintaining ACID (Atomicity, Consistency, Isolation, Durability) properties in a distributed environment where data operations span multiple nodes or services.</p>
+
+            <h3>What are Distributed Transactions?</h3>
+            <p>A distributed transaction involves a set of related operations that must either succeed or fail together across multiple databases or services. This ensures that all changes made by the transaction are either committed together or rolled back to maintain data integrity.</p>
+
+            <h3>Key Concepts</h3>
+            <h4>ACID Properties:</h4>
+            <ul>
+                <li><strong>Atomicity:</strong> Ensures that all operations within a transaction succeed together or fail together. There should be no partial commits.</li>
+                <li><strong>Consistency:</strong> Guarantees that the database remains in a consistent state before and after the transaction.</li>
+                <li><strong>Isolation:</strong> Ensures that concurrent transactions do not interfere with each other. Each transaction should appear as if it is executed in isolation.</li>
+                <li><strong>Durability:</strong> Once a transaction is committed, its changes are persistent and cannot be lost.</li>
+            </ul>
+
+            <h3>How Distributed Transactions Work</h3>
+            <h4>Two-Phase Commit Protocol:</h4>
+            <p>The Two-Phase Commit (2PC) protocol is commonly used to coordinate distributed transactions:</p>
+            <ol>
+                <li><strong>Prepare Phase:</strong> The transaction coordinator (a central component or one of the participants) asks all participants to prepare for commit. Each participant ensures it can commit the transaction and logs its state.</li>
+                <li><strong>Commit Phase:</strong> If all participants confirm readiness (prepared state), the coordinator instructs them to commit the transaction. If any participant cannot commit (e.g., due to failure or timeout), the coordinator instructs all participants to roll back.</li>
+            </ol>
+
+            <h3>Challenges of Distributed Transactions</h3>
+            <ul>
+                <li><strong>Coordination Overhead:</strong> Coordinating transactions across distributed systems introduces communication overhead and potential latency.</li>
+                <li><strong>Concurrency Control:</strong> Ensuring isolation levels and managing concurrent transactions without deadlock or inconsistency requires careful design.</li>
+                <li><strong>Failure Handling:</strong> Dealing with failures during transaction execution or coordination (e.g., network partitions, participant failures) while maintaining ACID properties.</li>
+            </ul>
+
+            <h3>Best Practices for Implementing Distributed Transactions</h3>
+            <ul>
+                <li><strong>Design for Idempotency:</strong> Ensure that transactions can be retried without causing unintended side effects.</li>
+                <li><strong>Optimize Network Communication:</strong> Minimize latency and ensure reliable communication channels between transaction participants.</li>
+                <li><strong>Use Distributed Lock Management:</strong> Implement distributed locking mechanisms to control access to shared resources.</li>
+                <li><strong>Monitor and Manage:</strong> Monitor transaction performance and health metrics. Implement mechanisms for rollback and recovery in case of failures.</li>
+            </ul>
+
+            <h3>Conclusion</h3>
+            <p>Distributed transactions are essential for maintaining data consistency and reliability in distributed systems. By understanding the principles of ACID properties, implementing effective coordination protocols like Two-Phase Commit, and addressing challenges through best practices, developers can design robust and scalable systems capable of handling complex transactional requirements across distributed environments.</p>
+
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+    </footer>
+    <!-- End Footer -->
+    
 </div>
 <!-- End Wrapper -->
 

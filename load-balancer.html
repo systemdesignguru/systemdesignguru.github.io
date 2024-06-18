@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance</title>
+    <title>Load Balancer</title>
     <link rel="shortcut icon" href="images/icon.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css"></noscript>
@@ -12,7 +12,7 @@
 
 <!-- Header -->
 <header id="header">
-    <a href="index.html#core" class="title">Back</a>
+    <a href="index.html#basic" class="title">Back</a>
     <nav>
         <ul>
             <li><a href="index.html" style="color:white">Home</a></li>
@@ -25,15 +25,61 @@
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">Load Balancing</h1>
+            <h1 class="major">Load Balancer</h1>
             <!-- Start Content -->
-            
+            <p>In system architecture, a load balancer is a critical component that distributes incoming network traffic across multiple servers to ensure optimal resource utilization, maximize throughput, minimize response time, and avoid overload on any single server.</p>
+
+            <h3>Key Functions of Load Balancers</h3>
+            <ul>
+                <li><strong>Traffic Distribution</strong>: Balances incoming requests across multiple servers or server clusters based on predefined algorithms (e.g., round-robin, least connections).</li>
+                <li><strong>Health Monitoring</strong>: Regularly checks the health and availability of servers to route traffic only to healthy instances.</li>
+                <li><strong>Session Persistence</strong>: Ensures that subsequent requests from the same client are routed to the same server to maintain session state.</li>
+                <li><strong>SSL Termination</strong>: Offloads SSL encryption and decryption tasks from servers to improve performance.</li>
+            </ul>
+
+            <h3>Types of Load Balancers</h3>
+            <ul>
+                <li><strong>Hardware Load Balancer</strong>: Dedicated physical appliances optimized for high-performance traffic management.</li>
+                <li><strong>Software Load Balancer</strong>: Software-based solutions that run on standard servers or virtual machines, offering flexibility and scalability.</li>
+                <li><strong>Cloud Load Balancer</strong>: Load balancing services provided by cloud providers (e.g., AWS ELB, Azure Load Balancer) offering scalability, reliability, and integration with cloud services.</li>
+            </ul>
+
+            <h3>Benefits of Load Balancers</h3>
+            <ul>
+                <li><strong>Scalability</strong>: Enables horizontal scaling by adding more servers as traffic increases.</li>
+                <li><strong>High Availability</strong>: Reduces single points of failure by distributing traffic across multiple servers.</li>
+                <li><strong>Improved Performance</strong>: Optimizes resource utilization and response times by efficiently distributing workloads.</li>
+                <li><strong>Security</strong>: Provides protection against DDoS attacks and enhances SSL security with termination and decryption capabilities.</li>
+            </ul>
+
+            <h3>Challenges of Load Balancers</h3>
+            <ul>
+                <li><strong>Complex Configuration</strong>: Setting up and maintaining load balancers with optimal configuration settings can be complex.</li>
+                <li><strong>Performance Bottlenecks</strong>: Improperly configured load balancers or inadequate capacity planning can lead to performance issues.</li>
+                <li><strong>Cost</strong>: Hardware load balancers can be expensive, and cloud-based solutions may incur costs based on usage.</li>
+            </ul>
+
+            <h3>Best Practices for Implementing Load Balancers</h3>
+            <ul>
+                <li><strong>Understand Traffic Patterns</strong>: Analyze traffic patterns and choose appropriate load balancing algorithms.</li>
+                <li><strong>Monitor and Scale</strong>: Regularly monitor performance metrics and scale load balancer resources as needed.</li>
+                <li><strong>Implement Redundancy</strong>: Ensure high availability by deploying load balancers in redundant configurations.</li>
+                <li><strong>Security Measures</strong>: Implement security best practices such as SSL termination, IP whitelisting, and rate limiting.</li>
+            </ul>
+
+            <div class="note">
+                <p>A load balancer is a crucial component in system design for distributing traffic efficiently across servers, ensuring high performance, scalability, and availability of applications. By understanding its functions, types, benefits, challenges, and best practices, you can effectively leverage load balancers to optimize your system architecture.</p>
+            </div>
             <!-- End Content -->
         </div>
     </section>
     <!-- End Main -->
 </div>
 <!-- End Wrapper -->
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
