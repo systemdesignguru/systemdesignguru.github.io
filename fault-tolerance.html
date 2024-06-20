@@ -27,22 +27,22 @@
         <div class="inner">
             <h1 class="major">Fault Tolerance in System Design</h1>
             <!-- Start Content -->
-            <h2>Understanding Fault Tolerance in System Design</h2>
-
-            <h3>Introduction</h3>
             <p>Fault tolerance is a critical aspect of system design that ensures a system remains operational even in the face of hardware or software failures. It involves designing systems with redundancy and resilience mechanisms to minimize downtime, maintain availability, and prevent data loss.</p>
+            <img src="images/basic/fault-tolerance-image2.png" alt="" width="900"></p>
 
-            <h3>Key Concepts</h3>
-            <p>Key concepts in fault tolerance include:</p>
+            <h2>Key Concepts</h2>
             <ul>
                 <li><strong>Redundancy:</strong> Using duplicate components or systems to ensure continuity in case of failure.</li>
-                <li><strong>Failover:</strong> Automatically switching to a redundant or standby system when a failure is detected.</li>
-                <li><strong>Recovery:</strong> Processes for restoring system functionality and data integrity after a failure.</li>
+                <img src="images/basic/redundancy-image1.png" alt="" width="700"></p>
+
+                <li><strong>Failover and Recovery:</strong> Automatically switching to a redundant or standby system when a failure is detected. Recovery is the processes for restoring system functionality and data integrity after a failure.</li>
+                <img src="images/basic/fault-detection-and-recovery-image1.png" alt="" width="700"></p>
+
                 <li><strong>Isolation:</strong> Preventing failures from spreading across the system and affecting other components.</li>
+                <img src="images/basic/isolation-image1.png" alt="" width="800"></p>
             </ul>
 
-            <p>Availability and fault tolerance are crucial aspects of system design, but they address different aspects of system reliability. Here's a comparison:</p>
-
+            <h2>Availability vs Fault Tolerance</h2>
             <div class="table-wrapper">
                 <table class="alt">
                     <thead>
@@ -97,8 +97,7 @@
                 </table>
             </div>
 
-            <h3>Strategies for Fault Tolerance</h3>
-            <p>Effective fault tolerance strategies include:</p>
+            <h2>Strategies for Fault Tolerance</h2>
             <ul>
                 <li><strong>Hardware Redundancy:</strong> Using redundant hardware components such as servers, power supplies, and storage to eliminate single points of failure.</li>
                 <li><strong>Software Redundancy:</strong> Implementing redundant software components and services to ensure continuous operation.</li>
@@ -106,8 +105,7 @@
                 <li><strong>Automated Monitoring and Recovery:</strong> Implementing automated systems to monitor system health, detect failures, and initiate recovery processes.</li>
             </ul>
 
-            <h3>Benefits of Fault Tolerance</h3>
-            <p>Fault tolerance provides several benefits:</p>
+            <h2>Benefits of Fault Tolerance</h2>
             <ul>
                 <li><strong>High Availability:</strong> Ensuring systems are always available for use, even during failures.</li>
                 <li><strong>Data Integrity:</strong> Preventing data loss or corruption by maintaining redundant copies.</li>
@@ -115,8 +113,7 @@
                 <li><strong>Cost Efficiency:</strong> Reducing costs associated with downtime and recovery efforts.</li>
             </ul>
 
-            <h3>Challenges of Fault Tolerance</h3>
-            <p>Challenges in implementing fault tolerance include:</p>
+            <h2>Challenges of Fault Tolerance</h2>
             <ul>
                 <li><strong>Complexity:</strong> Designing and maintaining redundant systems can increase complexity and resource requirements.</li>
                 <li><strong>Cost:</strong> Acquiring and maintaining redundant hardware, software, and infrastructure can be expensive.</li>
@@ -124,7 +121,7 @@
                 <li><strong>Testing and Validation:</strong> Ensuring that fault tolerance mechanisms work as expected requires thorough testing and validation.</li>
             </ul>
 
-            <h3>Best Practices for Implementing Fault Tolerance</h3>
+            <h2>Best Practices for Implementing Fault Tolerance</h2>
             <ul>
                 <li><strong>Identify Critical Components:</strong> Determine which components are critical to system operation and prioritize fault tolerance efforts accordingly.</li>
                 <li><strong>Redundancy Planning:</strong> Plan for redundancy at all levels, including hardware, software, data, and network infrastructure.</li>
