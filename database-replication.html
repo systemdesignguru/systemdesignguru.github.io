@@ -12,7 +12,7 @@
 
 <!-- Header -->
 <header id="header">
-    <a href="index.html#core" class="title">Back</a>
+    <a href="index.html#scalability-performance" class="title">Back</a>
     <nav>
         <ul>
             <li><a href="index.html" style="color:white">Home</a></li>
@@ -28,31 +28,35 @@
             <h1 class="major">Database Replication</h1>
             <!-- Start Content -->
             <article>
-                <p>In today's data-driven world, ensuring data availability, reliability, and fault tolerance is critical for any application. One of the key techniques used to achieve these goals is database replication. In this post, we'll explore what database replication is, its various types, and best practices to implement it effectively.</p>
+                <p>In today's data-driven world, ensuring data availability, reliability, and fault tolerance is critical for any application. One of the key techniques used to achieve these goals is database replication. In this post, we'll explore what database replication is, its various types, and best practices to implement it effectively. Database replication is the process of copying and maintaining database objects, such as tables and databases, across multiple database servers. This technique enhances data availability, reliability, and disaster recovery by ensuring that copies of the data are available at different locations.</p>
 
-                <h3>What is Database Replication?</h3>
-                <p>Database replication is the process of copying and maintaining database objects, such as tables and databases, across multiple database servers. This technique enhances data availability, reliability, and disaster recovery by ensuring that copies of the data are available at different locations.</p>
-
-                <h3>Types of Database Replication</h3>
+                <h2>Types of Database Replication</h2>
                 <ol>
                     <li>
-                        <strong>Master-Slave Replication</strong>
-                        <p>In master-slave replication, one database server (the master) handles all the write operations, and one or more servers (slaves) replicate the master’s data. Slaves can handle read operations to reduce the load on the master.
-                        <br><strong>Use Case:</strong> Ideal for read-heavy applications where distributing read traffic can significantly improve performance.</p>
+                        <strong>Primary-Secondary Replication</strong>
+                        <p>In primary-secondary replication, one database server (the primary) handles all the write operations, and one or more servers (secondarys) replicate the primary’s data. Secondarys can handle read operations to reduce the load on the primary.
+                        <br>
+                        <strong>Use Case:</strong> Ideal for read-heavy applications where distributing read traffic can significantly improve performance.<br>
+                        <img src="images/basic/replication-primary-secondary-image1.png" alt="" width="700"></p>
+
                     </li>
                     <li>
-                        <strong>Master-Master Replication</strong>
-                        <p>In master-master replication, two or more database servers can handle write operations and synchronize data between each other. This provides high availability and fault tolerance.
-                        <br><strong>Use Case:</strong> Suitable for applications requiring high availability and write scalability.</p>
+                        <strong>Multi-Primary Replication</strong>
+                        <p>This involves multiple primary servers where each can accept write operations and replicate changes across all other primarys. Conflict resolution mechanisms are essential here.
+                        <br>
+                        <strong>Use Case:</strong> Best for distributed applications where data modifications can occur at different locations.<br>
+                        <img src="images/basic/replication-primary-primary-image1.png" alt="" width="570"></p>
                     </li>
                     <li>
-                        <strong>Multi-Master Replication</strong>
-                        <p>This involves multiple master servers where each can accept write operations and replicate changes across all other masters. Conflict resolution mechanisms are essential here.
-                        <br><strong>Use Case:</strong> Best for distributed applications where data modifications can occur at different locations.</p>
+                        <strong>Masterless Replication</strong>
+                        <p>Masterless replication is a database replication strategy where all nodes are equal and can handle read and write requests independently, ensuring high availability and fault tolerance without a single point of failure.
+                        <br>
+                        <strong>Use Case:</strong> Ideal for distributed systems needing high availability and fault tolerance.<br>
+                        <img src="images/basic/replication-masterless-image1.png" alt="" width="900"></p>
                     </li>
                 </ol>
 
-                <h3>Synchronous vs. Asynchronous Replication</h3>
+                <h2>Synchronous vs. Asynchronous Replication</h2>
                 <table>
                     <thead>
                         <tr>
@@ -92,7 +96,7 @@
 
 
                 <br>
-                <h3>Benefits of Database Replication</h3>
+                <h2>Benefits of Database Replication</h2>
                 <ul>
                     <li><strong>High Availability:</strong> Ensures that data is always available, even if one of the database servers fails.</li>
                     <li><strong>Disaster Recovery:</strong> Protects against data loss by maintaining copies of the database at different locations.</li>
@@ -100,9 +104,9 @@
                     <li><strong>Fault Tolerance:</strong> Provides redundancy, ensuring that a failure in one server doesn't affect the overall system's functionality.</li>
                 </ul>
 
-                <h3>Best Practices for Implementing Database Replication</h3>
+                <h2>Best Practices for Implementing Database Replication</h2>
                 <ul>
-                    <li><strong>Choose the Right Replication Type:</strong> Analyze your application’s needs to select the appropriate replication strategy (e.g., master-slave, master-master).</li>
+                    <li><strong>Choose the Right Replication Type:</strong> Analyze your application’s needs to select the appropriate replication strategy (e.g., master-secondary, master-master).</li>
                     <li><strong>Network Configuration:</strong> Ensure low-latency and high-bandwidth network connections between database servers to facilitate efficient data replication.</li>
                     <li><strong>Data Consistency:</strong> Implement robust conflict resolution mechanisms, especially in multi-master replication setups.</li>
                     <li><strong>Monitoring and Maintenance:</strong> Regularly monitor replication processes and maintain logs to quickly identify and address issues.</li>
@@ -110,7 +114,7 @@
                     <li><strong>Testing:</strong> Regularly test your replication setup to ensure it meets your performance and reliability requirements.</li>
                 </ul>
 
-                <h3>Challenges and Solutions</h3>
+                <h2>Challenges and Solutions</h3>
                 <ul>
                     <li>
                         <strong>Latency:</strong> Asynchronous replication can introduce latency. Mitigate this by optimizing network performance and considering synchronous replication for critical data.

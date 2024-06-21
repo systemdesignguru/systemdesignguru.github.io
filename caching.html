@@ -12,7 +12,7 @@
 
 <!-- Header -->
 <header id="header">
-    <a href="index.html#core" class="title">Back</a>
+    <a href="index.html#scalability-performance" class="title">Back</a>
     <nav>
         <ul>
             <li><a href="index.html" style="color:white">Home</a></li>
@@ -27,49 +27,63 @@
         <div class="inner">
             <h1 class="major">Caching</h1>
             <!-- Start Content -->
-            <p>Caching is a fundamental technique used in computing to enhance performance by storing frequently accessed data temporarily, thereby reducing access times to slower storage systems. It functions like a handy cheat sheet that retrieves information quickly without the need for extensive searching. Here’s a detailed look at various caching types and their benefits across different computing environments:</p>
+            <p>Caching is a fundamental technique used in computing to enhance performance by storing frequently accessed data temporarily, thereby reducing access times to slower storage systems. It functions like a handy cheat sheet that retrieves information quickly without the need for extensive searching.<br>
+            <img src="images/basic/caching-image1.png" alt="" width="1000"></p>
 
-            <h3>Types of Caching</h3>
+            <h2>Types of Caching</h2>
 
             <h4>1. Browser Cache</h4>
-            <p>Browser caching involves storing elements of a website (like HTML pages, images, scripts, and stylesheets) locally on a user's device. This allows subsequent visits to the same website to load faster as the browser retrieves content from its cache rather than the server.</p>
-            <p><strong>Benefits:</strong> Faster page loads, reduced server load, and improved user experience by minimizing resource downloads.</p>
+            <p>Browser caching involves storing elements of a website (like HTML pages, images, scripts, and stylesheets) locally on a user's device. This allows subsequent visits to the same website to load faster as the browser retrieves content from its cache rather than the server.<br>
+            <strong>Benefits:</strong> Faster page loads, reduced server load, and improved user experience by minimizing resource downloads.</p>
 
             <h4>2. Server-Side Cache</h4>
-            <p>Server-side caching stores frequently accessed data on the server itself. This can include database query results or pre-rendered web pages, allowing the server to quickly respond to user requests without generating data from scratch.</p>
-            <p><strong>Benefits:</strong> Improved response times, reduced database load, and better scalability under high traffic conditions.</p>
+            <p>Server-side caching stores frequently accessed data on the server itself. This can include database query results or pre-rendered web pages, allowing the server to quickly respond to user requests without generating data from scratch.<br>
+            <strong>Benefits:</strong> Improved response times, reduced database load, and better scalability under high traffic conditions.</p>
 
             <h4>3. Content Delivery Network (CDN) Cache</h4>
-            <p>A CDN caches static content (like images, videos, and files) across multiple servers distributed globally. When a user requests content, it's served from the nearest CDN server instead of the origin server, reducing latency and improving download speeds.</p>
-            <p><strong>Benefits:</strong> Faster content delivery, enhanced website performance worldwide, and increased resilience against server failures.</p>
+            <p>A CDN caches static content (like images, videos, and files) across multiple servers distributed globally. When a user requests content, it's served from the nearest CDN server instead of the origin server, reducing latency and improving download speeds.<br>
+            <strong>Benefits:</strong> Faster content delivery, enhanced website performance worldwide, and increased resilience against server failures.</p>
 
             <h4>4. Application Cache</h4>
-            <p>Application caching stores entire web pages or resources locally, enabling applications (especially progressive web apps) to function offline or with limited connectivity.</p>
-            <p><strong>Benefits:</strong> Continuous access to critical data, improved performance in low-connectivity environments, and enhanced usability.</p>
+            <p>Application caching stores entire web pages or resources locally, enabling applications (especially progressive web apps) to function offline or with limited connectivity.<br>
+            <strong>Benefits:</strong> Continuous access to critical data, improved performance in low-connectivity environments, and enhanced usability.</p>
 
             <h4>5. DNS Cache</h4>
-            <p>DNS caching occurs at various levels (operating system, ISP, DNS servers), storing recent DNS lookups to expedite domain name resolution in subsequent requests.</p>
-            <p><strong>Benefits:</strong> Reduced DNS lookup times, faster website access, and improved browsing experience by minimizing network latency.</p>
-
-            <h3>Advanced Caching Strategies</h3>
-
+            <p>DNS caching occurs at various levels (operating system, ISP, DNS servers), storing recent DNS lookups to expedite domain name resolution in subsequent requests.<br>
+            <strong>Benefits:</strong> Reduced DNS lookup times, faster website access, and improved browsing experience by minimizing network latency.</p>
+            <img src="images/basic/caching-image2.png" alt="">
+            </p>
+            
+            <h2>Advanced Caching Strategies</h2>
             <h4>1. Write-Through Cache</h4>
-            <p>Data is immediately written to both the cache and main storage upon a write operation, ensuring data consistency and improving read performance.</p>
+            <p>Data is immediately written to both the cache and main storage upon a write operation, ensuring data consistency and improving read performance.<br>
+            <img src="images/basic/cache-write-through-image1.png" alt="" width="400">
+            </p>
 
             <h4>2. Read-Through Cache</h4>
-            <p>Data is fetched from main storage into the cache on cache misses during read operations, reducing read latency and enhancing system responsiveness.</p>
+            <p>Data is fetched from main storage into the cache on cache misses during read operations, reducing read latency and enhancing system responsiveness.<br>
+            <img src="images/basic/cache-read-through-image1.png" alt="" width="400">
+            </p>
 
             <h4>3. Write-Aside Cache (Write-Behind Cache)</h4>
-            <p>Data is first written to the cache and asynchronously to the main storage, optimizing write performance and allowing applications to continue processing without waiting for storage writes.</p>
+            <p>Data is first written to the cache and asynchronously to the main storage, optimizing write performance and allowing applications to continue processing without waiting for storage writes.<br>
+            <img src="images/basic/cache-write-back-image1.png" alt="" width="400">
+            </p>
 
             <h4>4. Cache-Aside (Lazy Loading or Lazy Population)</h4>
-            <p>Applications fetch data from main storage if not found in the cache, providing flexibility in caching specific data based on application needs.</p>
+            <p>Applications fetch data from main storage if not found in the cache, providing flexibility in caching specific data based on application needs.<br>
+            <img src="images/basic/cache-aside-image1.png" alt="" width="400">
+            </p>
 
-            <h4>5. Cache-Through (Write-Behind Cache)</h4>
-            <p>Combines features of write-through and write-behind caching by initially writing data to the cache and asynchronously updating main storage, ensuring data consistency while improving write performance.</p>
+            <h4>5. Write Around Cache</h4>
+            <p>Write-around cache is a caching strategy where data is written directly to the underlying storage and bypasses the cache, typically used for data that doesn't need to be read frequently but needs to be persisted.<br>
+            <img src="images/basic/cache-write-around-image1.png" alt="" width="400">
+            </p>
 
             <h4>6. Distributed Cache</h4>
-            <p>Data is distributed across multiple networked servers, reducing latency and enhancing availability and resilience by replicating data across nodes.</p>
+            <p>Data is distributed across multiple networked servers, reducing latency and enhancing availability and resilience by replicating data across nodes.<br>
+            <img src="images/basic/cache-distributed-image1.png" alt="" width="600">
+            </p>
 
             <div class="note">
                 <p>Caching is critical for optimizing system performance, reducing latency, and improving scalability in computing environments. By leveraging various caching strategies—from browser and server-side caching to CDN and application-specific caching—organizations can achieve faster data access, maintain data integrity, and enhance overall system efficiency across diverse computing scenarios. Each caching strategy offers unique advantages tailored to specific application requirements, ensuring reliable and responsive data access and management.</p>
