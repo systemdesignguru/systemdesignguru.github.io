@@ -42,23 +42,34 @@
             </div>
             <br>
 
-            <p>
-                <strong><em>Interviewer:</em></strong>: Design Twitter<br>
-                <strong><em>You</em></strong>: Twitter is a social media platform where users post and interact with short messages called tweets.
-            </p>
+            <p><strong><em>Interviewer:</em></strong>: Design Twitter<br></p>
+
+            <div class="definition">
+                <span class="bold-italic">Twitter is a social media platform where users post and interact with short messages called tweets.</span>
+            </div>
+            <br>
             <section id="1">
-            <h2>1. Feature Expectations [5 mins]</h2>
-            <p style="margin: 0;">
-                <strong><em>Interviewer:</em></strong>: Can you describe the use cases and scope for Twitter's system design?<br>
-                <strong><em>You</em></strong>: Certainly. For this system design discussion, I'll focus on the functional requirements of Twitter.<br>
-                <br><h4>Functional Requirements</h4>
-                <ol>
-                    <li>Create Tweets</li>
-                    <li>View Tweets or News Feed</li>
-                    <li>Follow/Unfollow people</li>
-                    <li>Interact with tweets</li>
-                </ol>
-            </p>
+                <h2>1. Feature Expectations [5 mins]</h2>
+                <p style="margin: 0;">
+                    <strong><em>You:</em></strong> Before we proceed, could you please clarify the use cases and scope for Twitter's system design? This will help me understand the main goals and functionalities we need to focus on.<br>
+                    <br>
+                    <div class="note">
+                        Understanding the big picture will guide us in detailing how many users the system should handle, how fast it needs to perform, and what security measures are crucial.
+                    </div>
+                    <br>
+                    <strong><em>Interviewer:</em></strong>: We want to start with about 100 million active users initially, and we anticipate rapid growth. Our system needs to handle peak loads of up to 10,000 tweets per second. Security is our top priority—we must have strong measures in place to keep user data safe and prevent unauthorized access.<br>
+                    <br>
+                    <strong><em>You:</em></strong> Thank you for the clarification. Based on this, let's outline the functional requirements of Twitter.<br>
+                    <br>
+                    <h4>Functional Requirements</h4>
+                    <ol>
+                        <li>Create Tweets</li>
+                        <li>View Tweets or News Feed</li>
+                        <li>Follow/Unfollow people</li>
+                        <li>Interact with tweets (like, reply, retweet)</li>
+                    </ol>
+                </p>
+            
 
             <p>These features are central to the user experience and represent the primary interactions on the platform.</p>
             <p>To keep the discussion focused and manageable, I will not cover features like trends and hashtags, as these can be considered secondary and would require additional time to discuss comprehensively.</p>
@@ -67,19 +78,21 @@
             <div class="note">
                 <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
             </div>
-            </section>
             <hr>
             <br>
 
             <section id="2">
             <h2>2. Estimations [5 mins]</h2>
+            <p>
+                Knowing how much data the system needs to handle and how fast it needs to process it is important for designing the system. It helps us make sure we have enough network and storage capacity to handle all the users and their activities without the system slowing down or having problems.
+            </p>
             <ul>
                 <li>Assume daily active user base of <strong>1 billion</strong></li>
                 <li>On average, each user generates <strong>2 posts per day</strong></li>
                 <li>With each post averaging <strong>50 KB</strong> in size, the total daily data generated amounts to approximately <strong>100 terabytes (TB)</strong>.</li>
-                <li>To handle this volume, Twitter requires a system capable of processing data at a rate of around <strong>23,148 bytes per second</strong>.</li>
-                <li>Effective management of this scale demands <strong>robust network bandwidth</strong> and <strong>scalable storage infrastructure</strong>.</li>
-            </ul>
+                <li>Total data per second: 10,000 tweets/second * 50 KB/tweet = 500,000 KB/second, approximately <strong>512 MB/sec</strong>.</li>
+                <li>To handle this volume of 10,000 tweets per second, the Twitter system needs to support a network bandwidth of approximately <strong>512 Megabits per second (Mb/s)</strong>, with each tweet averaging 50 KB in size.</li>
+            </ul>            
             
 
             <div class="note">
@@ -91,7 +104,7 @@
 
             <section id="3">
             <h2>3. Design Goals [5 mins]</h2>
-            To handle this estimations, we require the following Non Functional Requirements
+            <p>Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
             <ol>
                 <li>Minimum latency</li>
                 <li>High consistency</li>
@@ -111,6 +124,8 @@
             <p>To design a high-level system architecture for Twitter, we'll focus on the following aspects: APIs for read/write scenarios, the database schema, core algorithms, and the overall architecture for handling read and write operations.</p>
 
             <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Defining APIs is important because it creates clear ways for different parts of the system to talk to each other. It helps keep things organized and makes it easier to change and add new features later on. APIs also make it possible for other programs or services to use the system's features in a controlled way, which helps with building and expanding the system smoothly.</p>
+            
             <!-- Get Tweet -->
             <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Get Tweet</em></strong></p>
             <div class="table-container8">
@@ -194,81 +209,57 @@
 
             <br>
             <h3>II. Database Schema</h3>
+            <p>
+                The choice of database depends on the needs of the application. For SQL databases, like PostgreSQL or MySQL, are ideal for applications requiring strict data consistency, complex querying capabilities (e.g., JOIN operations), and transactions. They are well-suited for applications where data integrity and ACID (Atomicity, Consistency, Isolation, Durability) compliance are critical, such as financial systems or traditional enterprise applications. 
+                <br><br>
+                However, for managing user profiles, tweets, and news feeds in a social media context, NoSQL databases offer advantages in terms of schema flexibility, horizontal scalability, performance with unstructured data, and seamless integration with object-oriented programming paradigms. These factors make NoSQL databases a pragmatic choice for accommodating the dynamic and rapidly evolving nature of social media data and user interactions.
+            </p>
 
             <!-- Table: Users -->
             <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
-            <div class="table-container5">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_id</code> (PK, UUID)<br>
-                                <code>username</code> (VARCHAR)<br>
-                                <code>email</code> (VARCHAR)<br>
-                                <code>password_hash</code> (VARCHAR)<br>
-                                <code>bio</code> (TEXT)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores user information</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
 
             <!-- Table: Tweets -->
             <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Tweets Table</em></strong></p>
-            <div class="table-container5">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>tweet_id</code> (PK, UUID)<br>
-                                <code>user_id</code> (FK to Users)<br>
-                                <code>text</code> (TEXT)<br>
-                                <code>media_url</code> (VARCHAR)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores tweets</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tweet_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"media_url": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
 
             <!-- Table: NewsFeed -->
             <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>News Feed Table</em></strong></p>
-            <div class="table-container6">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_id</code> (FK to Users)<br>
-                                <code>tweet_id</code> (FK to Tweets)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores user's news feed</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tweet_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
 
             <div class="note">
                 <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
@@ -279,7 +270,7 @@
 
             <section id="5">
             <h2>5. Deep Dive [10-12 mins]</h2>
-            Let's begin the design process for the Twitter system now!
+            Designing a system step by step helps us handle difficult problems by dividing them into smaller, easier tasks. This way, each part of the system gets careful planning and fits together smoothly. It also lets us make changes and improvements along the way, based on feedback and new needs, which helps create a strong and successful final product. Now, let's start designing the Twitter system!
             <br>
             <br>
             
@@ -395,7 +386,7 @@
             <section id="6">
             <h2>6. Data Flow [5-8 mins]</h2>
             <div class="note">
-                <p>Don't forget to explain the end to end flow of your design!.</p>
+                <p>It's essential to explain the end-to-end flow of the design, ensuring clarity on how data moves through the system. Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
             </div>
             <br>
 
@@ -438,18 +429,9 @@
             </ol>
             <br>
 
-            <h3>Notification Delivery:</h3>
-            <ol>
-                <li>The Notification Service interacts with the API Gateway to send notifications to users.</li>
-                <li>Notifications are sent through the Internet and Load Balancer to the end users.</li>
-            </ol>
-            <br>
-
-            <h3>Content Delivery Network (CDN):</h3>
-            <ol>
-                <li>The CDN caches static content and serves it to users, fetching any non-cached content from the backend infrastructure.</li>
-                <li>This reduces load times and improves performance across the platform.</li>
-            </ol>
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
             <br>
 
             <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>

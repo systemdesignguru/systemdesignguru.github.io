@@ -412,10 +412,10 @@
             <h4>1. HTTP(S) Requests</h4>
             <p>Fundamental for sending and receiving messages, initiated by clients like mobile apps or web browsers using HTTP POST requests to transmit message content to servers.</p>
 
-            <h4>2. Pooling</h4>
-            <p>Pooling means that clients ask the server every now and then if there are new messages or updates. When the server gets a request, it checks if there's something new to send back. This method works well when getting updates right away isn't crucial, or when it's hard to keep a continuous connection like with Websockets.
+            <h4>2. Polling</h4>
+            <p>Polling means that clients ask the server every now and then if there are new messages or updates. When the server gets a request, it checks if there's something new to send back. This method works well when getting updates right away isn't crucial, or when it's hard to keep a continuous connection like with Websockets.
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/whatsapp/pooling-image1.png" alt="" width="500">
+                <img src="images/high level design/whatsapp/polling-image1.png" alt="" width="500">
             </div>
             </p>
 
@@ -423,7 +423,7 @@
             <p>Long polling is like asking the server to keep the line open until it has something new to say or until a timeout happens. This helps reduce the delay in getting updates compared to regular checking. It's good for apps that need updates quickly but can't stay connected all the time, like when messages come in occasionally.
             <br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/whatsapp/long-pooling-image1.png" alt="" width="500">
+                <img src="images/high level design/whatsapp/long-polling-image1.png" alt="" width="500">
             </div>
             </p>
             <br>
@@ -432,7 +432,7 @@
                 <table>
                     <tr>
                       <th>Feature</th>
-                      <th>Pooling</th>
+                      <th>Polling</th>
                       <th>Long Polling</th>
                     </tr>
                     <tr>
@@ -463,7 +463,7 @@
                     <tr>
                       <td>Suitability</td>
                       <td>Suitable for applications where periodic updates suffice and maintaining continuous connection is impractical.</td>
-                      <td>Ideal for real-time applications needing prompt notifications on data updates, reducing delay compared to regular pooling.</td>
+                      <td>Ideal for real-time applications needing prompt notifications on data updates, reducing delay compared to regular polling.</td>
                     </tr>
                   </table>
             </div>

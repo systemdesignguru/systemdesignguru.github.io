@@ -3968,35 +3968,49 @@ input, select, textarea {
 			margin: 10px 0 0 0;
 			color: #6c757d;
 		}
+		.table-container2 {
+			max-width: 200px;
+			margin: 20px auto;
+		}
+
+		.table-container3 {
+			max-width: 300px;
+			margin: 20px auto;
+		}
+
+		.table-container4 {
+			max-width: 400px;
+			margin: 20px auto;
+		}
 
 		.table-container5 {
-			max-width: 500px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 500px;
+			margin: 20px auto;
 		}
 
 		.table-container6 {
-			max-width: 600px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 600px;
+			margin: 20px auto;
 		}
 
 		.table-container7 {
-			max-width: 700px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 700px;
+			margin: 20px auto;
 		}
 
 		.table-container8 {
-			max-width: 800px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 800px;
+			margin: 20px auto;
 		}
 
 		.table-container9 {
-			max-width: 900px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 900px;
+			margin: 20px auto;
 		}
 
 		.table-container10 {
-			max-width: 1000px; /* Example: Set a maximum width for the container */
-			margin: 20px auto; /* Center the container and add spacing */
+			max-width: 1000px;
+			margin: 20px auto;
 		}
 
 		table {
@@ -4025,3 +4039,24 @@ input, select, textarea {
 			text-align: justify;
 			border-bottom: 1px solid rgba(56, 50, 70, 0.1)
 		  }
+		
+		.code-block {
+			border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+			overflow-x: auto;
+			font-family: "Courier New", monospace;
+			font-size: 0.9em;
+			padding: 0;
+			margin: 0 auto;
+        }
+
+		.definition {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #5e42a6;
+        }
+
+		.bold-italic {
+            font-weight: bold;
+            font-style: italic;
+        }
