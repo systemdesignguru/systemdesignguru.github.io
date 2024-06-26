@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Twitter System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+     
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#designs" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Deep Dive</a></li>
+                <li><a href="#6">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/twitter/twitter.png" alt="" width="50"> Twitter System Design</h1>
+        </div>
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p>
+                <strong><em>Interviewer:</em></strong>: Design Twitter<br>
+                <strong><em>You</em></strong>: Twitter is a social media platform where users post and interact with short messages called tweets.
+            </p>
+            <section id="1">
+            <h2>1. Feature Expectations [5 mins]</h2>
+            <p style="margin: 0;">
+                <strong><em>Interviewer:</em></strong>: Can you describe the use cases and scope for Twitter's system design?<br>
+                <strong><em>You</em></strong>: Certainly. For this system design discussion, I'll focus on the functional requirements of Twitter.<br>
+                <br><h4>Functional Requirements</h4>
+                <ol>
+                    <li>Create Tweets</li>
+                    <li>View Tweets or News Feed</li>
+                    <li>Follow/Unfollow people</li>
+                    <li>Interact with tweets</li>
+                </ol>
+            </p>
+
+            <p>These features are central to the user experience and represent the primary interactions on the platform.</p>
+            <p>To keep the discussion focused and manageable, I will not cover features like trends and hashtags, as these can be considered secondary and would require additional time to discuss comprehensively.</p>
+            <p>Target users of Twitter are individuals, celebrities, organizations, and advertisers. Knowing your audience helps tailor the design to meet their specific needs.</p>
+
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+            </section>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <ul>
+                <li>Assume daily active user base of <strong>1 billion</strong></li>
+                <li>On average, each user generates <strong>2 posts per day</strong></li>
+                <li>With each post averaging <strong>50 KB</strong> in size, the total daily data generated amounts to approximately <strong>100 terabytes (TB)</strong>.</li>
+                <li>To handle this volume, Twitter requires a system capable of processing data at a rate of around <strong>23,148 bytes per second</strong>.</li>
+                <li>Effective management of this scale demands <strong>robust network bandwidth</strong> and <strong>scalable storage infrastructure</strong>.</li>
+            </ul>
+            
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            To handle this estimations, we require the following Non Functional Requirements
+            <ol>
+                <li>Minimum latency</li>
+                <li>High consistency</li>
+                <li>Read heavy system</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>To design a high-level system architecture for Twitter, we'll focus on the following aspects: APIs for read/write scenarios, the database schema, core algorithms, and the overall architecture for handling read and write operations.</p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <!-- Get Tweet -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Get Tweet</em></strong></p>
+            <div class="table-container8">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /tweets/{tweet_id}</code></td>
+                            <td><code>tweet_id</code></td>
+                            <td>Tweet data (tweet_id, user_id, text, timestamp)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Post Tweet</em></strong></p>
+            <div class="table-container10">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /tweets</code></td>
+                            <td><code>user_id</code>, <code>text</code>, <code>media</code></td>
+                            <td>Created tweet data (tweet_id, user_id, text, timestamp)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Follow User</em></strong></p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /users/{user_id}/follow</code></td>
+                            <td><code>user_id</code>, <code>target_user_id</code></td>
+                            <td>Follow relationship data (user_id, target_user_id)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Unfollow User</em></strong></p>
+                <div class="table-container9">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>DELETE /users/{user_id}/follow</code></td>
+                            <td><code>user_id</code>, <code>target_user_id</code></td>
+                            <td>Success or error message</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+
+            <!-- Table: Users -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
+            <div class="table-container5">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>user_id</code> (PK, UUID)<br>
+                                <code>username</code> (VARCHAR)<br>
+                                <code>email</code> (VARCHAR)<br>
+                                <code>password_hash</code> (VARCHAR)<br>
+                                <code>bio</code> (TEXT)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores user information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table: Tweets -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Tweets Table</em></strong></p>
+            <div class="table-container5">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>tweet_id</code> (PK, UUID)<br>
+                                <code>user_id</code> (FK to Users)<br>
+                                <code>text</code> (TEXT)<br>
+                                <code>media_url</code> (VARCHAR)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores tweets</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table: NewsFeed -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>News Feed Table</em></strong></p>
+            <div class="table-container6">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>user_id</code> (FK to Users)<br>
+                                <code>tweet_id</code> (FK to Tweets)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores user's news feed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            Let's begin the design process for the Twitter system now!
+            <br>
+            <br>
+            
+            <h3>1. Users</h3>
+            <p>Users are individuals who interact with the social media platform. They can perform actions such as posting tweets, following/unfollowing other users, and viewing their news feed.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/users-image1.png" alt="User Image" width="100">
+            </div>
+            </p>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>The Load Balancer is critical for ensuring that the incoming traffic is evenly distributed across multiple servers. This helps in managing the load and ensuring high availability and reliability of the service. It prevents any single server from becoming a bottleneck.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/load-balancer-image1.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>It acts as a single point of entry for all API calls, consolidating various microservices or backend services behind a unified API interface. It performs tasks such as request routing, protocol translation, authentication, authorization, and traffic management (like rate limiting).<br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>/POST Tweet</em></b>: Directs the request to post a new tweet.</li>
+                <li><b><em>/GET Tweets</em></b>: Routes the request to retrieve tweets for the user.</li>
+                <li><b><em>/POST Follower</em></b>: Handles the action of following another user.</li>
+            </ul>
+            The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/api-gateway-image1.png" alt="" width="600"></p>
+            </div>
+            <br>
+
+            <h3>4. User Database</h3>
+            <p>The primary database for storing user-related information is likely implemented using a graph database structure to efficiently manage and query intricate relationships and connections between users, enhancing performance for social interactions.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/user-database-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>5. Tweet Database</h3>
+            <p>The database for persistently storing all tweets, the database is implemented using a NoSQL solution, efficiently handles high volumes of unstructured data, ensuring scalability and fast read/write operations crucial for real-time interactions on Twitter.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/tweets-database-image1.png" alt="" width="800"><br></p>
+            </div>
+            <br>
+            
+            <h3>6. News Feed Service</h3>
+            <p>A service responsible for generating and managing users' news feeds (timelines). It utilizes caching and a separate database for efficient news feed generation.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/news-feed-service-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h4>Timeline Generation (News Feed Generation)</h4>
+            <p><strong><em>1. Push Model</em></strong>
+            <br>New content is automatically sent to users' devices upon availability, ensuring prompt updates without user intervention.<br>
+            <strong>I. Tweet Insertion</strong>: When a user tweets, the system fetches all their followers and inserts the tweet into each follower's news feed.
+            <br>
+            <strong>II. News Feed Retrieval</strong>: To populate a user's news feed, the system retrieves tweets from the news feed table and fetches additional tweet details from the tweet cache or database as needed.
+            </p>
+        
+            <p><strong><em>2. Pull Model</em></strong>
+            <br>Users manually request updates from Twitter's servers, granting them control over when they receive new content.<br>
+            <strong>I. User Request</strong>: When an inactive user requests their timeline, the system fetches tweets from users they follow, merges them, and sorts by timestamp.        
+            </p>
+
+            <h3>7. News Feed Database</h3>
+            <p>The News Feed database stores users' personalized timelines, aggregating and storing tweets from followed users for efficient retrieval and display.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/news-feed-database-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>8. Caching</h3>
+            <p>Caching improves performance by storing frequently accessed data temporarily, reducing the need to fetch it from the original source repeatedly.<br>
+            
+            <p><strong><em>I. User Cache</em></strong><br>
+            The User Cache is an in-memory data store that holds frequently accessed user data to provide low-latency access. It is used to quickly retrieve user information without repeatedly querying the User Database.<br></p>
+
+            <p><strong><em>II. Tweet Cache</em></strong><br>
+            The Tweets Cache stores recent tweets in an in-memory data store to facilitate quick retrieval. When a tweet is posted, it is first written to the cache to ensure that it can be served quickly to users requesting it.<br></p>
+
+            <strong><em>III. News Feed Cache</em></strong><br>
+            The News Feed Cache holds the personalized timelines of users in an in-memory data store for quick access. This reduces the need to recompute the timeline each time a user requests it.<br><br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/caching-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>9. Notification Service</h3>
+            <p>This service handles the delivery of notifications to users, such as when they receive mentions or interactions on their tweets.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/notficiation-service-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>10. CDN (Content Delivery Network)</h3>
+            <p>A distributed network of servers that caches and serves static content like images, videos, and other media assets for efficient delivery to users.<br>
+
+            <p><strong><em>I. Push CDN</em></strong><br>
+            Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
+            
+            <p><strong><em>II. Pull CDN</em></strong><br>
+            Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
+            <br>
+            <h3 style="text-align: center;">High level architecture of Twitter</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/twitter-architecture-image1.png" alt="" width="1000"></p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="6">
+            <h2>6. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!.</p>
+            </div>
+            <br>
+
+            <h3>Posting a Tweet:</h3>
+            <ol>
+                <li>A user posts a tweet through the Internet.</li>
+                <li>The request hits the Load Balancer and is routed to the API Gateway.</li>
+                <li>The API Gateway processes the /POST Tweet request, storing the tweet in the Tweets Cache and Tweets Database.</li>
+                <li>The News Feed Service updates the followers' news feeds.</li>
+                <li>The Notification Service may notify followers about the new tweet.</li>
+            </ol>
+            <br>
+
+            <h3>Getting Tweets:</h3>
+            <ol>
+                <li>A user requests their tweets through the Internet.</li>
+                <li>The request goes through the Load Balancer to the API Gateway.</li>
+                <li>The API Gateway processes the /GET Tweets request by checking the Tweets Cache.</li>
+                <li>If the tweet is not in the cache, it fetches it from the Tweets Database.</li>
+                <li>The tweet is then served back to the user.</li>
+            </ol>
+            <br>
+
+            <h3>Following/Unfollowing Users:</h3>
+            <ol>
+                <li>A user follows or unfollows another user through the Internet.</li>
+                <li>The request reaches the API Gateway via the Load Balancer.</li>
+                <li>The API Gateway processes the /POST Follower request, updating the User Cache and User Database.</li>
+                <li>The News Feed Service adjusts the follower's news feed accordingly.</li>
+                <li>The Notification Service sends out notifications if appropriate.</li>
+            </ol>
+            <br>
+
+            <h3>News Feed Updates:</h3>
+            <ol>
+                <li>The News Feed Service maintains and updates users' personalized timelines.</li>
+                <li>For active users, it pushes updates in real-time.</li>
+                <li>For inactive users, it updates the feed on-demand.</li>
+                <li>Updated feeds are stored in the News Feed Cache for quick access and in the News Feed Database for persistence.</li>
+            </ol>
+            <br>
+
+            <h3>Notification Delivery:</h3>
+            <ol>
+                <li>The Notification Service interacts with the API Gateway to send notifications to users.</li>
+                <li>Notifications are sent through the Internet and Load Balancer to the end users.</li>
+            </ol>
+            <br>
+
+            <h3>Content Delivery Network (CDN):</h3>
+            <ol>
+                <li>The CDN caches static content and serves it to users, fetching any non-cached content from the backend infrastructure.</li>
+                <li>This reduces load times and improves performance across the platform.</li>
+            </ol>
+            <br>
+
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

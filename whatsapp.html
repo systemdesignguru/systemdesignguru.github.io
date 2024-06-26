@@ -1,0 +1,662 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>WhatsApp System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+     
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#designs" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Message Communication</a></li>
+                <li><a href="#6">Deep Dive</a></li>
+                <li><a href="#7">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/whatsapp/whatsapp.png" alt="" width="50"> WhatsApp System Design</h1>
+        </div>
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p>WhatsApp is a messaging platform that allows users to send and receive messages, make voice and video calls, and share media files.</p>
+            <section id="1">
+                <h2>1. Feature Expectations [5 mins]</h2>
+                <p style="margin: 0;">
+                    <strong><em>Interviewer:</em></strong> Can you design a messaging platform similar to WhatsApp?<br>
+                    <strong><em>You:</em></strong> Designing a platform like WhatsApp involves several key components and functionalities:<br>
+                    <br><h4>Functional Requirements</h4>
+                    <ol>
+                        <li>Realtime messaging</li>
+                        <li>Group messaging</li>
+                        <li>Online status</li>
+                        <li>Image and video uploads</li>
+                    </ol>
+                </p>
+            
+                <p>These features are central to the user experience and represent the primary interactions on the platform.</p>
+                <p>To keep the discussion focused and manageable, I will not cover features like Voice and Video Calls, status updates and payment integration, as these can be considered secondary and would require additional time to discuss comprehensively.</p>
+                <p>Target users of WhatsApp are individuals, groups, and businesses. Knowing your audience helps tailor the design to meet their specific needs.</p>
+            
+                <div class="note">
+                    <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+                </div>            
+            </section>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <ul>
+                <li>Assume a daily active user base of <strong>1 billion</strong></li>
+                <li>Total Profile Data (name, contact details, etc.): 1 billion users * 1 KB/user = <strong>1 TB</strong></li>
+                <li>On average, each user sends <strong>100 messages per day</strong></li>
+                <li>With each message averaging <strong>200 bytes</strong> in size, the total daily data generated amounts to approximately <strong>20 terabytes (TB)</strong>.</li>
+                <li>To handle this volume, WhatsApp requires a system capable of processing data at a rate of around <strong>70 million TPM</strong>.</li>
+            </ul>
+
+            
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            To handle this estimations, we require the following Non Functional Requirements
+            <ol>
+                <li>Low latency</li>
+                <li>High availability</li>
+                <li>Security</li>
+                <li>Scalability</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>To create a high-level system architecture for WhatsApp, we'll focus on several key aspects such as designing APIs for both reading and writing data, defining the structure of the database, implementing core algorithms, and outlining the overall framework for managing how data is read from and written to the system.</p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <!-- Get Tweet -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Send Message</em></strong></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /messages/send</code></td>
+                            <td><code>senderId</code>, <code>recipientId</code>, <code>content</code></td>
+                            <td>Success/Failure message</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Receive Message</em></strong></p>
+            <div class="table-container6">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Real-time via WebSockets</code></td>
+                            <td>N/A</td>
+                            <td>Real-time message</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Send Media</em></strong></p>
+            <div class="table-container10">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /messages/sendMedia</code></td>
+                            <td><code>senderId</code>, <code>recipientId</code>, <code>media</code>, <code>caption</code></td>
+                            <td>Success/Failure message</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Update Online Status</em></strong></p>
+                <div class="table-container8">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /users/updateStatus</code></td>
+                            <td><code>userId</code>, <code>status</code></td>
+                            <td>Success/Failure message</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Group Messaging</em></strong></p>
+                <div class="table-container9">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /groups/{groupId}/messages/send</code></td>
+                            <td><code>senderId</code>, <code>content</code></td>
+                            <td>Success/Failure message</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+
+            <!-- Table: Users -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
+            <div class="table-container5">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>user_id</code> (PK, UUID)<br>
+                                <code>username</code> (VARCHAR)<br>
+                                <code>email</code> (VARCHAR)<br>
+                                <code>password_hash</code> (VARCHAR)<br>
+                                <code>bio</code> (TEXT)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores user information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Table: Message -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Messages Table</em></strong></p>
+            <div class="table-container7">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>message_id</code> (PK, UUID)<br>
+                                <code>sender_id</code> (FK to Users)<br>
+                                <code>recipient_id</code> (FK to Users)<br>
+                                <code>content</code> (TEXT)<br>
+                                <code>timestamp</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores individual messages between users</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Table: Groups -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Groups Table</em></strong></p>
+            <div class="table-container5">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>group_id</code> (PK, UUID)<br>
+                                <code>group_name</code> (VARCHAR)<br>
+                                <code>created_by</code> (FK to Users)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores group information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table: Conversations -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Conversations Table</em></strong></p>
+            <div class="table-container7">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>conversation_id</code> (PK, UUID)<br>
+                                <code>conversation_name</code> (VARCHAR)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores conversation information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table: User Conversation -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>User Conversation Table</em></strong></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>user_conversation_id</code> (PK, UUID)<br>
+                                <code>conversation_id</code> (FK to Conversations)<br>
+                                <code>user_id</code> (FK to Users)<br>
+                                <code>is_admin</code> (BOOLEAN)
+                            </td>
+                            <td>Associates users with conversations and indicates admin status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Message Communication [5 mins]</h2>
+            <p>It is crucial to understand the communication between client and server when implementing a chat application. This understanding forms the foundation for establishing real-time, bi-directional data exchange, enabling seamless interaction between users through instant messaging. Establishing a connection between clients and servers involves several methods:</p>
+            
+            <h4>1. TCP Handshake</h4>
+            <p>
+                TCP handshake is a process where a client and server establish a connection by exchanging synchronization (SYN) and acknowledgment (ACK) packets to ensure reliable data transmission.
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/high level design/whatsapp/tcp-handshake-image1.png" alt="" width="500">
+                </div>
+                <br>
+                <ol>
+                    <li><strong><em>SYN (Synchronize)</em></strong>: Client sends a SYN segment to the server to initiate a connection request.</li>
+                    <li><strong><em>SYN-ACK (Synchronize-Acknowledgment)</em></strong>: Server responds with SYN-ACK to acknowledge the request and signal readiness to establish a connection.</li>
+                    <li><strong><em>ACK (Acknowledgment)</em></strong>: Client sends an ACK segment to acknowledge the server's response, completing the TCP handshake and establishing a reliable connection.</li>
+                </ol>
+            </p>
+            
+            <h4>2. SSL/TLS Handshake</h4>
+            <p>
+                Once the TCP connection is established, the SSL/TLS handshake begins. The SSL/TLS handshake is a process that allows a client and server to establish a secure encrypted connection. Here’s a simplified explanation of the handshake flow:
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/high level design/whatsapp/ssl-tls-handshake-image1.png" alt="" width="550">
+                </div>
+                <br>
+                <ol>
+                    <li><strong><em>ClientHello:</em></strong> The client initiates the handshake by sending its supported SSL/TLS version, cipher suites, and other parameters.</li>
+                    <li><strong><em>ServerHello:</em></strong> The server responds with its chosen SSL/TLS version, cipher suite, and other parameters.</li>
+                    <li><strong><em>Certificate (Optional):</em></strong> The server sends its digital certificate for authentication.</li>
+                    <li><strong><em>ServerKeyExchange (Optional):</em></strong> The server sends necessary data for key exchange (e.g., parameters for Diffie-Hellman).</li>
+                    <li><strong><em>CertificateRequest (Optional):</em></strong> The server requests the client's certificate for mutual authentication.</li>
+                    <li><strong><em>ServerHelloDone:</em></strong> The server signals that it has completed its part of the handshake.</li>
+                    <li><strong><em>ClientKeyExchange:</em></strong> The client sends data for key exchange.</li>
+                    <li><strong><em>ChangeCipherSpec:</em></strong> Both client and server signal readiness to begin encrypted communication.</li>
+                    <li><strong><em>Finished:</em></strong> Both parties verify the integrity of the handshake and establish secure communication.</li>
+                </ol>
+                This sequence establishes a secure SSL/TLS connection between the client and server, allowing encrypted data transmission.</p>
+            </p>
+            
+            <h4>3. HTTPS Communication</h4>
+            <p>
+                After the TCP handshake and SSL/TLS handshake have successfully established a connection, HTTPS communication involves the secure exchange of HTTP messages between the client and the server. Here’s a breakdown of what happens:
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/high level design/whatsapp/https-communication-image1.png" alt="" width="500">
+                </div>
+                <br>
+                <ol>
+                    <li><strong><em>HTTPS Request:</em></strong> The client sends an encrypted HTTP request to the server, specifying what resource it wants.</li>
+                    <li><strong><em>Server Processing:</em></strong> The server decrypts the request, processes it (e.g., fetches a webpage, handles form data), and prepares a response.</li>
+                    <li><strong><em>HTTPS Response:</em></strong> The server sends an encrypted HTTP response back to the client, containing the requested resource or indicating an error.</li>
+                    <li><strong><em>Secure Transmission:</em></strong> All communication (requests and responses) is encrypted, ensuring data confidentiality and integrity.</li>
+                    <li><strong><em>Connection Maintenance:</em></strong> The TCP and SSL/TLS connections remain open for efficient subsequent requests, reducing overhead.</li>
+                </ol>
+            </p>
+            
+            <hr>
+            <br>
+            <h3>Message Communication Methods</h3>
+            <p>Now that we understand how connections are established between clients and servers, let's delve into the communication methods used for data exchange:</p>
+
+            <h4>1. HTTP(S) Requests</h4>
+            <p>Fundamental for sending and receiving messages, initiated by clients like mobile apps or web browsers using HTTP POST requests to transmit message content to servers.</p>
+
+            <h4>2. Pooling</h4>
+            <p>Pooling means that clients ask the server every now and then if there are new messages or updates. When the server gets a request, it checks if there's something new to send back. This method works well when getting updates right away isn't crucial, or when it's hard to keep a continuous connection like with Websockets.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/pooling-image1.png" alt="" width="500">
+            </div>
+            </p>
+
+            <h4>3. Long Polling</h4>
+            <p>Long polling is like asking the server to keep the line open until it has something new to say or until a timeout happens. This helps reduce the delay in getting updates compared to regular checking. It's good for apps that need updates quickly but can't stay connected all the time, like when messages come in occasionally.
+            <br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/long-pooling-image1.png" alt="" width="500">
+            </div>
+            </p>
+            <br>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Pooling</th>
+                      <th>Long Polling</th>
+                    </tr>
+                    <tr>
+                      <td>Request Timing</td>
+                      <td>Client sends requests at regular <code>Interval</code>.</td>
+                      <td>Client sends a request and <code>Wait</code> until server has new data.</td>
+                    </tr>
+                    <tr>
+                      <td>Server Response</td>
+                      <td>Server responds immediately to each request with current data.</td>
+                      <td>Server holds the request open until new data is available, then responds.</td>
+                    </tr>
+                    <tr>
+                      <td>Client Behavior</td>
+                      <td>Initiates requests periodically regardless of server readiness.</td>
+                      <td>Waits for server response before sending next request, reducing unnecessary requests.</td>
+                    </tr>
+                    <tr>
+                      <td>Connection Handling</td>
+                      <td>Typically closes and re-establishes connection after each request.</td>
+                      <td>Keeps connection open longer, reducing overhead from frequent connection setup.</td>
+                    </tr>
+                    <tr>
+                      <td>Latency</td>
+                      <td>May introduce latency due to fixed intervals between requests.</td>
+                      <td>Reduces latency as server notifies client immediately upon data availability.</td>
+                    </tr>
+                    <tr>
+                      <td>Suitability</td>
+                      <td>Suitable for applications where periodic updates suffice and maintaining continuous connection is impractical.</td>
+                      <td>Ideal for real-time applications needing prompt notifications on data updates, reducing delay compared to regular pooling.</td>
+                    </tr>
+                  </table>
+            </div>
+
+            <h4>4. Websockets</h4>
+            <p>Websockets keep a constant connection open between clients and servers, allowing them to send messages back and forth without delay. This is different from methods that repeatedly check for updates. Websockets are crucial for apps like chat platforms (e.g., WhatsApp) where getting messages instantly, seeing when someone is typing, and knowing when a message is read are very important. They make sure updates happen right away, reduce waiting times, and handle many connections smoothly on different devices and platforms.
+            <br>
+
+            <h4>HTTPS to WebSocket Upgrade Process</h4>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/websocket-image1.png" alt="" width="500">
+            </div>
+            <br>
+            <ol>
+                <li><strong><em>Establish HTTPS Connection:</em></strong> Client initiates a standard HTTPS connection to the server.</li>
+                <li><strong><em>Upgrade Request (WebSocket):</em></strong> Client sends an HTTP request to upgrade the connection to WebSocket.</li>
+                <li><strong><em>Upgrade Response (WebSocket):</em></strong> Server responds to the upgrade request confirming the switch to WebSocket protocol.</li>
+                <li><strong><em>Bi-directional WebSocket Communication Established:</em></strong> Both client and server can now communicate bi-directionally in real-time using WebSocket.</li>
+            </ol>
+            </p>
+            <hr>
+            <br>
+            <section id="6">
+            <h2>6. Deep Dive [10-12 mins]</h2>
+            Let's dive into crafting the blueprint for the WhatsApp system!
+            <br><br>
+            
+            <h3>1. Users</h3>
+            <p>Users are the end-users of the chat application, using smartphones to send messages, share media, and get notifications. Their active participation and interaction are crucial to the app's success.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/users-image1.png" alt="User Image" width="100">
+            </div>
+            </p>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>Load balancer distributes incoming requests from users across multiple instances of the API Gateway for better performance and availability.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/load-balancer-image1.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>API Gateway serves as the single entry point for all client requests to appropriate backend services like User Service, Message Service, and Media Service. It manages authentication, authorization, and traffic flow, centralizing request handling to simplify service interactions and enhance security across the system.<br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>/POST Message</em></b>: Directs the request to send a new message.</li>
+                <li><b><em>/GET Messages</em></b>: Routes the request to retrieve messages for the user.</li>
+                <li><b><em>/POST Group</em></b>: Handles the action of creating a new group chat.</li>
+                <li><b><em>/POST Online Status</em></b>: Handles updating the user's online status.</li>
+                <li><b><em>/POST Media</em></b>: Manages the request to send media within a message.</li>
+            </ul>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/api-gateway-image1.png" alt="" width="600"></p>
+            </div>
+            <br>
+            The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
+
+            <h3>4. User Service</h3>
+            <p>The User Service handles user-related operations, managing user data including IDs, names, and status information such as last seen. It handles user authentication, profile management, and configuration settings, ensuring seamless user experiences and maintaining user data integrity across the platform.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/user-service-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>5. User Database</h3>
+            <p>User Database stores comprehensive user profiles and associated data necessary for user management within the chat application. It provides a reliable source for user-related information, supporting authentication processes, personalized interactions, and user-specific services.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/user-database-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>6. Message Service</h3>
+            <p>Message Service manages message delivery in the app, ensuring messages reach recipients promptly based on conversations or user IDs. It supports real-time communication, updates conversation details, and confirms message delivery, enhancing user engagement and maintaining message integrity.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/message-service-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+            
+            <h3>7. Conversation Database</h3>
+            <p>Conversation Database stores conversation IDs, names, and participants (users and groups), serving as a core data repository for the Conversation Service. It facilitates efficient retrieval of conversation details and management of group memberships and communication dynamics in the chat application.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/converdsation-database-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>8. User Conversation Database</h3>
+            <p>The User Conversation Database maintains associations between users and their respective conversations or group chats within the chat application. It stores records linking user IDs with conversation IDs, facilitating efficient retrieval of conversation details, management of group memberships, and targeted communication among users participating in specific conversations. This database supports personalized user experiences and streamlined communication dynamics within group settings.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/user-conversation-database-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>9. Media Service</h3>
+            <p>Responsible for managing media-related operations, the Media Service processes uploads, stores media files in the Object Store, and updates the Message Database with URLs linking to stored media. It ensures efficient management and retrieval of media content, supporting multimedia messaging capabilities within the chat application.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/media-service-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>10. Media Storage</h3>
+            <p>Serving as a dedicated repository, the Object Store securely stores media files uploaded by users within the chat application. It efficiently manages large volumes of media data and integrates with the Media Service for seamless upload, storage, and retrieval of media files associated with messages exchanged between users.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/media-storage-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>11. Message Database</h3>
+            <p>The Message Database stores message content, metadata, and media URLs, serving as a centralized repository for managing message details within the messaging application.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/message-database-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>12. CDN (Content Delivery Network)</h3>
+            <p>The CDN optimizes media content distribution by storing and delivering images, videos, and other media files from geographically distributed servers closer to users. This geographical proximity reduces latency and accelerates content delivery, enhancing user experience by ensuring fast and reliable access to multimedia content across devices.<br>
+
+            <p><strong><em>I. Push CDN</em></strong><br>
+            Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
+            
+            <p><strong><em>II. Pull CDN</em></strong><br>
+            Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
+            <br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/content-delivery-network-image1.png" alt="" width="1000"></p>
+            </div>
+            <hr>
+            <br>
+
+            <h3>13. Notification Service</h3>
+            <p>The Notification Service sends push notifications to users' devices based on events such as new messages or updates in conversation status, enhancing user engagement by keeping users informed in real-time.<br>
+            
+            <h3 style="text-align: center;">High level architecture of WhatsApp</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/whatsapp-architecture.png" alt=""></p>
+            </div>
+            <br>
+            <hr>
+            <section id="7">
+            <h2>7. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!.</p>
+            </div>
+            <br>
+
+            <h3>Sending a Message:</h3>
+            <ul>
+                <li>User sends a message through their device over the internet.</li>
+                <li>Request is routed through the Load Balancer and API Gateway.</li>
+                <li>Message Service processes the message and updates the Conversation Database with new message details and stores message content and metadata in the Message Database.</li>
+                <li>Notification Service is triggered to notify message recipients.</li>
+            </ul>
+
+            <h3>Receiving Messages:</h3>
+            <ul>
+                <li>User requests messages using a GET /message endpoint.</li>
+                <li>Message Service fetches relevant data from the Message Database and the User Conversation Database retrieves message content, metadata, and media URLs, fetches user details for group messages and updates the Conversation Database with any new message details fetched.</li>
+            </ul>
+
+            <h3>Media Handling:</h3>
+            <ul>
+                <li>User selects an image to send through their device.</li>
+                <li>Image upload request is routed through the API Gateway to the Media Service.</li>
+                <li>Media Service processes the media and stores it in the Media Storage (Object Store) and updates the Message Database with the media URL.</li>
+                <li>CDN efficiently delivers the image URL to other users for viewing.</li>
+            </ul>
+
+            <h3>Last Seen Update:</h3>
+            <ul>
+                <li>User updates their last seen status, indicating when they were last active.</li>
+                <li>Request is sent through the API Gateway to the User Service.</li>
+                <li>User Service updates the User Database with the new last seen timestamp (/POST updateLastSeen).</li>
+            </ul>
+
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

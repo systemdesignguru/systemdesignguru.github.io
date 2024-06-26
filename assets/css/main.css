@@ -2630,13 +2630,13 @@ input, select, textarea {
 
 	ol {
 		list-style: decimal;
-		margin: 0 0 2em 0;
+		margin: 0;
 		padding-left: 1.25em;
 	}
 
-		ol li {
-			padding-left: 0.25em;
-		}
+	ol li {
+		padding-left: 0.25em;
+	}
 
 	ul {
 		list-style: disc;
@@ -3180,6 +3180,7 @@ input, select, textarea {
 
 		table thead {
 			border-bottom: solid 2px rgba(255, 255, 255, 0.15);
+			background-color:rgba(34, 29, 45, 0.1);
 		}
 
 		table tfoot {
@@ -3967,17 +3968,60 @@ input, select, textarea {
 			margin: 10px 0 0 0;
 			color: #6c757d;
 		}
-		
+
+		.table-container5 {
+			max-width: 500px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
+		.table-container6 {
+			max-width: 600px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
+		.table-container7 {
+			max-width: 700px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
+		.table-container8 {
+			max-width: 800px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
+		.table-container9 {
+			max-width: 900px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
+		.table-container10 {
+			max-width: 1000px; /* Example: Set a maximum width for the container */
+			margin: 20px auto; /* Center the container and add spacing */
+		}
+
 		table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            text-align: center; /* Center aligning the table headers */
-        }
+			width: 100%;
+			border-collapse: collapse;
+			border: 2px solid rgba(136, 130, 149, 0.1); /* Border color and style */
+			border-radius: 20px; /* Rounded corners */
+			overflow: hidden;
+		}
+		th, td {
+			padding: 8px;
+			border: 2px solid rgba(56, 50, 70, 0.1); /* Cell borders */
+			text-align: left;
+			border-bottom: 1px solid rgba(56, 50, 70, 0.1); /* Bottom borders */
+		}
+		th {
+			text-align: center;
+			border: 2px solid rgba(56, 50, 70, 0.1); /* Header borders */
+			background-color: rgba(56, 50, 70, 0.1); /* Header background color */
+		}
+
+		.ubc-ss {
+			background-color: #5e42a6;
+			padding: 10px;
+			margin: 20px auto;
+			text-align: justify;
+			border-bottom: 1px solid rgba(56, 50, 70, 0.1)
+		  }

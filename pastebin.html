@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Pastebin System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+     
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#designs" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Deep Dive</a></li>
+                <li><a href="#6">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/pastebin/paste.png" alt="" width="50"> Pastebin System Design</h1>
+        </div>
+
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p>
+                <strong><em>Interviewer:</em></strong>: Design Paste application like Pastebin. To start off, can you provide an overview of how Pastebin handles user-generated content?<br>
+                <strong><em>You</em></strong>: Pastebin is a platform where users can store and share snippets of text. When a user submits content, it's stored in the database along with metadata such as expiration time, visibility settings, and access controls.
+            </p>
+            <section id="1">
+            <h2>1. Feature Expectations [5 mins]</h2>
+            <p style="margin: 0;">
+                <strong><em>Interviewer:</em></strong>: Can you describe how users interact with the platform and what features it offers?<br>
+                <strong><em>You</em></strong>: Certainly. For this system design discussion, understanding the functional requirements of Pastebin is crucial for designing its system.ß<br>
+                <br><h4>Functional Requirements</h4>
+                <ol>
+                    <li>Paste Creation</li>
+                    <li>Paste Management</li>
+                    <li>Sharing and Access Control</li>
+                </ol>
+            </p>
+
+            <p>Pastebin serves a diverse user base, including developers, programmers, students, educators, and anyone needing a simple platform to share text-based information online. Scalability planning considers the platform's millions of active users worldwide, ensuring it can handle concurrent accesses and uploads efficiently.</p>
+            <p>Users typically engage with Pastebin to share snippets of code, technical notes, and other textual content. Usage patterns range from occasional use for individual sharing to intensive use by power users involved in collaborative coding or sharing technical documentation.</p>
+
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+            </section>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <ul>
+                <li>Assuming <strong>1 million</strong> active users per day</li>
+                <li>Average of <strong>2 pastes</strong> per user per day</li>
+                <li><strong>1 million</strong> active users * <strong>2 pastes</strong> per day = <strong>2 million</strong> pastes per day</li>
+                <li>Assuming each paste is <strong>1MB</strong> in size i.e. storage for <strong>1 paste</strong> = <strong>1MB</strong> * <strong>2 million</strong> pastes = <strong>2TB</strong> per day</li>
+                <li>Peak Transactions Per Minute (TPM) estimated at <strong>1,000</strong> for handling paste uploads on Pastebin.</li>
+            </ul>                      
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            To handle this estimations, we require the following Non Functional Requirements
+            <ol>
+                <li>Performance</li>
+                <li>Reliability</li>
+                <li>Security</li>
+                <li>Scalability</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>Let's design a high-level system architecture for a platform similar to Pastebin, focusing on APIs for read/write scenarios, database schema, core algorithms, and overall architecture for handling operations.</p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <!-- Get Tweet -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Get Paste</em></strong></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /pastes/{paste_id}</code></td>
+                            <td><code>paste_id</code></td>
+                            <td>Paste data (paste_id, user_id, content, timestamp, visibility)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Create Paste</em></strong></p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /pastes</code></td>
+                            <td><code>user_id</code>, <code>content</code>, <code>visibility</code></td>
+                            <td>Created paste data (paste_id, user_id, content, timestamp)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+
+            <!-- Table: Users -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
+            <div class="table-container5">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>user_id</code> (PK, UUID)<br>
+                                <code>username</code> (VARCHAR)<br>
+                                <code>email</code> (VARCHAR)<br>
+                                <code>password_hash</code> (VARCHAR)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores user information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table: Pastes -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Pastes Table</em></strong></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Fields</td>
+                            <td>Description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>paste_id</code> (PK, UUID)<br>
+                                <code>user_id</code> (FK to Users)<br>
+                                <code>content</code> (TEXT)<br>
+                                <code>visibility</code> (ENUM or VARCHAR)<br>
+                                <code>created_at</code> (TIMESTAMP)
+                            </td>
+                            <td>Stores paste information, including content and visibility settings.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            Let's begin the design process for the Pastebin system now!
+            <br>
+            <br>
+            
+            <h3>1. Users</h3>
+            <p>Users interact with the paste-bin service by creating new pastes or retrieving existing ones via URLs. This simple interface belies the complex system behind it, designed to handle potentially millions of interactions efficiently and securely.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/users-image1.png" alt="User Image" width="100">
+            </div>
+            </p>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>The Load Balancer serves as the front door to the service, intelligently distributing incoming requests across multiple app servers. This crucial component ensures no single server becomes overwhelmed, maintaining high availability and responsiveness even under heavy traffic conditions.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/load-balancer-image1.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>It acts as a single point of entry for all API calls, consolidating various microservices or backend services behind a unified API interface. It performs tasks such as request routing, protocol translation, authentication, authorization, and traffic management (like rate limiting).<br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>/POST Paste</em></b>: Directs the request to post a new paste.</li>
+                <li><b><em>/GET Paste</em></b>: Routes the request to retrieve pastes for the user.</li>
+                <li><b><em>/PUT Paste</em></b>: Updates an existing paste.</li>
+                <li><b><em>/DELETE Paste</em></b>: Deletes a specified paste.</li>
+            </ul>            
+            The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/common/api-gateway-image1.png" alt="" width="600"></p>
+            </div>
+            <br>
+
+            <h3>4. User Service</h3>
+            <p>The user service manages user-related functionalities such as registration, authentication, profile management, and user-specific data access within an application or system.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/user-service-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>5. User Database</h3>
+            <p>The User Database stores essential information about registered users, likely including usernames, email addresses, and potentially encrypted passwords. This NoSQL database enables user management features and personalized experiences for registered users.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/user-database-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>6. Paste Service</h3>
+            <p>The paste service manages the creation, retrieval, update, and deletion of text or code snippets, including uploading content to a content storage system and updating the paste database accordingly.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/paste-service-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>7. Content Storage</h3>
+            <p>Content Storage contains the actual text content of the pastes. By separating content from metadata, this component allows for efficient storage and retrieval of potentially large volumes of text data.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/content-storage-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+
+            <h3>8. Key Generation Service</h3>
+            <p>The Key Generation Service creates unique identifiers for each paste, ensuring that every piece of content has a distinct, easily shareable URL. This service might employ various techniques like hashing or UUID generation to create these identifiers efficiently and collision-free.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/key-generation-service-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+
+            <h3>9. Key Database</h3>
+            <p>The Key Database maintains crucial metadata about each paste, including custom URLs, content locations, and expiration dates. This separation of concerns allows for quick lookups and efficient management of paste lifecycle without needing to access the full content.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/key-database-image1.png" alt="" width="800"><br></p>
+            </div>
+            <br>
+
+            <h3>10. Paste Database</h3>
+            <p>Paste Database stores structured data related to pastes, potentially serving as an index for the content storage or holding additional metadata. This component enables efficient querying and management of paste-related information.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/paste-database-image1.png" alt="" width="800"><br></p>
+            </div>
+            <br>
+
+            <h3>11. Cleanup Service</h3>
+            <p>Clean Up Service plays a vital role in system maintenance, periodically scanning for and removing expired pastes. This helps manage storage space, maintain system performance, and ensure that temporary or time-sensitive content is appropriately handled.<br>
+            
+            <h3 style="text-align: center;">High level architecture of Pastebin</h3>
+
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/pastebin-architecture.png" alt="" width="1000"></p>
+            </div>
+            <br>
+            <hr>
+            <br>
+
+            <section id="6">
+            <h2>6. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!.</p>
+            </div>
+            <br>
+
+            <h3>Posting a Paste:</h3>
+            <ol>
+                <li>A user submits a paste through the Internet.</li>
+                <li>The request hits the Load Balancer and is routed to the API Gateway.</li>
+                <li>The API Gateway processes the /POST Paste request, uploading the content to the Content Storage.</li>
+                <li>The paste metadata (e.g., paste_id, user_id, timestamp) is stored in the Paste Database.</li>
+                <li>The Paste Cache may be updated for quick access to the newly created paste.</li>
+            </ol>
+            <br>
+            <h3>Getting a Paste:</h3>
+            <ol>
+                <li>A user requests a paste through the Internet.</li>
+                <li>The request goes through the Load Balancer to the API Gateway.</li>
+                <li>The API Gateway processes the /GET Paste request by checking the Paste Cache.</li>
+                <li>If the paste is not in the cache, it fetches it from the Paste Database.</li>
+                <li>The content is retrieved from the Content Storage.</li>
+                <li>The paste data is then served back to the user.</li>
+            </ol>          
+            <br>
+            
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
