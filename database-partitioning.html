@@ -10,26 +10,34 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#storage-systems" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#storage-systems" class="title">Back</a></li>
+                <li><a href="#1">Database Partitioning</a></li>
+                <li><a href="#2">Benefits of Database Partitioning</a></li>
+                <li><a href="#3">Types of Database Partitioning</a></li>
+                <li><a href="#3">Best Practices for Data Partitioning</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Database Partitioning</h1>
             <!-- Start Content -->
             <article>
                 <p>When designing systems that handle a lot of data, it's important to manage that data efficiently. Database partitioning is a technique that helps by breaking down large datasets into smaller, easier-to-manage pieces. This guide explains why data partitioning is important, the different ways to do it, and best practices to follow.</p>
 
+                <section id="2">
                 <h2>Benefits of Database Partitioning</h2>
                 <ul>
                     <li><strong>Faster Performance</strong>: By only looking at the relevant pieces of data, systems can process queries more quickly. For example, if a query only needs data from the last month, it doesn't have to search through the entire dataset, just the most recent partition.</li>
@@ -38,6 +46,7 @@
                     <li><strong>Efficient Resource Use</strong>: Partitioning allows for spreading data across different storage devices, balancing the load and using resources better. This is especially useful in distributed systems where data can be spread across multiple servers to optimize performance and storage costs.</li>
                 </ul>
 
+                <section id="3">
                 <h2>Types of Database Partitioning</h2>
                 <p>Here are the main ways to partition data, each with its own benefits:</p>
                 <ul>
@@ -47,6 +56,7 @@
                     <li><strong>Composite Partitioning</strong>: Combining two or more partitioning methods. This method is useful when a single method isn't enough to meet performance or management needs. For example, data can be split first by date and then by user ID within each date range, providing a more granular level of partitioning that caters to both time-based and user-specific queries.</li>
                 </ul>
 
+                <section id="4">
                 <h2>Best Practices for Data Partitioning</h2>
                 <ul>
                     <li><strong>Choose the Right Key</strong>: Pick a key that helps evenly distribute data and matches common query patterns. The partition key should be chosen based on how the data is queried most often. For instance, if most queries filter by date, a date-based key would be appropriate.</li>

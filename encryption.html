@@ -10,54 +10,66 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#security" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#security" class="title">Back</a></li>
+                <li><a href="#1">Encryption</a></li>
+                <li><a href="#2">Types of Encryption</a></li>
+                <li><a href="#3">Benefits of Encryption</a></li>
+                <li><a href="#4">Challenges of Encryption</a></li>
+                <li><a href="#5">Best Practices for Implementing Encryption</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
-            <h1 class="major">Encryption in Distributed Systems</h1>
+            <section id="1">
+            <h1 class="major">Encryption</h1>
             <!-- Start Content -->
             <p>Encryption is fundamental in distributed systems to ensure data security and privacy. As data travels across networks and resides in multiple locations, encryption protects it from unauthorized access and breaches. This guide explores types of encryption, encryption in transit, encryption at rest, and best practices for secure implementation.</p>
 
-            <h3>Types of Encryption</h3>
+            <section id="2">
+            <h2>Types of Encryption</h2>
             <p>Encryption can be categorized into two main types based on when and where encryption is applied:</p>
             <ul>
-                <li><strong>Encryption in Transit:</strong> Also known as transport encryption, it secures data as it moves between systems or across networks. Protocols like TLS (Transport Layer Security) or SSL (Secure Sockets Layer) are commonly used for encryption in transit.</li>
-                <li><strong>Encryption at Rest:</strong> This secures data stored in databases, file systems, or any other storage medium. It ensures that data remains encrypted when not in active use, protecting it from unauthorized access even if the storage medium is compromised.</li>
+                <li><span class="bold-italic">Encryption in Transit:</span> Also known as transport encryption, it secures data as it moves between systems or across networks. Protocols like TLS (Transport Layer Security) or SSL (Secure Sockets Layer) are commonly used for encryption in transit.</li>
+                <li><span class="bold-italic">Encryption at Rest:</span> This secures data stored in databases, file systems, or any other storage medium. It ensures that data remains encrypted when not in active use, protecting it from unauthorized access even if the storage medium is compromised.</li>
             </ul>
 
-            <h3>Benefits of Encryption in Distributed Systems</h3>
+            <section id="3">
+            <h2>Benefits of Encryption</h2>
             <ul>
-                <li><strong>Data Confidentiality:</strong> Ensures only authorized parties with decryption keys can access sensitive information.</li>
-                <li><strong>Data Integrity:</strong> Protects data from unauthorized modifications during transmission or storage.</li>
-                <li><strong>Compliance:</strong> Helps organizations comply with data protection regulations and privacy laws that mandate encryption for sensitive data.</li>
-                <li><strong>Trust and Security:</strong> Enhances trust among users and stakeholders by safeguarding data against cyber threats and attacks.</li>
+                <li><span class="bold-italic">Data Confidentiality:</span> Ensures only authorized parties with decryption keys can access sensitive information.</li>
+                <li><span class="bold-italic">Data Integrity:</span> Protects data from unauthorized modifications during transmission or storage.</li>
+                <li><span class="bold-italic">Compliance:</span> Helps organizations comply with data protection regulations and privacy laws that mandate encryption for sensitive data.</li>
+                <li><span class="bold-italic">Trust and Security:</span> Enhances trust among users and stakeholders by safeguarding data against cyber threats and attacks.</li>
             </ul>
 
-            <h3>Challenges of Encryption in Distributed Systems</h3>
+            <section id="4">
+            <h2>Challenges of Encryption</h2>
             <ul>
-                <li><strong>Key Management:</strong> Securely managing encryption keys across distributed environments without compromising security.</li>
-                <li><strong>Performance Impact:</strong> Encryption and decryption processes can introduce overhead, impacting system performance, especially in high-throughput applications.</li>
-                <li><strong>Compatibility:</strong> Ensuring compatibility and interoperability of encryption mechanisms across different platforms and systems.</li>
-                <li><strong>Regulatory Compliance:</strong> Adhering to regulatory requirements for data encryption while maintaining operational efficiency.</li>
+                <li><span class="bold-italic">Key Management:</span> Securely managing encryption keys across distributed environments without compromising security.</li>
+                <li><span class="bold-italic">Performance Impact:</span> Encryption and decryption processes can introduce overhead, impacting system performance, especially in high-throughput applications.</li>
+                <li><span class="bold-italic">Compatibility:</span> Ensuring compatibility and interoperability of encryption mechanisms across different platforms and systems.</li>
+                <li><span class="bold-italic">Regulatory Compliance:</span> Adhering to regulatory requirements for data encryption while maintaining operational efficiency.</li>
             </ul>
 
-            <h3>Best Practices for Implementing Encryption</h3>
+            <section id="5">
+            <h2>Best Practices for Implementing Encryption</h2>
             <ul>
-                <li><strong>Use Strong Algorithms:</strong> Implement industry-standard cryptographic algorithms (e.g., AES-256) for robust encryption.</li>
-                <li><strong>Secure Key Management:</strong> Utilize secure key management practices, including encryption key rotation and storage.</li>
-                <li><strong>End-to-End Encryption:</strong> Implement end-to-end encryption to protect data throughout its lifecycle, from creation to storage and transmission.</li>
-                <li><strong>Monitor and Audit:</strong> Regularly monitor encryption processes and conduct audits to ensure compliance and detect vulnerabilities.</li>
+                <li><span class="bold-italic">Use Strong Algorithms:</span> Implement industry-standard cryptographic algorithms (e.g., AES-256) for robust encryption.</li>
+                <li><span class="bold-italic">Secure Key Management:</span> Utilize secure key management practices, including encryption key rotation and storage.</li>
+                <li><span class="bold-italic">End-to-End Encryption:</span> Implement end-to-end encryption to protect data throughout its lifecycle, from creation to storage and transmission.</li>
+                <li><span class="bold-italic">Monitor and Audit:</span> Regularly monitor encryption processes and conduct audits to ensure compliance and detect vulnerabilities.</li>
             </ul>
 
             <div class="note">

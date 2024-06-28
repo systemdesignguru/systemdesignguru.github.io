@@ -10,38 +10,65 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#core" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#basic" class="title">Back</a></li>
+                <li><a href="#1">Fault Tolerance</a></li>
+                <li><a href="#2">Key Concepts in Fault Tolerance</a></li>
+                <li><a href="#3">Availability vs Fault Tolerance</a></li>
+                <li><a href="#4">Strategies for Fault Tolerance</a></li>
+                <li><a href="#5">Benefits of Fault Tolerance</a></li>
+                <li><a href="#6">Challenges of Fault Tolerance</a></li>
+                <li><a href="#7">Best Practices for Implementing Fault Tolerance</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
-            <h1 class="major">Fault Tolerance in System Design</h1>
+            <section id="1">
+            <h1 class="major">Fault Tolerance</h1>
             <!-- Start Content -->
             <p>Fault tolerance is a critical aspect of system design that ensures a system remains operational even in the face of hardware or software failures. It involves designing systems with redundancy and resilience mechanisms to minimize downtime, maintain availability, and prevent data loss.</p>
-            <img src="images/basic/fault-tolerance-image2.png" alt="" width="900"></p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/fault-tolerance-image2.png" alt="" width="900"></p>
+            </div>
+            <br>
 
-            <h2>Key Concepts</h2>
+            <section id="2">
+            <h2>Key Concepts in Fault Tolerance</h2>
             <ul>
                 <li><strong>Redundancy:</strong> Using duplicate components or systems to ensure continuity in case of failure.</li>
-                <img src="images/basic/redundancy-image1.png" alt="" width="700"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/redundancy-image1.png" alt="" width="700"></p>
+                </div>
+                <br>
 
                 <li><strong>Failover and Recovery:</strong> Automatically switching to a redundant or standby system when a failure is detected. Recovery is the processes for restoring system functionality and data integrity after a failure.</li>
-                <img src="images/basic/fault-detection-and-recovery-image1.png" alt="" width="700"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/fault-detection-and-recovery-image1.png" alt="" width="700"></p>
+                </div>
+                <br>
 
                 <li><strong>Isolation:</strong> Preventing failures from spreading across the system and affecting other components.</li>
-                <img src="images/basic/isolation-image1.png" alt="" width="800"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/isolation-image1.png" alt="" width="800"></p>
+                </div>
+                <br>
             </ul>
 
+            <section id="3">
             <h2>Availability vs Fault Tolerance</h2>
             <div class="table-wrapper">
                 <table class="table-container">
@@ -97,6 +124,7 @@
                 </table>
             </div>
 
+            <section id="4">
             <h2>Strategies for Fault Tolerance</h2>
             <ul>
                 <li><strong>Hardware Redundancy:</strong> Using redundant hardware components such as servers, power supplies, and storage to eliminate single points of failure.</li>
@@ -105,6 +133,7 @@
                 <li><strong>Automated Monitoring and Recovery:</strong> Implementing automated systems to monitor system health, detect failures, and initiate recovery processes.</li>
             </ul>
 
+            <section id="5">
             <h2>Benefits of Fault Tolerance</h2>
             <ul>
                 <li><strong>High Availability:</strong> Ensuring systems are always available for use, even during failures.</li>
@@ -113,6 +142,7 @@
                 <li><strong>Cost Efficiency:</strong> Reducing costs associated with downtime and recovery efforts.</li>
             </ul>
 
+            <section id="6">
             <h2>Challenges of Fault Tolerance</h2>
             <ul>
                 <li><strong>Complexity:</strong> Designing and maintaining redundant systems can increase complexity and resource requirements.</li>
@@ -121,6 +151,7 @@
                 <li><strong>Testing and Validation:</strong> Ensuring that fault tolerance mechanisms work as expected requires thorough testing and validation.</li>
             </ul>
 
+            <section id="7">
             <h2>Best Practices for Implementing Fault Tolerance</h2>
             <ul>
                 <li><strong>Identify Critical Components:</strong> Determine which components are critical to system operation and prioritize fault tolerance efforts accordingly.</li>

@@ -10,36 +10,42 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#basic" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#basic" class="title">Back</a></li>
+                <li><a href="#1">Scalability</a></li>
+                <li><a href="#2">Vertical Scalability</a></li>
+                <li><a href="#3">Horizontal Scalability</a></li>
+                <li><a href="#4">Key Considerations for Scalability</a></li>
+                <li><a href="#5">Benefits of Scalability</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Scalability</h1>
-            <p>
-                Scalability in system design means how well a system can handle growth and increased demands by adding resources.
-            </p>
-
-            <h2>Scalability in System Design</h2>
             <p>
                 Scalability is crucial for creating strong and efficient systems that can grow without losing performance or reliability. It ensures that as the user base, data volume, or workload increases, the system can seamlessly adapt and continue to operate efficiently. There are two main types of scalability:
             </p>
 
+            <section id="2">
             <h3>Vertical Scalability</h3>
             <p>
                 <strong>Vertical scaling</strong> is also called as <strong>scaling up</strong>, this involves increasing the capacity of a single server or node by adding resources like CPU, RAM, or storage. Vertical scaling is often limited by the maximum capacity of hardware components and can become expensive.
-                <br><br>
+                <br>
+                <div style="display: flex; justify-content: center;">
                 <img src="images/basic/vertical_scaling-image1.png" alt="Vertical Scalability" width="600">
+                </div>
             </p>
             <div class="note">
                 <p>
@@ -48,28 +54,34 @@
             </div>
             <br>
 
+            <section id="3">
             <h3>Horizontal Scalability</h3>
             <p>
                 <strong>Horizontal scaling</strong> is also called as <strong>scaling out</strong>, this approach allows systems to handle increased traffic by adding more instances of servers or nodes rather than increasing the capacity of individual servers. Horizontal scaling provides better fault tolerance and can be more cost-effective in the long run.
-                <br><br>
+                <br>
+                <div style="display: flex; justify-content: center;">
                 <img src="images/basic/horizontal_scaling-image1.png" alt="Horizontal Scalability" width="800">
+                </div>
             </p>
 
+            <section id="4">
             <h2>Key Considerations for Scalability</h2>
             <ol>
-                <li><strong>Stateless Architecture:</strong> Designing components that don't rely on past interactions makes it easier to scale horizontally.</li>
-                <li><strong>Load Balancing:</strong> Balancing incoming requests across multiple servers ensures no single server gets overwhelmed.</li>
-                <li><strong>Database Scaling:</strong> Choosing the right database setup (like sharding or replication) helps manage large amounts of data effectively.</li>
-                <li><strong>Caching:</strong> Using caching systems (like Redis or CDN caching) reduces the load on servers by storing frequently accessed data nearby.</li>
-                <li><strong>Microservices Architecture:</strong> Decomposing applications into smaller independent services allows for easier horizontal scaling of individual services based on specific demands, rather than scaling the entire monolithic application.</li>
-                <li><strong>Monitoring and Auto-scaling:</strong> Tools that monitor traffic and adjust resources automatically optimize system performance.</li>
+                <li><span class="bold-italic">Stateless Architecture:</span> Designing components that don't rely on past interactions makes it easier to scale horizontally.</li>
+                <li><span class="bold-italic">Load Balancing:</span> Balancing incoming requests across multiple servers ensures no single server gets overwhelmed.</li>
+                <li><span class="bold-italic">Database Scaling:</span> Choosing the right database setup (like sharding or replication) helps manage large amounts of data effectively.</li>
+                <li><span class="bold-italic">Caching:</span> Using caching systems (like Redis or CDN caching) reduces the load on servers by storing frequently accessed data nearby.</li>
+                <li><span class="bold-italic">Microservices Architecture:</span> Decomposing applications into smaller independent services allows for easier horizontal scaling of individual services based on specific demands, rather than scaling the entire monolithic application.</li>
+                <li><span class="bold-italic">Monitoring and Auto-scaling:</span> Tools that monitor traffic and adjust resources automatically optimize system performance.</li>
             </ol>
-
+            <br>
+            
+            <section id="5">
             <h2>Benefits of Scalability</h2>
             <ul>
-                <li><strong>Improved Performance:</strong> Systems can maintain speed and reliability even during high demand.</li>
-                <li><strong>Flexibility and Growth:</strong> Businesses can expand their user base without major system changes.</li>
-                <li><strong>Cost Efficiency:</strong> Horizontal scaling with standard hardware reduces costs compared to upgrading single servers.</li>
+                <li><span class="bold-italic">Improved Performance:</span> Systems can maintain speed and reliability even during high demand.</li>
+                <li><span class="bold-italic">Flexibility and Growth:</span> Businesses can expand their user base without major system changes.</li>
+                <li><span class="bold-italic">Cost Efficiency:</span> Horizontal scaling with standard hardware reduces costs compared to upgrading single servers.</li>
             </ul>
 
             <div class="note">

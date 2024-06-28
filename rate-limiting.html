@@ -10,58 +10,66 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#security" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#security" class="title">Back</a></li>
+                <li><a href="#1">Rate Limiting</a></li>
+                <li><a href="#2">Usage Scenarios</a></li>
+                <li><a href="#3">Implementation Strategies</a></li>
+                <li><a href="#4">Benefits of Rate Limiting</a></li>
+                <li><a href="#5">Considerations</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Rate Limiting</h1>
             <!-- Start Content -->
             <p>Rate limiting is a technique used in system design to control the rate of requests or data flow between clients and servers. It is employed to prevent abuse, protect system resources, ensure fair usage, and optimize performance.</p>
 
-            <h2>Key Concepts</h2>
-
-            <h3>Usage Scenarios</h3>
+            <section id="2">
+            <h2>Usage Scenarios</h2>
             <p>Rate limiting is applied in various scenarios:</p>
             <ul>
-                <li><strong>API Rate Limiting:</strong> Controlling the number of API requests per client to prevent overload and maintain service availability.</li>
-                <li><strong>Server Resource Protection:</strong> Limiting concurrent connections or requests to safeguard server resources (CPU, memory, bandwidth).</li>
-                <li><strong>Data Ingestion:</strong> Regulating the rate at which data is ingested into the system to ensure smooth processing.</li>
+                <li><span class="bold-italic">API Rate Limiting:</span> Controlling the number of API requests per client to prevent overload and maintain service availability.</li>
+                <li><span class="bold-italic">Server Resource Protection:</span> Limiting concurrent connections or requests to safeguard server resources (CPU, memory, bandwidth).</li>
+                <li><span class="bold-italic">Data Ingestion:</span> Regulating the rate at which data is ingested into the system to ensure smooth processing.</li>
             </ul>
 
-            <h3>Implementation Strategies</h3>
+            <section id="3">
+            <h2>Implementation Strategies</h2>
             <p>Common strategies for implementing rate limiting include:</p>
             <ul>
-                <li><strong>Token Bucket Algorithm:</strong> Tokens are added to a bucket at a specified rate. Each request consumes tokens, and requests are throttled if tokens are insufficient.</li>
-                <li><strong>Fixed Window Counters:</strong> Counts requests within fixed time windows (e.g., per second, per minute) and enforces limits accordingly.</li>
-                <li><strong>Sliding Window Counters:</strong> Tracks requests over a sliding time window, adjusting limits dynamically.</li>
+                <li><span class="bold-italic">Token Bucket Algorithm:</span> Tokens are added to a bucket at a specified rate. Each request consumes tokens, and requests are throttled if tokens are insufficient.</li>
+                <li><span class="bold-italic">Fixed Window Counters:</span> Counts requests within fixed time windows (e.g., per second, per minute) and enforces limits accordingly.</li>
+                <li><span class="bold-italic">Sliding Window Counters:</span> Tracks requests over a sliding time window, adjusting limits dynamically.</li>
             </ul>
 
+            <section id="4">
             <h2>Benefits of Rate Limiting</h2>
-
             <ul>
-                <li><strong>Protection from Abuse:</strong> Prevents malicious or excessive use of resources, improving system stability.</li>
-                <li><strong>Enhanced Performance:</strong> Ensures that critical services remain responsive by preventing overload.</li>
-                <li><strong>Fair Usage:</strong> Provides equitable access to resources for all users or clients.</li>
-                <li><strong>Resource Optimization:</strong> Optimizes server resources by controlling traffic peaks and troughs.</li>
+                <li><span class="bold-italic">Protection from Abuse:</span> Prevents malicious or excessive use of resources, improving system stability.</li>
+                <li><span class="bold-italic">Enhanced Performance:</span> Ensures that critical services remain responsive by preventing overload.</li>
+                <li><span class="bold-italic">Fair Usage:</span> Provides equitable access to resources for all users or clients.</li>
+                <li><span class="bold-italic">Resource Optimization:</span> Optimizes server resources by controlling traffic peaks and troughs.</li>
             </ul>
 
+            <section id="5">
             <h2>Considerations</h2>
-
             <ul>
-                <li><strong>Thresholds:</strong> Define appropriate rate limits based on system capacity, usage patterns, and expected load.</li>
-                <li><strong>Monitoring and Alerts:</strong> Implement monitoring to track usage patterns, detect anomalies, and adjust rate limits as needed.</li>
-                <li><strong>Error Handling:</strong> Provide informative error messages or status codes (e.g., 429 Too Many Requests) when rate limits are exceeded.</li>
+                <li><span class="bold-italic">Thresholds:</span> Define appropriate rate limits based on system capacity, usage patterns, and expected load.</li>
+                <li><span class="bold-italic">Monitoring and Alerts:</span> Implement monitoring to track usage patterns, detect anomalies, and adjust rate limits as needed.</li>
+                <li><span class="bold-italic">Error Handling:</span> Provide informative error messages or status codes (e.g., 429 Too Many Requests) when rate limits are exceeded.</li>
             </ul>
 
             <div class="note">

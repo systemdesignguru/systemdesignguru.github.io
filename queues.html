@@ -10,57 +10,69 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#networking" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#networking" class="title">Back</a></li>
+                <li><a href="#1">Queues</a></li>
+                <li><a href="#2">Usage Scenarios</a></li>
+                <li><a href="#3">Characteristics</a></li>
+                <li><a href="#4">Benefits of Using Queues</a></li>
+                <li><a href="#5">Implementing Queues</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Queues</h1>
             <!-- Start Content -->
             <p>A queue is a fundamental data structure used in system design to manage and process asynchronous tasks or messages. It follows the First-In-First-Out (FIFO) principle, where the first item added to the queue is the first one to be processed or dequeued.<br>
-            <img src="images/basic/queues.png" alt="" width="300"></p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/queues.png" alt="" width="300"></p>
+            </div>
+            <br>
 
-            <h2>Key Concepts</h2>
-
-            <h3>Usage Scenarios</h3>
+            <section id="2">
+            <h2>Usage Scenarios</h2>
             <ul>
-                <li><strong>Task Queue:</strong> Managing background tasks or jobs asynchronously, ensuring they are processed in order.</li>
-                <li><strong>Message Queue:</strong> Facilitating communication between different parts of a distributed system, ensuring reliable message delivery.</li>
-                <li><strong>Request Queue:</strong> Handling incoming requests in systems where processing might be delayed or requires sequential handling.</li>
+                <li><span class="bold-italic">Task Queue:</span> Managing background tasks or jobs asynchronously, ensuring they are processed in order.</li>
+                <li><span class="bold-italic">Message Queue:</span> Facilitating communication between different parts of a distributed system, ensuring reliable message delivery.</li>
+                <li><span class="bold-italic">Request Queue:</span> Handling incoming requests in systems where processing might be delayed or requires sequential handling.</li>
             </ul>
 
-            <h3>Characteristics</h3>
+            <section id="3">
+            <h2>Characteristics</h2>
             <ul>
-                <li><strong>First-In-First-Out (FIFO):</strong> Ensures that items are processed in the order they are added.</li>
-                <li><strong>Concurrency:</strong> Multiple consumers can dequeue items concurrently from the same queue.</li>
-                <li><strong>Reliability:</strong> Guarantees that messages or tasks are not lost due to system failures.</li>
-                <li><strong>Scalability:</strong> Queues can handle varying loads by buffering tasks during peak times.</li>
+                <li><span class="bold-italic">First-In-First-Out (FIFO):</span> Ensures that items are processed in the order they are added.</li>
+                <li><span class="bold-italic">Concurrency:</span> Multiple consumers can dequeue items concurrently from the same queue.</li>
+                <li><span class="bold-italic">Reliability:</span> Guarantees that messages or tasks are not lost due to system failures.</li>
+                <li><span class="bold-italic">Scalability:</span> Queues can handle varying loads by buffering tasks during peak times.</li>
             </ul>
 
+            <section id="4">
             <h2>Benefits of Using Queues</h2>
-
             <ul>
-                <li><strong>Decoupling:</strong> Allows components to communicate asynchronously, reducing dependencies and improving system flexibility.</li>
-                <li><strong>Load Balancing:</strong> Distributes work evenly across multiple consumers or processing nodes.</li>
-                <li><strong>Error Handling:</strong> Facilitates retry mechanisms for failed tasks or messages without blocking the system.</li>
-                <li><strong>Scalability:</strong> Supports horizontal scaling by adding more consumers to process tasks concurrently.</li>
+                <li><span class="bold-italic">Decoupling:</span> Allows components to communicate asynchronously, reducing dependencies and improving system flexibility.</li>
+                <li><span class="bold-italic">Load Balancing:</span> Distributes work evenly across multiple consumers or processing nodes.</li>
+                <li><span class="bold-italic">Error Handling:</span> Facilitates retry mechanisms for failed tasks or messages without blocking the system.</li>
+                <li><span class="bold-italic">Scalability:</span> Supports horizontal scaling by adding more consumers to process tasks concurrently.</li>
             </ul>
 
+            <section id="5">
             <h2>Implementing Queues</h2>
             <ul>
-                <li><strong>Message Brokers:</strong> Kafka, RabbitMQ, ActiveMQ</li>
-                <li><strong>Cloud Services:</strong> AWS SQS, Azure Queue Storage, Google Cloud Pub/Sub</li>
-                <li><strong>Database-backed Queues:</strong> Redis, PostgreSQL, MySQL with transactional support</li>
+                <li><span class="bold-italic">Message Brokers:</span> Kafka, RabbitMQ, ActiveMQ</li>
+                <li><span class="bold-italic">Cloud Services:</span> AWS SQS, Azure Queue Storage, Google Cloud Pub/Sub</li>
+                <li><span class="bold-italic">Database-backed Queues:</span> Redis, PostgreSQL, MySQL with transactional support</li>
             </ul>
 
             <div class="note">

@@ -10,55 +10,59 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#fault-tolerance" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#fault-tolerance" class="title">Back</a></li>
+                <li><a href="#1">Backup</a></li>
+                <li><a href="#2">Types of Backup</a></li>
+                <li><a href="#3">Disaster Recovery</a></li>
+                <li><a href="#4">Key Components of Disaster Recovery</a></li>
+                <li><a href="#5">Importance of Backup and Disaster Recovery</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Backup and Disaster Recovery</h1>
             <!-- Start Content -->
             <article>
-                <h3>Backup</h3>
-
+                <h2>Backup</h2>
                 <p>Backup refers to the process of creating copies of data to safeguard against accidental loss or deletion. It involves making regular copies of important files and storing them securely in a separate location from the original data.</p>
 
-                <h3>Types of Backup</h3>
-
+                <section id="2">
+                <h2>Types of Backup</h2>
                 <ul>
-                    <li><strong>Full Backup:</strong> Copies all data in its entirety. Provides complete restoration but requires more storage space and time.</li>
-                    <li><strong>Incremental Backup:</strong> Copies only changes made since the last backup. Takes less time and storage space but requires the full backup and all subsequent incremental backups to restore data.</li>
-                    <li><strong>Differential Backup:</strong> Copies changes made since the last full backup. Faster than incremental backup for restoration, as it requires only the full backup and the most recent differential backup.</li>
+                    <li><span class="bold-italic">Full Backup:</span> Copies all data in its entirety. Provides complete restoration but requires more storage space and time.</li>
+                    <li><span class="bold-italic">Incremental Backup:</span> Copies only changes made since the last backup. Takes less time and storage space but requires the full backup and all subsequent incremental backups to restore data.</li>
+                    <li><span class="bold-italic">Differential Backup:</span> Copies changes made since the last full backup. Faster than incremental backup for restoration, as it requires only the full backup and the most recent differential backup.</li>
                 </ul>
 
-                <h3>Disaster Recovery</h3>
-
+                <section id="3">
+                <h2>Disaster Recovery</h2>
                 <p>Disaster recovery focuses on restoring IT infrastructure and operations after a disruptive event. It encompasses processes, policies, and procedures to recover and protect a business's IT infrastructure in the event of a disaster.</p>
-
-                <h3>Key Components of Disaster Recovery</h3>
-
+                
+                <section id="4">
+                <h2>Key Components of Disaster Recovery</h2>
                 <ul>
-                    <li><strong>Backup Systems:</strong> Regularly scheduled backups of critical data and systems.</li>
-                    <li><strong>Recovery Point Objective (RPO):</strong> Defines the maximum allowable data loss in case of a disruption. Determines the frequency of backups.</li>
-                    <li><strong>Recovery Time Objective (RTO):</strong> Specifies the acceptable downtime for systems and services to resume normal operations after a disruption.</li>
-                    <li><strong>Disaster Recovery Plan (DRP):</strong> Documented procedures outlining steps to recover IT infrastructure and operations after a disaster.</li>
-                    <li><strong>Testing and Validation:</strong> Regular testing of the DR plan to ensure readiness and identify gaps or weaknesses.</li>
+                    <li><span class="bold-italic">Backup Systems:</span> Regularly scheduled backups of critical data and systems.</li>
+                    <li><span class="bold-italic">Recovery Point Objective (RPO):</span> Defines the maximum allowable data loss in case of a disruption. Determines the frequency of backups.</li>
+                    <li><span class="bold-italic">Recovery Time Objective (RTO):</span> Specifies the acceptable downtime for systems and services to resume normal operations after a disruption.</li>
+                    <li><span class="bold-italic">Disaster Recovery Plan (DRP):</span> Documented procedures outlining steps to recover IT infrastructure and operations after a disaster.</li>
+                    <li><span class="bold-italic">Testing and Validation:</span> Regular testing of the DR plan to ensure readiness and identify gaps or weaknesses.</li>
                 </ul>
 
-
-                <h3>Importance of Backup and Disaster Recovery</h3>
-
-                <p>Backup and disaster recovery are critical for:</p>
-
+                <section id="5">
+                <h2>Importance of Backup and Disaster Recovery</h2>
                 <ul>
                     <li>Minimizing downtime and ensuring business continuity.</li>
                     <li>Protecting against data loss, corruption, and cyber threats.</li>

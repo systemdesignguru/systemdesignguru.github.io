@@ -10,63 +10,80 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#scalability-performance" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#scalability-performance" class="title">Back</a></li>
+                <li><a href="#1">Database Sharding</a></li>
+                <li><a href="#2">Benefits of Database Sharding</a></li>
+                <li><a href="#3">How Database Sharding Works</a></li>
+                <li><a href="#4">Types of Sharding</a></li>
+                <li><a href="#5">Challenges of Database Sharding</a></li>
+                <li><a href="#6">Best Practices for Database Sharding</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Database Sharding</h1>
             <!-- Start Content -->
             <article>
                 <p>In large-scale systems, database sharding is crucial for managing vast amounts of data effectively. As applications grow, traditional databases may struggle with performance. Database sharding addresses this by breaking data into smaller parts called shards, each stored on a separate database server. This approach improves performance and scalability by dividing a large database into smaller parts. Each shard contains a subset of the overall data, helping manage data growth and enhancing access speed.
                 <br>
+                <div style="display: flex; justify-content: center;">
                 <img src="images/basic/database-sharding-image1.png" alt="" width="800">
+                </div>
                 </p>
 
+                <section id="2">
                 <h2>Benefits of Database Sharding</h2>
                 <ul>
-                    <li><strong>Scalability:</strong> Easier handling of more data by spreading it across multiple servers.</li>
-                    <li><strong>Performance:</strong> Improved speed of data read and write operations by distributing the workload.</li>
-                    <li><strong>Availability:</strong> Reduced risk of data loss if one server fails, as data is distributed across multiple shards.</li>
-                    <li><strong>Flexibility:</strong> Ability to store data closer to users globally, improving response times.</li>
+                    <li><span class="bold-italic">Scalability:</span> Easier handling of more data by spreading it across multiple servers.</li>
+                    <li><span class="bold-italic">Performance:</span> Improved speed of data read and write operations by distributing the workload.</li>
+                    <li><span class="bold-italic">Availability:</span> Reduced risk of data loss if one server fails, as data is distributed across multiple shards.</li>
+                    <li><span class="bold-italic">Flexibility:</span> Ability to store data closer to users globally, improving response times.</li>
                 </ul>
 
+                <section id="3">
                 <h2>How Database Sharding Works</h2>
                 <h3>Key Considerations:</h3>
                 <ul>
-                    <li><strong>Choosing a Sharding Key:</strong> Crucial for evenly distributing data among shards to prevent overloading some shards.</li>
-                    <li><strong>Maintaining Data Consistency:</strong> Ensuring all data across shards is accurate and up-to-date, even as data changes.</li>
+                    <li><span class="bold-italic">Choosing a Sharding Key:</span> Crucial for evenly distributing data among shards to prevent overloading some shards.</li>
+                    <li><span class="bold-italic">Maintaining Data Consistency:</span> Ensuring all data across shards is accurate and up-to-date, even as data changes.</li>
                 </ul>
+
+                <section id="4">
                 <h3>Types of Sharding:</h3>
                 <ul>
-                    <li><strong>Horizontal Sharding:</strong> Splits data based on rows or entities to balance the workload.</li>
-                    <li><strong>Vertical Sharding:</strong> Divides data based on columns, allowing different shards to store different columns of the same table.</li>
-                    <li><strong>Composite Sharding:</strong> Combines horizontal and vertical methods for flexibility in data distribution.</li>
+                    <li><span class="bold-italic">Horizontal Sharding:</span> Splits data based on rows or entities to balance the workload.</li>
+                    <li><span class="bold-italic">Vertical Sharding:</span> Divides data based on columns, allowing different shards to store different columns of the same table.</li>
+                    <li><span class="bold-italic">Composite Sharding:</span> Combines horizontal and vertical methods for flexibility in data distribution.</li>
                 </ul>
 
+                <section id="5">
                 <h2>Challenges of Database Sharding</h2>
                 <ul>
-                    <li><strong>Complexity:</strong> Managing data distribution and ensuring consistency becomes more complex.</li>
-                    <li><strong>Data Skew:</strong> Uneven distribution of data can lead to performance issues if not managed properly.</li>
-                    <li><strong>Maintenance:</strong> Adding or removing shards requires careful planning to avoid disruptions.</li>
+                    <li><span class="bold-italic">Complexity:</span> Managing data distribution and ensuring consistency becomes more complex.</li>
+                    <li><span class="bold-italic">Data Skew:</span> Uneven distribution of data can lead to performance issues if not managed properly.</li>
+                    <li><span class="bold-italic">Maintenance:</span> Adding or removing shards requires careful planning to avoid disruptions.</li>
                 </ul>
 
+                <section id="6">
                 <h2>Best Practices for Database Sharding</h2>
                 <ul>
-                    <li><strong>Plan Early:</strong> Design databases with sharding in mind from the start.</li>
-                    <li><strong>Monitoring:</strong> Use tools to track shard performance and automate scaling as needed.</li>
-                    <li><strong>Backup and Recovery:</strong> Develop plans to backup and recover data, considering data spread across shards.</li>
-                    <li><strong>Testing:</strong> Thoroughly test your sharding setup to ensure it meets system requirements.</li>
+                    <li><span class="bold-italic">Plan Early:</span> Design databases with sharding in mind from the start.</li>
+                    <li><span class="bold-italic">Monitoring:</span> Use tools to track shard performance and automate scaling as needed.</li>
+                    <li><span class="bold-italic">Backup and Recovery:</span> Develop plans to backup and recover data, considering data spread across shards.</li>
+                    <li><span class="bold-italic">Testing:</span> Thoroughly test your sharding setup to ensure it meets system requirements.</li>
                 </ul>
 
                 <div class="note">

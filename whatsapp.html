@@ -42,13 +42,25 @@
                 <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
             </div>
             <br>
+            <span class="bold-italic">Interviewer:</span> Can you design a messaging platform similar to WhatsApp?<br>
+            <br>
+            <div class="definition">
+                <span class="bold-italic">WhatsApp is a messaging platform that allows users to send and receive messages, make voice and video calls, and share media files.</span>
+            </div>
 
-            <p>WhatsApp is a messaging platform that allows users to send and receive messages, make voice and video calls, and share media files.</p>
             <section id="1">
                 <h2>1. Feature Expectations [5 mins]</h2>
                 <p style="margin: 0;">
-                    <strong><em>Interviewer:</em></strong> Can you design a messaging platform similar to WhatsApp?<br>
-                    <strong><em>You:</em></strong> Designing a platform like WhatsApp involves several key components and functionalities:<br>
+                    <span class="bold-italic">You:</span> Before we proceed, could you please clarify the use cases and scope for WhatsApp's system design? This will help me understand the main goals and functionalities we need to focus on.<br>
+                    <br>
+                    <div class="note">
+                        Gaining a comprehensive overview will assist us in specifying the system's user capacity, performance requirements, and critical security protocols.
+                    </div>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> Absolutely. WhatsApp aims to accommodate a large user base with seamless communication capabilities, ensuring messages are delivered reliably and securely. We need robust infrastructure to handle peak loads without compromising performance or security.<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Thank you for the clarification. Based on this, let's outline the functional requirements of WhatsApp to ensure it meets these goals effectively.<br>
+
                     <br><h4>Functional Requirements</h4>
                     <ol>
                         <li>Realtime messaging</li>
@@ -71,6 +83,7 @@
 
             <section id="2">
             <h2>2. Estimations [5 mins]</h2>
+            <p>Understanding how much data the system handles and how fast it processes it is crucial for designing it well. This ensures that the network and storage can handle all user activities smoothly, without slowing down or causing issues.</p>
             <ul>
                 <li>Assume a daily active user base of <strong>1 billion</strong></li>
                 <li>Total Profile Data (name, contact details, etc.): 1 billion users * 1 KB/user = <strong>1 TB</strong></li>
@@ -90,7 +103,8 @@
 
             <section id="3">
             <h2>3. Design Goals [5 mins]</h2>
-            To handle this estimations, we require the following Non Functional Requirements
+            <p>Based on estimates and discussions, the system's non-functional requirements include managing high user loads effectively, implementing robust data security measures, and having scalable infrastructure for rapid growth.
+            </p>
             <ol>
                 <li>Low latency</li>
                 <li>High availability</li>
@@ -111,8 +125,9 @@
             <p>To create a high-level system architecture for WhatsApp, we'll focus on several key aspects such as designing APIs for both reading and writing data, defining the structure of the database, implementing core algorithms, and outlining the overall framework for managing how data is read from and written to the system.</p>
 
             <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Creating APIs for WhatsApp is important because it sets up clear ways for different parts of the system to communicate with each other. This organization makes it easier to modify and add new features later on. APIs also allow other programs or services to use WhatsApp's features in a controlled manner, helping to build and expand the platform smoothly.</p>
             <!-- Get Tweet -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Send Message</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Send Message</span></p>
             <div class="table-container9">
                 <table>
                     <thead>
@@ -132,7 +147,7 @@
                 </table>
             </div>
 
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Receive Message</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Receive Message</span></p>
             <div class="table-container6">
                 <table>
                     <thead>
@@ -152,7 +167,7 @@
                 </table>
             </div>
             
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Send Media</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Send Media</span></p>
             <div class="table-container10">
                 <table>
                     <thead>
@@ -172,7 +187,7 @@
                 </table>
                 </div>
 
-                <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Update Online Status</em></strong></p>
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Update Online Status</span></p>
                 <div class="table-container8">     
                 <table>
                     <thead>
@@ -192,7 +207,7 @@
                 </table>
                 </div>
 
-                <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Group Messaging</em></strong></p>
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Group Messaging</span></p>
                 <div class="table-container9">     
                 <table>
                     <thead>
@@ -214,132 +229,97 @@
 
             <br>
             <h3>II. Database Schema</h3>
-
+            <p>
+                WhatsApp, as a messaging application, prioritizes availability and partition tolerance over strict consistency, which aligns well with the characteristics offered by NoSQL databases. Unlike SQL databases that adhere to ACID (Atomicity, Consistency, Isolation, Durability) properties for data integrity, NoSQL databases provide flexibility and scalability without requiring strict consistency across all operations. This makes NoSQL databases like MongoDB suitable for handling WhatsApp's dynamic and high-volume messaging environment, where rapid data ingestion and flexible schema management are essential, and occasional data inconsistencies are acceptable.
+            </p>
             <!-- Table: Users -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
-            <div class="table-container5">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_id</code> (PK, UUID)<br>
-                                <code>username</code> (VARCHAR)<br>
-                                <code>email</code> (VARCHAR)<br>
-                                <code>password_hash</code> (VARCHAR)<br>
-                                <code>bio</code> (TEXT)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores user information</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"phone_number": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"profile_picture_url": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
 
             <!-- Table: Message -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Messages Table</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Messages Table</span></p>
             <div class="table-container7">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>message_id</code> (PK, UUID)<br>
-                                <code>sender_id</code> (FK to Users)<br>
-                                <code>recipient_id</code> (FK to Users)<br>
-                                <code>content</code> (TEXT)<br>
-                                <code>timestamp</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores individual messages between users</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="code-block">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"message_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sender_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"recipient_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"timestamp": "timestamp"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
-
-
+              
             <!-- Table: Groups -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Groups Table</em></strong></p>
-            <div class="table-container5">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>group_id</code> (PK, UUID)<br>
-                                <code>group_name</code> (VARCHAR)<br>
-                                <code>created_by</code> (FK to Users)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores group information</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Table: Conversations -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Conversations Table</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Groups Table</span></p>
             <div class="table-container7">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>conversation_id</code> (PK, UUID)<br>
-                                <code>conversation_name</code> (VARCHAR)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores conversation information</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="code-block">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"group_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"group_name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_by": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"members": [<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"is_admin": true/false<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"recipient_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
-
+              
+            <!-- Table: Conversations -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Conversations Table</span></p>
+            <div class="table-container7">
+                <div class="code-block">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"participants": [<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"is_admin": true/false<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div>
+              
             <!-- Table: User Conversation -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>User Conversation Table</em></strong></p>
-            <div class="table-container9">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_conversation_id</code> (PK, UUID)<br>
-                                <code>conversation_id</code> (FK to Conversations)<br>
-                                <code>user_id</code> (FK to Users)<br>
-                                <code>is_admin</code> (BOOLEAN)
-                            </td>
-                            <td>Associates users with conversations and indicates admin status</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">User Conversation Table</span></p>
+            <div class="table-container7">
+                <div class="code-block">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_conversation_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"is_admin": "true/false",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
-
-
 
             <div class="note">
                 <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
@@ -360,9 +340,9 @@
                 </div>
                 <br>
                 <ol>
-                    <li><strong><em>SYN (Synchronize)</em></strong>: Client sends a SYN segment to the server to initiate a connection request.</li>
-                    <li><strong><em>SYN-ACK (Synchronize-Acknowledgment)</em></strong>: Server responds with SYN-ACK to acknowledge the request and signal readiness to establish a connection.</li>
-                    <li><strong><em>ACK (Acknowledgment)</em></strong>: Client sends an ACK segment to acknowledge the server's response, completing the TCP handshake and establishing a reliable connection.</li>
+                    <li><span class="bold-italic">SYN (Synchronize)</span>: Client sends a SYN segment to the server to initiate a connection request.</li>
+                    <li><span class="bold-italic">SYN-ACK (Synchronize-Acknowledgment)</span>: Server responds with SYN-ACK to acknowledge the request and signal readiness to establish a connection.</li>
+                    <li><span class="bold-italic">ACK (Acknowledgment)</span>: Client sends an ACK segment to acknowledge the server's response, completing the TCP handshake and establishing a reliable connection.</li>
                 </ol>
             </p>
             
@@ -375,15 +355,15 @@
                 </div>
                 <br>
                 <ol>
-                    <li><strong><em>ClientHello:</em></strong> The client initiates the handshake by sending its supported SSL/TLS version, cipher suites, and other parameters.</li>
-                    <li><strong><em>ServerHello:</em></strong> The server responds with its chosen SSL/TLS version, cipher suite, and other parameters.</li>
-                    <li><strong><em>Certificate (Optional):</em></strong> The server sends its digital certificate for authentication.</li>
-                    <li><strong><em>ServerKeyExchange (Optional):</em></strong> The server sends necessary data for key exchange (e.g., parameters for Diffie-Hellman).</li>
-                    <li><strong><em>CertificateRequest (Optional):</em></strong> The server requests the client's certificate for mutual authentication.</li>
-                    <li><strong><em>ServerHelloDone:</em></strong> The server signals that it has completed its part of the handshake.</li>
-                    <li><strong><em>ClientKeyExchange:</em></strong> The client sends data for key exchange.</li>
-                    <li><strong><em>ChangeCipherSpec:</em></strong> Both client and server signal readiness to begin encrypted communication.</li>
-                    <li><strong><em>Finished:</em></strong> Both parties verify the integrity of the handshake and establish secure communication.</li>
+                    <li><span class="bold-italic">ClientHello:</span> The client initiates the handshake by sending its supported SSL/TLS version, cipher suites, and other parameters.</li>
+                    <li><span class="bold-italic">ServerHello:</span> The server responds with its chosen SSL/TLS version, cipher suite, and other parameters.</li>
+                    <li><span class="bold-italic">Certificate (Optional):</span> The server sends its digital certificate for authentication.</li>
+                    <li><span class="bold-italic">ServerKeyExchange (Optional):</span> The server sends necessary data for key exchange (e.g., parameters for Diffie-Hellman).</li>
+                    <li><span class="bold-italic">CertificateRequest (Optional):</span> The server requests the client's certificate for mutual authentication.</li>
+                    <li><span class="bold-italic">ServerHelloDone:</span> The server signals that it has completed its part of the handshake.</li>
+                    <li><span class="bold-italic">ClientKeyExchange:</span> The client sends data for key exchange.</li>
+                    <li><span class="bold-italic">ChangeCipherSpec:</span> Both client and server signal readiness to begin encrypted communication.</li>
+                    <li><span class="bold-italic">Finished:</span> Both parties verify the integrity of the handshake and establish secure communication.</li>
                 </ol>
                 This sequence establishes a secure SSL/TLS connection between the client and server, allowing encrypted data transmission.</p>
             </p>
@@ -396,11 +376,11 @@
                 </div>
                 <br>
                 <ol>
-                    <li><strong><em>HTTPS Request:</em></strong> The client sends an encrypted HTTP request to the server, specifying what resource it wants.</li>
-                    <li><strong><em>Server Processing:</em></strong> The server decrypts the request, processes it (e.g., fetches a webpage, handles form data), and prepares a response.</li>
-                    <li><strong><em>HTTPS Response:</em></strong> The server sends an encrypted HTTP response back to the client, containing the requested resource or indicating an error.</li>
-                    <li><strong><em>Secure Transmission:</em></strong> All communication (requests and responses) is encrypted, ensuring data confidentiality and integrity.</li>
-                    <li><strong><em>Connection Maintenance:</em></strong> The TCP and SSL/TLS connections remain open for efficient subsequent requests, reducing overhead.</li>
+                    <li><span class="bold-italic">HTTPS Request:</span> The client sends an encrypted HTTP request to the server, specifying what resource it wants.</li>
+                    <li><span class="bold-italic">Server Processing:</span> The server decrypts the request, processes it (e.g., fetches a webpage, handles form data), and prepares a response.</li>
+                    <li><span class="bold-italic">HTTPS Response:</span> The server sends an encrypted HTTP response back to the client, containing the requested resource or indicating an error.</li>
+                    <li><span class="bold-italic">Secure Transmission:</span> All communication (requests and responses) is encrypted, ensuring data confidentiality and integrity.</li>
+                    <li><span class="bold-italic">Connection Maintenance:</span> The TCP and SSL/TLS connections remain open for efficient subsequent requests, reducing overhead.</li>
                 </ol>
             </p>
             
@@ -478,18 +458,18 @@
             </div>
             <br>
             <ol>
-                <li><strong><em>Establish HTTPS Connection:</em></strong> Client initiates a standard HTTPS connection to the server.</li>
-                <li><strong><em>Upgrade Request (WebSocket):</em></strong> Client sends an HTTP request to upgrade the connection to WebSocket.</li>
-                <li><strong><em>Upgrade Response (WebSocket):</em></strong> Server responds to the upgrade request confirming the switch to WebSocket protocol.</li>
-                <li><strong><em>Bi-directional WebSocket Communication Established:</em></strong> Both client and server can now communicate bi-directionally in real-time using WebSocket.</li>
+                <li><span class="bold-italic">Establish HTTPS Connection:</span> Client initiates a standard HTTPS connection to the server.</li>
+                <li><span class="bold-italic">Upgrade Request (WebSocket):</span> Client sends an HTTP request to upgrade the connection to WebSocket.</li>
+                <li><span class="bold-italic">Upgrade Response (WebSocket):</span> Server responds to the upgrade request confirming the switch to WebSocket protocol.</li>
+                <li><span class="bold-italic">Bi-directional WebSocket Communication Established:</span> Both client and server can now communicate bi-directionally in real-time using WebSocket.</li>
             </ol>
             </p>
             <hr>
             <br>
             <section id="6">
             <h2>6. Deep Dive [10-12 mins]</h2>
-            Let's dive into crafting the blueprint for the WhatsApp system!
-            <br><br>
+            <p>Let's carefully plan out WhatsApp's system architecture to ensure we build features that meet all our needs. Going step by step helps us avoid mistakes and ensures the system is reliable and can grow smoothly over time.</p>
+            <br>
             
             <h3>1. Users</h3>
             <p>Users are the end-users of the chat application, using smartphones to send messages, share media, and get notifications. Their active participation and interaction are crucial to the app's success.
@@ -581,10 +561,10 @@
             <h3>12. CDN (Content Delivery Network)</h3>
             <p>The CDN optimizes media content distribution by storing and delivering images, videos, and other media files from geographically distributed servers closer to users. This geographical proximity reduces latency and accelerates content delivery, enhancing user experience by ensuring fast and reliable access to multimedia content across devices.<br>
 
-            <p><strong><em>I. Push CDN</em></strong><br>
+            <p><span class="bold-italic">I. Push CDN</span><br>
             Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
             
-            <p><strong><em>II. Pull CDN</em></strong><br>
+            <p><span class="bold-italic">II. Pull CDN</span><br>
             Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
             <br>
             <div style="display: flex; justify-content: center;">
@@ -602,10 +582,11 @@
             </div>
             <br>
             <hr>
+
             <section id="7">
             <h2>7. Data Flow [5-8 mins]</h2>
             <div class="note">
-                <p>Don't forget to explain the end to end flow of your design!.</p>
+                <p>It's important to describe how data moves through the entire system, ensuring everyone understands clearly. According to our estimates and discussions, the system's non-functional requirements focus on handling high numbers of users efficiently, implementing strong data security, and expanding the infrastructure quickly as needed.</p>
             </div>
             <br>
 
@@ -637,6 +618,11 @@
                 <li>Request is sent through the API Gateway to the User Service.</li>
                 <li>User Service updates the User Database with the new last seen timestamp (/POST updateLastSeen).</li>
             </ul>
+
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
+            <br>
 
             <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
 

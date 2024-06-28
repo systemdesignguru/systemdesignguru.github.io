@@ -23,7 +23,8 @@
                 <li><a href="#3">Design Goals</a></li>
                 <li><a href="#4">High-Level Design</a></li>
                 <li><a href="#5">Deep Dive</a></li>
-                <li><a href="#6">Data Flow</a></li>
+                <li><a href="#6">Further Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
             </ul>
         </nav>
     </div>
@@ -43,16 +44,19 @@
             </div>
             <br>
 
-            <p>
-                <strong><em>Interviewer:</em></strong>: Design URL shortner application such as TinyURL. To start off, can you provide an overview of how TinyURL handles user-generated content?<br>
-                <strong><em>You</em></strong>: TinyURL provides a simple yet robust service that allows users to generate shorter versions of long URLs. The process involves several key steps, each designed to ensure efficiency, reliability, and user satisfaction.
-            </p>
+            <p><span class="bold-italic">Interviewer:</span> Design URL shortner application such as TinyURL.<br></p>
+
+            <div class="definition">
+                <span class="bold-italic">TinyURL provides a simple yet robust service that allows users to generate shorter versions of long URLs. The process involves several key steps, each designed to ensure efficiency, reliability, and user satisfaction.</span>
+            </div>
+
             <section id="1">
             <h2>1. Feature Expectations [5 mins]</h2>
-            <p style="margin: 0;">
-                <strong><em>Interviewer:</em></strong>: What are the primary and secondary functionalities of TinyURL?<br>
-                <strong><em>You</em></strong>: The primary functionality of TinyURL is to convert long URLs into shorter, more manageable URLs. This helps in easily sharing links, especially on platforms with character limits.<br>
-                <br><h4>Primary Functional Requirements</h4>
+            <p>
+                <span class="bold-italic">You:</span> Before we start, could you clarify the expected scale of users and usage patterns? Understanding this will guide us in determining capacity and performance requirements.<br><br>
+                <span class="bold-italic">Interviewer:</span>We anticipate millions of daily URL shortening requests with scalability for future growth. Security is crucial to prevent misuse and ensure privacy.<br><br>
+                <span class="bold-italic">You:</span> Thanks for clarifying. I'll now outline the TinyURL system design, starting with the functional requirements<br>
+                <h4>Primary Functional Requirements</h4>
                 <ol>
                     <li>URL Shortening</li>
                     <li>URL Redirecting</li>
@@ -66,7 +70,7 @@
 
             <p>TinyURL is for anyone needing to share or manage URLs effectively and developers who require API access for integrating URL shortening into applications.</p>
 
-            <p>To keep the discussion focused and manageable, I will not cover features like URL Content Validation, Advanced Security Features, Comprehensive User Management, Bulk URL Shortening, as these can be considered secondary and would require additional time to discuss comprehensively.</p>
+            <p>To keep the discussion focused and manageable, I will not cover features such as URL Content Validation, Advanced Security Features, Comprehensive User Management, or Bulk URL Shortening, as these could be considered secondary and would require additional time to discuss comprehensively. If time permits, we can discuss Custom Short URLs and Expiration Dates later.</p>
 
             <div class="note">
                 <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
@@ -77,6 +81,8 @@
 
             <section id="2">
             <h2>2. Estimations [5 mins]</h2>
+            <p>Estimating the design for TinyURL involves assessing the scale of expected user traffic and storage requirements, while also considering the complexity of implementing features like custom short URLs and expiration dates. Detailed estimation should factor in database capacity, server resources, and potential growth scenarios to ensure robust performance and scalability.
+            </p>
             <ul>
                 <li>Assume the service needs to handle <strong>100 million URLs per day</strong>.</li>
                 <li>Given the rate of 100 million URLs per day / 24 hours / 3600 seconds ≈ <strong>1157 writes per second</strong>.</li>
@@ -94,7 +100,7 @@
 
             <section id="3">
             <h2>3. Design Goals [5 mins]</h2>
-            To handle this estimations, we require the following Non Functional Requirements
+            <p>To manage these estimations effectively, the design goals for TinyURL emphasize robust and reliable URL shortening with a focus on simplicity and user-friendliness. The system aims to generate short URLs efficiently for reliable redirection, ensuring scalability to handle high volumes of requests while maintaining responsiveness.</p>
             <ol>
                 <li>High Availability</li>
                 <li>Scalability</li>
@@ -111,11 +117,12 @@
 
             <section id="4">
             <h2>4. High-Level Design [5-8 mins]</h2>
-            <p>Let's design a high-level system architecture for a platform similar to Pastebin, focusing on APIs for read/write scenarios, database schema, core algorithms, and overall architecture for handling operations.</p>
+            <p>The high-level design for a URL shortening platform akin to TinyURL includes a scalable microservices architecture utilizing APIs for both read and write operations. The system will employ a NoSQL database schema optimized for fast data retrieval and storage, supported by efficient URL shortening algorithms to ensure rapid generation and redirection of shortened URLs.</p>
 
             <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>For TinyURL, APIs for read/write scenarios would include endpoints for creating new shortened URLs, retrieving original URLs from shortened versions, and managing expiration dates or custom short URLs. These APIs ensure seamless integration with client applications while maintaining data integrity and accessibility.</p>
             <!-- Get Tweet -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Get TinyURL</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get TinyURL</span></p>
             <div class="table-container9">
                 <table>
                     <thead>
@@ -135,7 +142,7 @@
                 </table>
             </div>
 
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Create TinyURL</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Create TinyURL</span></p>
             <div class="table-container">
                 <table>
                     <thead>
@@ -157,58 +164,54 @@
 
             <br>
             <h3>II. Database Schema</h3>
+            <p>While SQL databases offer advantages such as robust ACID transactions, complex query capabilities, and structured data models, these features are not critical for a URL shortening service like TinyURL. So, we chose a NoSQL database because it provides high scalability, flexibility, and performance, essential for handling the large volumes of URL shortening requests with low latency. NoSQL databases can efficiently manage vast amounts of unstructured data and scale horizontally by adding more nodes, ensuring the service remains responsive even under high load. Additionally, the schema-less nature of NoSQL databases allows for easy modifications and rapid development, accommodating evolving requirements without costly schema migrations.</p>
+            <!-- Table: Users -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div>
+
+            <!-- Table: Keys -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Keys Table</span></p>
+            <div class="table-container4">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hash_key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div>
 
             <!-- Table: URLs -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>URLs Table</em></strong></p>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>url_key</code> (VARCHAR, PK)<br>
-                                <code>long_url</code> (TEXT)<br>
-                                <code>user_id</code> (INT, FK to Users)<br>
-                                <code>expiration_date</code> (DATE)<br>
-                                <code>created_at</code> (TIMESTAMP)<br>
-                                <code>updated_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores shortened URL mappings and associated metadata.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">URLs Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"url_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"long_url": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"expiration": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
-
-            <!-- Table: Users -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_id</code> (INT, PK)<br>
-                                <code>username</code> (VARCHAR)<br>
-                                <code>email</code> (VARCHAR)<br>
-                                <code>password_hash</code> (VARCHAR)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores user information for authentication and authorization.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
 
             <div class="note">
                 <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
@@ -219,12 +222,11 @@
 
             <section id="5">
             <h2>5. Deep Dive [10-12 mins]</h2>
-            Let's begin the design process for the TinyURL system now!
-            <br>
+            <p>Let's begin the design process for the TinyURL system by outlining the core components and their interactions. We will focus on developing a scalable architecture, defining APIs for read/write operations, designing an appropriate database schema, and implementing efficient algorithms for URL shortening and redirection.</p>
             <br>
             
             <h3>1. Users</h3>
-            <p>Users interact with the paste-bin service by creating new pastes or retrieving existing ones via URLs. This simple interface belies the complex system behind it, designed to handle potentially millions of interactions efficiently and securely.
+            <p>Users send requests to create or retrieve short URLs via the Load Balancer, which distributes them across multiple App Servers.
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/common/users-image1.png" alt="User Image" width="100">
             </div>
@@ -242,11 +244,10 @@
             <p>It acts as a single point of entry for all API calls, consolidating various microservices or backend services behind a unified API interface. It performs tasks such as request routing, protocol translation, authentication, authorization, and traffic management (like rate limiting).<br></p>
             Key functionalities include:
             <ul>
-                <li><b><em>/POST Paste</em></b>: Directs the request to post a new paste.</li>
-                <li><b><em>/GET Paste</em></b>: Routes the request to retrieve pastes for the user.</li>
-                <li><b><em>/PUT Paste</em></b>: Updates an existing paste.</li>
-                <li><b><em>/DELETE Paste</em></b>: Deletes a specified paste.</li>
-            </ul>            
+                <li><b><em>/POST createURL</em></b>: Handles requests to shorten a new URL.</li>
+                <li><b><em>/GET visitURL</em></b>: Routes requests to retrieve the original long URL from a short URL.</li>
+            </ul>
+                    
             The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/common/api-gateway-image1.png" alt="" width="600"></p>
@@ -268,16 +269,16 @@
             <br>
 
             <h3>6. Key Generation Service</h3>
-            <p>The Key Generation Service creates unique identifiers for each paste, ensuring that every piece of content has a distinct, easily shareable URL. This service might employ various techniques like hashing or UUID generation to create these identifiers efficiently and collision-free. The service operates as follows:
+            <p>Key Generation Service is crucial for generating unique short URLs efficiently, ensuring minimal collisions and optimal use of resources. It assigns and manages short keys (URL aliases) that map to original long URLs, facilitating quick redirection without exposing the full URL to users. The service operates as follows:
             <ol>
                 <li>
-                    <strong><em>Key Generation</em></strong>:
+                    <span class="bold-italic">Key Generation</span>:
                     <ul>
                         <li>The service generates a unique identifier (key) for each new URL. This identifier can be created using methods such as hashing or UUID generation to ensure uniqueness and avoid collisions.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong><em>Key Verification and Assignment</em></strong>:
+                    <span class="bold-italic">Key Verification and Assignment</span>:
                     <ul>
                         <li>Once a key is generated, the service checks if the key is already present.</li>
                         <li>If the key is not present, it is assigned to the long URL, creating a new shortened URL.</li>
@@ -293,7 +294,7 @@
             <br>
 
             <h3>7. Key Database</h3>
-            <p>The Key Database maintains crucial metadata about each paste, including custom URLs, content locations, and expiration dates. This separation of concerns allows for quick lookups and efficient management of paste lifecycle without needing to access the full content.<br>
+            <p>Key Database is a specialized system for securely storing and managing cryptographic keys, ensuring controlled access and auditability for encryption, authentication, and other secure operations.<br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/tinyurl/key-database-image1.png" alt="" width="800"><br></p>
             </div>
@@ -309,22 +310,90 @@
             <h3>9. Cleanup Service</h3>
             <p>Clean Up Service plays a vital role in system maintenance, periodically scanning for and removing expired URLs. This helps manage storage space, maintain system performance, and ensure that temporary or time-sensitive content is appropriately handled.<br>
             
-            <h3 style="text-align: center;">High level architecture of Pastebin</h3>
-
+            <h3 style="text-align: center;">High level architecture of TinyURL</h3>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/tinyurl/tinyurl-architecture.png" alt="" width="1000"></p>
             </div>
             <br>
             <hr>
-            <br>
 
             <section id="6">
-            <h2>6. Data Flow [5-8 mins]</h2>
-            <div class="note">
-                <p>Don't forget to explain the end to end flow of your design!.</p>
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>Caching</h3>
+            <p>
+                Caching is really important for a URL shortening service like TinyURL. It helps make the service faster by keeping popular short URLs ready to go in memory, so they load quickly. This takes pressure off the main servers, letting the service handle more users smoothly. Plus, caching makes sure the service stays reliable even when lots of people are using it or if there are temporary internet problems. Overall, caching makes TinyURL faster, more efficient, and more dependable for everyone who uses it.
+                <br><br>
+                Cache systems like Redis, Memcached, AWS ElastiCache, Microsoft Azure Cache for Redis, and Google Cloud Memorystore store data using key-value pairs efficiently. They vary in features and integrations, catering to diverse caching needs from high-performance in-memory caching to managed cloud services that ensure scalability and reliability.
+            </p>
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
+
+            <h3>1. User Cache</h3>
+            <p>
+                This cache stores user-related data such as user profiles, preferences, and access tokens. It helps in quickly validating user credentials, managing session states, and personalizing user experiences. By caching user data, the system reduces the overhead of frequent database queries, improving authentication speed and overall responsiveness.
+            </p>
+            
+            <h4>Example User Cache</h4>
+            <div class="table-container6">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "user:1234",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "1234",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "testuser",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "user@example.com",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+
+            <h3>2. URL Cache</h3>
+            <p>
+                URL Cache stores mappings of short URLs to their corresponding long URLs. This cache optimizes the retrieval of long URLs for redirection purposes, minimizing the need to query the main database. It accelerates the process of resolving short URLs to their original destinations, enhancing the performance and reliability of the URL redirection service.
+            </p>
+            
+            <h4>Example URL Cache</h4>
+            <div class="table-container6">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "abcd1234"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "url:https://www.example.com/some-long-url",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
             </div>
             <br>
+            <h3 style="text-align: center;">High level architecture of TinyURL after optimizations</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tinyurl/tinyurl-architecture-optimized.png" alt="" width="1000"></p>
+            </div>
 
+            <hr>
+            <br>
+
+            <section id="7">
+            <h2>7. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                Explaining the data flow at the end of a system design interview is crucial as it provides a comprehensive understanding of how data moves through the system, highlighting the interactions between different components. It ensures clarity on the system's behavior under various scenarios, demonstrating the candidate's ability to design efficient and coherent architectures.
+            </div>
+            <br>
+            
             <h3>URL Shortening:</h3>
             <ol>
                 <li>User submits a long URL for shortening.</li>
@@ -343,21 +412,10 @@
                 <li>User is redirected to the original long URL.</li>
             </ol>          
             <br>
-            
-            <h3>Key Generation:</h3>
-            <ol>
-                <li>Long URL is hashed or uniquely generated to create a key.</li>
-                <li>Mechanisms handle cases where generated key already exists.</li>
-            </ol>          
-            <br>
 
-            <h3>Maintenance:</h3>
-            <ol>
-                <li>Regular maintenance ensures efficient data storage and retrieval.</li>
-                <li>Policies manage the lifecycle of shortened URLs.</li>
-                <li>Continuous improvement for key operations.</li>
-                <li>Measures to protect against unauthorized access or attacks.</li>
-            </ol>          
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
             <br>
 
             <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>

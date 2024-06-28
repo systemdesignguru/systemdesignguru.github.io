@@ -10,51 +10,64 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#security" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#security" class="title">Back</a></li>
+                <li><a href="#1">Authorization</a></li>
+                <li><a href="#2">Importance of Authorization</a></li>
+                <li><a href="#3">How Authorization Works</a></li>
+                <li><a href="#4">Common Authorization Methods</a></li>
+                <li><a href="#5">Best Practices for Authorization</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Authorization</h1>
             <!-- Start Content -->
             <article>
                 <p>Authorization is the process of determining what an authenticated user is allowed to do in a system. It controls what users can access and what actions they can perform, ensuring that sensitive data remains secure and only authorized actions are permitted.</p>
 
-                <h3>Importance of Authorization</h3>
+                <section id="2">
+                <h2>Importance of Authorization</h2>
                 <p>Authorization is crucial for maintaining security and protecting sensitive data. It ensures that users can only access information and perform actions that they are permitted to, based on predefined policies.</p>
 
-                <h3>How Authorization Works</h3>
+                <section id="3">
+                <h2>How Authorization Works</h2>
                 <ol>
-                    <li><strong>User Authentication:</strong> First, the user is authenticated to verify their identity.</li>
-                    <li><strong>Access Control Policies:</strong> The system checks its policies to determine what the authenticated user is allowed to do.</li>
-                    <li><strong>Grant or Deny Access:</strong> Based on these policies, the system either allows or blocks the user's request.</li>
+                    <li><span class="bold-italic">User Authentication:</span> First, the user is authenticated to verify their identity.</li>
+                    <li><span class="bold-italic">Access Control Policies:</span> The system checks its policies to determine what the authenticated user is allowed to do.</li>
+                    <li><span class="bold-italic">Grant or Deny Access:</span> Based on these policies, the system either allows or blocks the user's request.</li>
                 </ol>
-
-                <h3>Common Authorization Methods</h3>
+                <br>
+                
+                <section id="4">
+                <h2>Common Authorization Methods</h2>
                 <ul>
-                    <li><strong>Role-Based Access Control (RBAC):</strong> Users are assigned roles with specific permissions. For example, an Admin can access everything, while a Regular User has limited access.</li>
-                    <li><strong>Attribute-Based Access Control (ABAC):</strong> Decisions are based on various attributes like user role, department, and time. For instance, a user from the HR department can access employee records only during work hours.</li>
-                    <li><strong>Access Control Lists (ACLs):</strong> Lists define which users can access an object and what they can do with it. For example, User A can read and write a file, while User B can only read it.</li>
-                    <li><strong>OAuth (Open Authorization):</strong> Allows users to give third-party apps limited access to their resources without sharing passwords. For example, it lets a fitness app access your calendar to schedule workouts.</li>
+                    <li><span class="bold-italic">Role-Based Access Control (RBAC):</span> Users are assigned roles with specific permissions. For example, an Admin can access everything, while a Regular User has limited access.</li>
+                    <li><span class="bold-italic">Attribute-Based Access Control (ABAC):</span> Decisions are based on various attributes like user role, department, and time. For instance, a user from the HR department can access employee records only during work hours.</li>
+                    <li><span class="bold-italic">Access Control Lists (ACLs):</span> Lists define which users can access an object and what they can do with it. For example, User A can read and write a file, while User B can only read it.</li>
+                    <li><span class="bold-italic">OAuth (Open Authorization):</span> Allows users to give third-party apps limited access to their resources without sharing passwords. For example, it lets a fitness app access your calendar to schedule workouts.</li>
                 </ul>
 
-                <h3>Best Practices for Authorization</h3>
+                <section id="5">
+                <h2>Best Practices for Authorization</h2>
                 <ul>
-                    <li><strong>Principle of Least Privilege:</strong> Users should have minimal access needed to perform their job.</li>
-                    <li><strong>Separation of Duties:</strong> Tasks should be divided among users to prevent any one user from having too much control.</li>
-                    <li><strong>Regular Reviews:</strong> Periodically review and update access permissions.</li>
-                    <li><strong>Strong Access Control Policies:</strong> Create clear policies and enforce them consistently.</li>
-                    <li><strong>Monitor Access:</strong> Keep track of who accesses what and look for any unusual activity.</li>
+                    <li><span class="bold-italic">Principle of Least Privilege:</span> Users should have minimal access needed to perform their job.</li>
+                    <li><span class="bold-italic">Separation of Duties:</span> Tasks should be divided among users to prevent any one user from having too much control.</li>
+                    <li><span class="bold-italic">Regular Reviews:</span> Periodically review and update access permissions.</li>
+                    <li><span class="bold-italic">Strong Access Control Policies:</span> Create clear policies and enforce them consistently.</li>
+                    <li><span class="bold-italic">Monitor Access:</span> Keep track of who accesses what and look for any unusual activity.</li>
                 </ul>
 
                 <div class="note">

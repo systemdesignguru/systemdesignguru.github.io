@@ -10,42 +10,70 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#basic" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#basic" class="title">Back</a></li>
+                <li><a href="#1">Reliability</a></li>
+                <li><a href="#2">Components of Reliability</a></li>
+                <li><a href="#3">Measuring Reliability</a></li>
+                <li><a href="#4">Strategies for Improving Reliability</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Reliability</h1>
             <!-- Start Content -->
             <p>Reliability is a crucial aspect of system design that focuses on ensuring consistent and predictable performance under varying conditions. It encompasses the ability of a system to operate continuously without failure, meet performance expectations, and recover swiftly from faults or errors.</p>
-            <img src="images/basic/reliability-image1.png" alt="" width="900"></p>
-
+            
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/reliability-image1.png" alt="" width="900"></p>
+            </div>
+            <br>
+            
+            <section id="2">
             <h2>Components of Reliability</h2>
             <ul>
                 <li><strong>Fault Tolerance:</strong> The system's ability to continue operating despite hardware or software failures.</li>
-                <img src="images/basic/fault-tolerance-image1.png" alt="" width="500"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/fault-tolerance-image1.png" alt="" width="500"></p>
+                </div>
+                <br>
 
                 <li><strong>Availability:</strong> Ensuring that the system is accessible and operational when needed, usually expressed as a percentage of uptime.</li>
-                <img src="images/basic/high-availability-image1.png" alt="" width="700"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/high-availability-image1.png" alt="" width="700"></p>
+                </div>
+                <br>
 
                 <li><strong>Resilience:</strong> The system's capacity to recover quickly and gracefully from disruptions or failures.</li>
-                <img src="images/basic/resilience-image1.png" alt="" width="900"></p>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/resilience-image1.png" alt="" width="900"></p>
+                </div>
+                <br>
 
                 <li><strong>Scalability:</strong> The ability to handle increasing loads or user demands without sacrificing performance.</li>
-                <img src="images/basic/scalability-image1.png" alt="" width="500"></p>
-
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <img src="images/basic/scalability-image1.png" alt="" width="500"></p>
+                </div>
+                <br>
             </ul>
 
+            <section id="3">
             <h2>Measuring Reliability</h2>
             <ul>
                 <li><strong>Mean Time Between Failures (MTBF):</strong> Average time elapsed between system failures.</li>
@@ -53,8 +81,8 @@
                 <li><strong>Service Level Agreement (SLA):</strong> Contractual commitment regarding system availability and reliability.</li>
             </ul>
 
+            <section id="4">
             <h2>Strategies for Improving Reliability</h2>
-
             <ul>
                 <li><strong>Redundancy:</strong> Implementing duplicate components or systems to ensure continuous operation.</li>
                 <li><strong>Fault Isolation:</strong> Designing systems to contain faults and prevent them from affecting other components.</li>

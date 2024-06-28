@@ -10,57 +10,67 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#storage-systems" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#storage-systems" class="title">Back</a></li>
+                <li><a href="#1">Indexing</a></li>
+                <li><a href="#2">Types of Indexes</a></li>
+                <li><a href="#3">How Indexing Works</a></li>
+                <li><a href="#4">Benefits of Indexing</a></li>
+                <li><a href="#5">Challenges of Indexing</a></li>
+                <li><a href="#6">Best Practices for Implementing Indexing</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
+    
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Indexing</h1>
             <!-- Start Content -->
             <p>In system design, indexing plays a crucial role in optimizing database performance by enabling faster data retrieval operations. It involves creating data structures (indexes) that allow the database system to efficiently locate and access rows in a table based on certain columns.</p>
 
-            <h3>What is Indexing?</h3>
-            <p>Indexing is a technique used to improve the speed of data retrieval operations on a database table at the cost of additional storage space and processing time during data modification. By creating indexes on columns frequently used in search conditions (e.g., WHERE clauses), the database can quickly locate the rows matching those conditions without scanning the entire table.</p>
-
-            <h3>Key Concepts</h3>
-
-            <h4>Types of Indexes:</h4>
+            <section id="2">
+            <h2>Types of Indexes</h2>
             <ul>
                 <li><strong>Primary Index</strong>: Automatically created on the primary key column(s) of a table. It uniquely identifies each row in the table and enforces data integrity.</li>
                 <li><strong>Secondary Index</strong>: Created on columns other than the primary key to optimize query performance based on frequently searched columns.</li>
                 <li><strong>Composite Index</strong>: Index created on multiple columns to optimize queries involving multiple conditions.</li>
             </ul>
 
-            <h4>How Indexing Works:</h4>
+            <section id="3">
+            <h2>How Indexing Works</h2>
             <ul>
                 <li><strong>Data Structures</strong>: Indexes are typically implemented as B-trees or hash tables, depending on the database system.</li>
                 <li><strong>Maintenance</strong>: Indexes need to be maintained whenever data in the table is inserted, updated, or deleted to ensure consistency and optimal query performance.</li>
             </ul>
 
-            <h3>Benefits of Indexing</h3>
+            <section id="4">
+            <h2>Benefits of Indexing</h2>
             <ul>
                 <li><strong>Improved Query Performance</strong>: Speeds up data retrieval operations, especially for large datasets.</li>
                 <li><strong>Faster Sorting</strong>: Helps in sorting operations when the indexed column(s) are involved.</li>
                 <li><strong>Enhanced Data Integrity</strong>: Primary indexes enforce unique constraints, preventing duplicate entries.</li>
             </ul>
 
-            <h3>Challenges of Indexing</h3>
+            <section id="5">
+            <h2>Challenges of Indexing</h2>
             <ul>
                 <li><strong>Increased Storage</strong>: Indexes consume additional storage space, impacting overall database size.</li>
                 <li><strong>Overhead in Updates</strong>: Inserting, updating, or deleting rows requires updating corresponding indexes, which can impact performance.</li>
             </ul>
 
-            <h3>Best Practices for Implementing Indexing</h3>
+            <section id="6">
+            <h2>Best Practices for Implementing Indexing</h2>
             <ul>
                 <li><strong>Identify Query Patterns</strong>: Analyze frequently executed queries and create indexes on columns used in WHERE, JOIN, and ORDER BY clauses.</li>
                 <li><strong>Monitor Index Usage</strong>: Regularly review index usage and performance metrics to optimize indexing strategy.</li>

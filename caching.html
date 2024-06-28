@@ -10,28 +10,37 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#scalability-performance" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#scalability-performance" class="title">Back</a></li>
+                <li><a href="#1">Caching</a></li>
+                <li><a href="#2">Types of Caching</a></li>
+                <li><a href="#3">Caching Strategies</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Caching</h1>
             <!-- Start Content -->
             <p>Caching is a fundamental technique used in computing to enhance performance by storing frequently accessed data temporarily, thereby reducing access times to slower storage systems. It functions like a handy cheat sheet that retrieves information quickly without the need for extensive searching.<br>
-            <img src="images/basic/caching-image1.png" alt="" width="1000"></p>
-
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/caching-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+            
+            <section id="2">
             <h2>Types of Caching</h2>
-
             <h4>1. Browser Cache</h4>
             <p>Browser caching involves storing elements of a website (like HTML pages, images, scripts, and stylesheets) locally on a user's device. This allows subsequent visits to the same website to load faster as the browser retrieves content from its cache rather than the server.<br>
             <strong>Benefits:</strong> Faster page loads, reduced server load, and improved user experience by minimizing resource downloads.</p>
@@ -54,7 +63,8 @@
             <img src="images/basic/caching-image2.png" alt="">
             </p>
             
-            <h2>Advanced Caching Strategies</h2>
+            <section id="3">
+            <h2>Caching Strategies</h2>
             <h4>1. Write-Through Cache</h4>
             <p>Data is immediately written to both the cache and main storage upon a write operation, ensuring data consistency and improving read performance.<br>
             <img src="images/basic/cache-write-through-image1.png" alt="" width="400">

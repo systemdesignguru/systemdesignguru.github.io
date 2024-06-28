@@ -44,14 +44,22 @@
             <br>
 
             <p>
-                <strong><em>Interviewer:</em></strong>: Design Paste application like Pastebin. To start off, can you provide an overview of how Pastebin handles user-generated content?<br>
-                <strong><em>You</em></strong>: Pastebin is a platform where users can store and share snippets of text. When a user submits content, it's stored in the database along with metadata such as expiration time, visibility settings, and access controls.
+                <span class="bold-italic">Interviewer:</span> Can you design a pastebin-like application for us?<br>
             </p>
+            <div class="definition">
+                <span class="bold-italic">Pastebin is a platform where users can store and share snippets of text. When a user submits content, it's stored in the database along with metadata such as expiration time, visibility settings, and access controls.</span>
+            </div>
+            <br>
+
             <section id="1">
             <h2>1. Feature Expectations [5 mins]</h2>
             <p style="margin: 0;">
-                <strong><em>Interviewer:</em></strong>: Can you describe how users interact with the platform and what features it offers?<br>
-                <strong><em>You</em></strong>: Certainly. For this system design discussion, understanding the functional requirements of Pastebin is crucial for designing its system.ß<br>
+                <span class="bold-italic">You:</span> Could you outline our main use cases and key requirements?<br><br>
+                <span class="bold-italic">Interviewer:</span> We need users to securely store and share text snippets. How do you propose handling them?<br><br>
+                <span class="bold-italic">You:</span> To keep text snippets secure, we'll use strong user authentication, encrypt data both while it's moving and when it's stored, control who can access each snippet, keep detailed logs of access, and use secure methods for sharing snippets through the app. These steps make sure user data is safe from unauthorized access and keeps the sharing of snippets controlled and managed.<br><br>
+                <span class="bold-italic">You:</span> Should pastes have unique URLs, and how long should they remain accessible?<br><br>
+                <span class="bold-italic">Interviewer:</span> Unique URLs and customizable visibility are crucial. <br><br>
+                <span class="bold-italic">You:</span> Thank you for clarifying the requirements. Based on our discussion, here are the identified functional requirements:<br>
                 <br><h4>Functional Requirements</h4>
                 <ol>
                     <li>Paste Creation</li>
@@ -72,6 +80,7 @@
 
             <section id="2">
             <h2>2. Estimations [5 mins]</h2>
+            <p>Estimations for designing a pastebin-like application involve projecting user base growth, estimating data storage needs, and predicting system load based on anticipated user activity. These estimates guide infrastructure planning and ensure the application can handle current and future demands effectively.</p>
             <ul>
                 <li>Assuming <strong>1 million</strong> active users per day</li>
                 <li>Average of <strong>2 pastes</strong> per user per day</li>
@@ -89,7 +98,9 @@
 
             <section id="3">
             <h2>3. Design Goals [5 mins]</h2>
-            To handle this estimations, we require the following Non Functional Requirements
+            To meet these estimations, designing the pastebin application requires focusing on non-functional requirements like scalability for handling more users, strong security to protect data, and efficient performance to manage large amounts of text smoothly. These goals ensure the application works reliably, securely, and quickly for users.
+            <br>
+            <br>
             <ol>
                 <li>Performance</li>
                 <li>Reliability</li>
@@ -110,8 +121,10 @@
             <p>Let's design a high-level system architecture for a platform similar to Pastebin, focusing on APIs for read/write scenarios, database schema, core algorithms, and overall architecture for handling operations.</p>
 
             <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Designing APIs is crucial in Pastebin's system design because they define how different parts of the system communicate. Clear and efficient APIs for reading and writing data ensure smooth interaction between the frontend and backend, facilitate easy data handling, support future scalability, and enhance code reusability and manageability.</p>
+
             <!-- Get Tweet -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Get Paste</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Paste</span></p>
             <div class="table-container9">
                 <table>
                     <thead>
@@ -131,7 +144,7 @@
                 </table>
             </div>
 
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Create Paste</em></strong></p>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Create Paste</span></p>
             <div class="table-container">
                 <table>
                     <thead>
@@ -153,55 +166,53 @@
 
             <br>
             <h3>II. Database Schema</h3>
+            <p>Establishing a well-structured database schema is essential for Pastebin as it defines how data is organized and accessed. A carefully designed schema ensures efficient storage and retrieval of text snippets, supports optimal query performance, and maintains data integrity across the application.</p>
 
             <!-- Table: Users -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Users Table</em></strong></p>
-            <div class="table-container5">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>user_id</code> (PK, UUID)<br>
-                                <code>username</code> (VARCHAR)<br>
-                                <code>email</code> (VARCHAR)<br>
-                                <code>password_hash</code> (VARCHAR)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores user information</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+            
+            <!-- Table: Keys -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Keys Table</span></p>
+            <div class="table-container4">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hash_key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
-
+            
             <!-- Table: Pastes -->
-            <p style="text-align: center; text-decoration: underline; margin: 0;"><strong><em>Pastes Table</em></strong></p>
-            <div class="table-container9">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Fields</td>
-                            <td>Description</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <code>paste_id</code> (PK, UUID)<br>
-                                <code>user_id</code> (FK to Users)<br>
-                                <code>content</code> (TEXT)<br>
-                                <code>visibility</code> (ENUM or VARCHAR)<br>
-                                <code>created_at</code> (TIMESTAMP)
-                            </td>
-                            <td>Stores paste information, including content and visibility settings.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Pastes Table</span></p>
+            <div class="table-container4">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"paste_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"visibility": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
             </div>
 
             <div class="note">
@@ -213,8 +224,7 @@
 
             <section id="5">
             <h2>5. Deep Dive [10-12 mins]</h2>
-            Let's begin the design process for the Pastebin system now!
-            <br>
+            <p>Let's carefully plan the system architecture for Pastebin to ensure it meets our requirements effectively. Taking a step-by-step approach helps us prevent errors and guarantees the system's reliability, supporting seamless growth and scalability over time.</p>
             <br>
             
             <h3>1. Users</h3>
@@ -312,7 +322,7 @@
             <section id="6">
             <h2>6. Data Flow [5-8 mins]</h2>
             <div class="note">
-                <p>Don't forget to explain the end to end flow of your design!.</p>
+                It's crucial to clearly explain how data flows through the entire Pastebin system. Our non-functional requirements focus on efficiently managing a large user base, ensuring robust data security, and rapidly scaling the infrastructure as necessary, as determined by our estimates and discussions.
             </div>
             <br>
 
@@ -336,6 +346,11 @@
             </ol>          
             <br>
             
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
+            <br>
+
             <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
 
             <br>

@@ -16,11 +16,10 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#basic" class="title">Basic Designs</a></li>
-                <li><a href="scalability.html">Scalability</a></li>
-                <li><a href="performance.html">Performance</a></li>
-                <li><a href="reliability.html">Reliability</a></li>
-                <li><a href="fault-tolerance.html">Fault Tolerance</a></li>
+                <li><a href="index.html#basic" class="title">Back</a></li>
+                <li><a href="#1">Availability</a></li>
+                <li><a href="#2">Factors Affecting Availability</a></li>
+                <li><a href="#3">Strategies for Achieving High Availability</a></li>
             </ul>
         </nav>
     </div>
@@ -31,15 +30,14 @@
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Availability</h1>
 
             <!-- Content -->
             <article>
-                <p><strong>Availability</strong> refers to how well a system or service stays operational and accessible to users over time. It's usually measured by uptime percentage, which shows its reliability.</p>
-
-                <h2>Availability in System Design</h2>
                 <p>In system design, availability ensures that a system keeps running and remains accessible. Achieving this involves redundancy, fault tolerance, and proactive monitoring. Redundancy means having backups of critical parts to prevent failures. Fault tolerance handles errors smoothly, keeping the system running without interruption. Techniques like load balancing and data replication help reduce downtime, which is crucial for services like online platforms and e-commerce.</p>
 
+                <section id="2">
                 <h2>Factors Affecting Availability</h2>
                 <ol>
                     <li>
@@ -48,7 +46,9 @@
                             <li>To avoid SPOFs, duplicate critical components and set up failover systems.</li>
                             <li>Examples include redundant servers, power supplies, and network paths.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/single-point-of-failure-image1.png" alt="" width="700">
+                        </div>
                     </li>
                     <br>
                     <li>
@@ -57,7 +57,9 @@
                             <li>Design systems to handle hardware or software failures gracefully.</li>
                             <li>Implement error handling, retry mechanisms, and fallback options.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/fault-tolerance-image1.png" alt="" width="700">
+                        </div>
                     </li>
                     <br>
                     <li>
@@ -66,11 +68,14 @@
                             <li>Ensure systems can maintain high uptime by using redundancy and fast recovery methods.</li>
                             <li>Use load balancing, data replication, and automated monitoring.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/high-availability-image1.png" alt="" width="800">
+                        </div>
                     </li>
                     <br>
                 </ol>
 
+                <section id="3">
                 <h2>Strategies for Achieving High Availability</h2>
                 <ol>
                     <li>
@@ -79,7 +84,9 @@
                             <li>Create duplicates of critical components like servers and databases to eliminate single points of failure.</li>
                             <li>Set up active-active or active-passive redundancy setups.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/redundancy-image1.png" alt="" width="800">
+                        </div>
                     </li>
                     <br>
                     <li>
@@ -87,7 +94,9 @@
                         <ul>
                             <li>Distribute incoming traffic across multiple servers to prevent overload and ensure continuous service.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/load-balancer-image1.png" alt="" width="800">
+                        </div>
                     </li>
                     <br>
                     <li>
@@ -96,7 +105,9 @@
                             <li>Use monitoring tools to quickly detect failures.</li>
                             <li>Implement automated recovery actions such as scaling resources, restarting services, or switching to backup systems.</li>
                         </ul>
+                        <div style="display: flex; justify-content: center;">
                         <img src="images/basic/fault-detection-and-recovery-image1.png" alt="" width="800">
+                        </div>
                     </li>
                     <br>
                 </ol>

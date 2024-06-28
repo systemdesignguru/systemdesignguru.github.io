@@ -10,38 +10,43 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#security" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#security" class="title">Back</a></li>
+                <li><a href="#1">Authentication</a></li>
+                <li><a href="#2">Types of Authentication</a></li>
+                <li><a href="#3">Best Practices for Implementing Authentication</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Authentication</h1>
             <!-- Start Content -->
-            <p>Authentication is the process of verifying the identity of a user. It's essential for security, ensuring that only authorized individuals can access a system.</p>
-            <p>Authentication works by having users provide credentials, such as a username and password, which are then checked against stored information in a database. If the credentials match, the user is granted access. If not, access is denied.</p>
-            
+            <p>Authentication is the process of verifying the identity of a user. It's essential for security, ensuring that only authorized individuals can access a system. Authentication works by having users provide credentials, such as a username and password, which are then checked against stored information in a database. If the credentials match, the user is granted access. If not, access is denied.</p>
+                
+            <section id="2">
             <h2>Types of Authentication</h2>
-            <p>There are several methods of authentication:</p>
             <ul>
-                <li><strong>Password-Based Authentication</strong>: Users log in using a username and password. This is the most common form of authentication.</li>
-                <li><strong>Two-Factor Authentication (2FA)</strong>: Provides an additional layer of security. After entering the password, users must also enter a code sent to their phone or email.</li>
-                <li><strong>Biometric Authentication</strong>: Uses physical traits such as fingerprints, facial recognition, or voice recognition. This method offers a high level of security.</li>
-                <li><strong>OAuth (Open Authorization)</strong>: Allows users to log in using their credentials from another service, like Google or Facebook. This is often used in web and mobile applications.</li>
-                <li><strong>Token-Based Authentication</strong>: After a successful login, the system issues a token (a small piece of data) to the user. The user includes this token in their requests to access protected resources. Tokens usually expire after a set time and can be renewed or revoked as needed.</li>
+                <li><span class="bold-italic">Password-Based Authentication</span>: Users log in using a username and password. This is the most common form of authentication.</li>
+                <li><span class="bold-italic">Two-Factor Authentication (2FA)</span>: Provides an additional layer of security. After entering the password, users must also enter a code sent to their phone or email.</li>
+                <li><span class="bold-italic">Biometric Authentication</span>: Uses physical traits such as fingerprints, facial recognition, or voice recognition. This method offers a high level of security.</li>
+                <li><span class="bold-italic">OAuth (Open Authorization)</span>: Allows users to log in using their credentials from another service, like Google or Facebook. This is often used in web and mobile applications.</li>
+                <li><span class="bold-italic">Token-Based Authentication</span>: After a successful login, the system issues a token (a small piece of data) to the user. The user includes this token in their requests to access protected resources. Tokens usually expire after a set time and can be renewed or revoked as needed.</li>
             </ul>
             
+            <section id="3">
             <h2>Best Practices for Implementing Authentication</h2>
-            <p>Best practices for implementing authentication include:</p>
             <ul>
                 <li>Securely storing passwords using strong hashing algorithms like bcrypt</li>
                 <li>Ensuring all communication is encrypted with HTTPS</li>
@@ -50,6 +55,7 @@
                 <li>Regularly updating and patching the authentication system</li>
                 <li>Monitoring and logging access to detect suspicious activities</li>
             </ul>
+
             <div class="note">
                 <p>Authentication is a crucial part of system design, ensuring that only authorized users can access services and data. By implementing strong authentication methods and following best practices, the security of systems is significantly enhanced, protecting sensitive information from unauthorized access.</p>
             </div>

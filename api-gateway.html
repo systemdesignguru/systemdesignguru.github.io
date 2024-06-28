@@ -10,44 +10,57 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#basic" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#basic" class="title">Back</a></li>
+                <li><a href="#1">API Gateway</a></li>
+                <li><a href="#2">Working of API Gateway</a></li>
+                <li><a href="#3">API Gateway in System Design</a></li>
+                <li><a href="#4">Advantages of API Gateway</a></li>
+                <li><a href="#5">Challenges of API Gateway</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">API Gateway</h1>
             
             <!-- Start Content -->
-            <p>An API Gateway is like a receptionist for your online services. It manages all incoming requests and directs them to the right place, making sure everything runs smoothly.</p>
-
-            <h2>What is an API Gateway?</h2>
-
             <p>An API Gateway acts as a single entry point for all client requests to multiple services. It simplifies access by providing one address for various services. The Gateway ensures requests go to the correct service, which improves communication efficiency.</p>
 
             <p>The Gateway enhances security by handling authentication (checking if users are who they say they are) and authorization (ensuring they have permission to access certain services). It also controls the number of requests clients can make to prevent overload and distributes them evenly to avoid overwhelming any one service.</p>
 
             <p>Monitoring and logging are essential functions of the API Gateway. It tracks all requests and responses, helping to monitor service health and troubleshoot issues.</p>
 
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/api-gateway-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <section id="2">
             <h2>How Does an API Gateway Work?</h2>
             <ol>
                 <li><strong>Client Requests:</strong> A client (like a mobile app or web browser) sends a request to the API Gateway.</li>
                 <li><strong>Routing and Processing:</strong> The Gateway checks if the client is allowed to make the request and sends it to the correct service.</li>
                 <li><strong>Response Handling:</strong> The service processes the request and sends a response back through the Gateway to the client.</li>
             </ol>
+            <br>
 
+            <section id="3">
             <h2>The Role of an API Gateway in System Design</h2>
             <p>An API Gateway is crucial in modern system designs, especially with microservices. It simplifies access to services, handles security, and manages traffic efficiently. The Gateway routes requests, balances loads, and consolidates responses, contributing to a scalable and secure architecture.</p>
 
+            <section id="4">
             <h2>Advantages of Using an API Gateway</h2>
             <ul>
                 <li><strong>Simplified Client Communication:</strong> Clients interact with one endpoint.</li>
@@ -55,6 +68,7 @@
                 <li><strong>Better Traffic Management:</strong> Easier monitoring and control of request traffic.</li>
             </ul>
 
+            <section id="5">
             <h2>Challenges of Using an API Gateway</h2>
             <ul>
                 <li><strong>Single Point of Failure:</strong> If the API Gateway goes down, all services become inaccessible. Using multiple Gateways can mitigate this risk.</li>

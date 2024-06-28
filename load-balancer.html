@@ -10,26 +10,39 @@
 </head>
 <body class="is-preload">
 
-<!-- Header -->
-<header id="header">
-    <a href="index.html#scalability-performance" class="title">Back</a>
-    <nav>
-        <ul>
-            <li><a href="index.html" style="color:white">Home</a></li>
-        </ul>
-    </nav>
-</header>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#scalability-performance" class="title">Back</a></li>
+                <li><a href="#1">Load Balancer</a></li>
+                <li><a href="#2">Key Functions of Load Balancers</a></li>
+                <li><a href="#3">Types of Load Balancers</a></li>
+                <li><a href="#4">Benefits of Load Balancers</a></li>
+                <li><a href="#5">Challenges of Load Balancers</a></li>
+                <li><a href="#6">Best Practices for Implementing Load Balancers</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="inner">
+            <section id="1">
             <h1 class="major">Load Balancer</h1>
             <!-- Start Content -->
             <p>In system architecture, a load balancer is a critical component that distributes incoming network traffic across multiple servers to ensure optimal resource utilization, maximize throughput, minimize response time, and avoid overload on any single server.</p>
-            <img src="images/basic/load-balancer-image1.png" alt="" width="800"></p>
-
+            <div style="display: flex; justify-content: center;">
+                <img src="images/basic/load-balancer-image1.png" alt="" width="800"></p>
+            </div>
+            <br>
+            
+            <section id="2">
             <h3>Key Functions of Load Balancers</h3>
             <ul>
                 <li><strong>Traffic Distribution</strong>: Balances incoming requests across multiple servers or server clusters based on predefined algorithms (e.g., round-robin, least connections).</li>
@@ -38,6 +51,7 @@
                 <li><strong>SSL Termination</strong>: Offloads SSL encryption and decryption tasks from servers to improve performance.</li>
             </ul>
 
+            <section id="3">
             <h3>Types of Load Balancers</h3>
             <ul>
                 <li><strong>Hardware Load Balancer</strong>: Dedicated physical appliances optimized for high-performance traffic management.</li>
@@ -45,6 +59,7 @@
                 <li><strong>Cloud Load Balancer</strong>: Load balancing services provided by cloud providers (e.g., AWS ELB, Azure Load Balancer) offering scalability, reliability, and integration with cloud services.</li>
             </ul>
 
+            <section id="4">
             <h3>Benefits of Load Balancers</h3>
             <ul>
                 <li><strong>Scalability</strong>: Enables horizontal scaling by adding more servers as traffic increases.</li>
@@ -53,6 +68,7 @@
                 <li><strong>Security</strong>: Provides protection against DDoS attacks and enhances SSL security with termination and decryption capabilities.</li>
             </ul>
 
+            <section id="5">
             <h3>Challenges of Load Balancers</h3>
             <ul>
                 <li><strong>Complex Configuration</strong>: Setting up and maintaining load balancers with optimal configuration settings can be complex.</li>
@@ -60,6 +76,7 @@
                 <li><strong>Cost</strong>: Hardware load balancers can be expensive, and cloud-based solutions may incur costs based on usage.</li>
             </ul>
 
+            <section id="6">
             <h3>Best Practices for Implementing Load Balancers</h3>
             <ul>
                 <li><strong>Understand Traffic Patterns</strong>: Analyze traffic patterns and choose appropriate load balancing algorithms.</li>
