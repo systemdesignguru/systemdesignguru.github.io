@@ -23,7 +23,8 @@
                 <li><a href="#3">Design Goals</a></li>
                 <li><a href="#4">High-Level Design</a></li>
                 <li><a href="#5">Deep Dive</a></li>
-                <li><a href="#6">Data Flow</a></li>
+                <li><a href="#6">Futher Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
             </ul>
         </nav>
     </div>
@@ -306,21 +307,21 @@
             <h3>4. User Database</h3>
             <p>The primary database for storing user-related information is likely implemented using a graph database structure to efficiently manage and query intricate relationships and connections between users, enhancing performance for social interactions.<br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/user-database-image1.png" alt="" width="800"></p>
+                <img src="images/high level design/twitter/user-database-image1.png" alt="" width="750"></p>
             </div>
             <br>
 
             <h3>5. Tweet Database</h3>
             <p>The database for persistently storing all tweets, the database is implemented using a NoSQL solution, efficiently handles high volumes of unstructured data, ensuring scalability and fast read/write operations crucial for real-time interactions on Twitter.<br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/tweets-database-image1.png" alt="" width="800"><br></p>
+                <img src="images/high level design/twitter/tweets-database-image1.png" alt="" width="750"><br></p>
             </div>
             <br>
             
             <h3>6. News Feed Service</h3>
             <p>A service responsible for generating and managing users' news feeds (timelines). It utilizes caching and a separate database for efficient news feed generation.<br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/news-feed-service-image1.png" alt="" width="1000"></p>
+                <img src="images/high level design/twitter/news-feed-service-image1.png" alt="" width="900"></p>
             </div>
             <br>
 
@@ -340,34 +341,115 @@
             <h3>7. News Feed Database</h3>
             <p>The News Feed database stores users' personalized timelines, aggregating and storing tweets from followed users for efficient retrieval and display.<br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/news-feed-database-image1.png" alt="" width="1000"></p>
+                <img src="images/high level design/twitter/news-feed-database-image1.png" alt="" width="900"></p>
             </div>
             <br>
 
-            <h3>8. Caching</h3>
-            <p>Caching improves performance by storing frequently accessed data temporarily, reducing the need to fetch it from the original source repeatedly.<br>
-            
-            <p><span class="bold-italic">I. User Cache</span><br>
-            The User Cache is an in-memory data store that holds frequently accessed user data to provide low-latency access. It is used to quickly retrieve user information without repeatedly querying the User Database.<br></p>
+            <h3>8. Notification Service</h3>
+            <p>This service handles the delivery of notifications to users, such as when they receive mentions or interactions on their tweets.<br>
+            <h3 style="text-align: center;">High level architecture of Twitter</h3>
 
-            <p><span class="bold-italic">II. Tweet Cache</span><br>
-            The Tweets Cache stores recent tweets in an in-memory data store to facilitate quick retrieval. When a tweet is posted, it is first written to the cache to ensure that it can be served quickly to users requesting it.<br></p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/twitter/twitter-architecture.png" alt="" width="900"></p>
+            </div>
+            <br>
 
-            <span class="bold-italic">III. News Feed Cache</span><br>
-            The News Feed Cache holds the personalized timelines of users in an in-memory data store for quick access. This reduces the need to recompute the timeline each time a user requests it.<br><br>
+            <hr>
+            <section id="6">
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Caching</h3>
+            <p>
+                Caching is essential for optimizing performance and scalability in a social media platform like Twitter. By storing frequently accessed data such as user profiles, tweets, and media content in memory, caching reduces database load and speeds up data retrieval. This ensures smooth and uninterrupted service, even during peak usage times or network fluctuations. Systems like Redis, Memcached, and cloud-based solutions like AWS ElastiCache and Microsoft Azure Cache for Redis play a crucial role by providing efficient, scalable caching mechanisms tailored to Twitter's real-time content demands.
+                <br>
+            </p>
+
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
+            <br>
+
+            <h4>I. User Cache</h4>
+            <p>The User Cache is an in-memory data store that holds frequently accessed user data to provide low-latency access. It is used to quickly retrieve user information without repeatedly querying the User Database.</p>
+            <h4>Example User Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "055222617429691216296134948919650608043",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "055222617429691216296134948919650608043",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "twitteruser",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "user@example.com",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "a40e1c2480f5489e6c6f4592674a4cf4",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2020-05-22 07:26:27"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>II. Tweet Cache</h4>
+            <p>The Tweets Cache stores recent tweets in an in-memory data store to facilitate quick retrieval. When a tweet is posted, it is first written to the cache to ensure that it can be served quickly to users requesting it.</p>
+            <h4>Example Tweet Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "9fc9d913973592188cb15df207700a74",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tweet_id": "9fc9d913973592188cb15df207700a74",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "055222617429691216296134948919650608043",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text": "Hey there world!",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"media_url": "https://example.com/some-url",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2023-09-01 22:03:55"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>III. News Feed Cache</h4>
+            <p>The News Feed Cache holds the personalized timelines of users in an in-memory data store for quick access. This reduces the need to recompute the timeline each time a user requests it.</p>
+            <h4>Example News Feed Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "082a2926b0c49f32870feb851c2e82e9",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "055222617429691216296134948919650608043",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tweet_id": "9fc9d913973592188cb15df207700a74",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2023-09-01 22:03:55"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/twitter/caching-image1.png" alt="" width="1000"></p>
             </div>
             <br>
 
-            <h3>9. Notification Service</h3>
-            <p>This service handles the delivery of notifications to users, such as when they receive mentions or interactions on their tweets.<br>
-            <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/notficiation-service-image1.png" alt="" width="1000"></p>
-            </div>
-            <br>
 
-            <h3>10. CDN (Content Delivery Network)</h3>
+            <h3>2. CDN (Content Delivery Network)</h3>
             <p>A distributed network of servers that caches and serves static content like images, videos, and other media assets for efficient delivery to users.<br>
 
             <p><span class="bold-italic">I. Push CDN</span><br>
@@ -376,15 +458,15 @@
             <p><span class="bold-italic">II. Pull CDN</span><br>
             Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
             <br>
-            <h3 style="text-align: center;">High level architecture of Twitter</h3>
+            <h3 style="text-align: center;">High level architecture of Twitter after Optimizations</h3>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/twitter/twitter-architecture-image1.png" alt="" width="1000"></p>
+                <img src="images/high level design/twitter/twitter-architecture-optimized.png" alt="" width="1000"></p>
             </div>
             <hr>
             <br>
 
-            <section id="6">
-            <h2>6. Data Flow [5-8 mins]</h2>
+            <section id="5">
+            <h2>7. Data Flow [5-8 mins]</h2>
             <div class="note">
                 <p>It's essential to explain the end-to-end flow of the design, ensuring clarity on how data moves through the system. Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
             </div>

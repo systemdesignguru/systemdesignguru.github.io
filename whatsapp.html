@@ -24,7 +24,8 @@
                 <li><a href="#4">High-Level Design</a></li>
                 <li><a href="#5">Message Communication</a></li>
                 <li><a href="#6">Deep Dive</a></li>
-                <li><a href="#7">Data Flow</a></li>
+                <li><a href="#7">Futher Optimizations</a></li>
+                <li><a href="#8">Data Flow</a></li>
             </ul>
         </nav>
     </div>
@@ -531,7 +532,7 @@
             <br>
 
             <h3>8. User Conversation Database</h3>
-            <p>The User Conversation Database maintains associations between users and their respective conversations or group chats within the chat application. It stores records linking user IDs with conversation IDs, facilitating efficient retrieval of conversation details, management of group memberships, and targeted communication among users participating in specific conversations. This database supports personalized user experiences and streamlined communication dynamics within group settings.<br>
+            <p>User Conversation Database maintains associations between users and their respective conversations or group chats within the chat application. It stores records linking user IDs with conversation IDs, facilitating efficient retrieval of conversation details, management of group memberships, and targeted communication among users participating in specific conversations. This database supports personalized user experiences and streamlined communication dynamics within group settings.<br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/whatsapp/user-conversation-database-image1.png" alt="" width="1000"></p>
             </div>
@@ -552,25 +553,17 @@
             <br>
 
             <h3>11. Message Database</h3>
-            <p>The Message Database stores message content, metadata, and media URLs, serving as a centralized repository for managing message details within the messaging application.<br>
+            <p>Message Database stores message content, metadata, and media URLs, serving as a centralized repository for managing message details within the messaging application.<br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/whatsapp/message-database-image1.png" alt="" width="1000"></p>
             </div>
             <br>
 
-            <h3>12. CDN (Content Delivery Network)</h3>
-            <p>The CDN optimizes media content distribution by storing and delivering images, videos, and other media files from geographically distributed servers closer to users. This geographical proximity reduces latency and accelerates content delivery, enhancing user experience by ensuring fast and reliable access to multimedia content across devices.<br>
-
-            <p><span class="bold-italic">I. Push CDN</span><br>
-            Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
-            
-            <p><span class="bold-italic">II. Pull CDN</span><br>
-            Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
-            <br>
+            <h3>12. Group Database</h3>
+            <p>Group Database stores metadata essential for managing groups within the chat application, including group names, creators, and settings. It also maintains associations between group IDs and conversation IDs, enabling efficient retrieval of group-specific conversations and facilitating seamless communication and membership management among group participants.<br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/whatsapp/content-delivery-network-image1.png" alt="" width="1000"></p>
+                <img src="images/high level design/whatsapp/group-database-image1.png" alt="" width="1000"></p>
             </div>
-            <hr>
             <br>
 
             <h3>13. Notification Service</h3>
@@ -581,10 +574,188 @@
                 <img src="images/high level design/whatsapp/whatsapp-architecture.png" alt=""></p>
             </div>
             <br>
-            <hr>
 
+            <hr>
             <section id="7">
-            <h2>7. Data Flow [5-8 mins]</h2>
+            <h2>7. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Caching</h3>
+            <p>
+                Caching is crucial for a messaging service like WhatsApp. It enhances the service's performance by storing frequently accessed data, such as user profiles, chat histories, and media thumbnails, in memory. This allows for quick retrieval, significantly reducing the load on the primary database servers. As a result, WhatsApp can handle a large number of simultaneous users efficiently.
+                <br><br>
+                Moreover, caching ensures the service remains reliable even during peak usage times or temporary network issues. By keeping essential data readily available, caching helps maintain a smooth and uninterrupted user experience. Overall, caching makes WhatsApp faster, more efficient, and more dependable for millions of users worldwide.
+                <br><br>
+                Cache systems like Redis, Memcached, AWS ElastiCache, Microsoft Azure Cache for Redis, and Google Cloud Memorystore store data using key-value pairs efficiently. They offer a range of features and integrations, addressing diverse caching requirements from high-performance in-memory caching to managed cloud services that ensure scalability and reliability.
+                <br>
+            </p>
+
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
+            <br>
+
+            <h4>I. User Cache</h4>
+            <p>User cache stores frequently accessed user details such as username, profile picture, status, and last seen timestamp to minimize database queries. It also includes contact lists and user-specific settings.</p>
+            <h4>Example User Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "e193c87b2fd6a181c04cc8a4b97238ce",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "e193c87b2fd6a181c04cc8a4b97238ce",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"phone_number": "+1234567890",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "Test User",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"profile_picture_url": "https://example.com/profiles/alice.jpg",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2012-05-02 11:59:25"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>II. Conversation Cache</h4>
+            <p>Conversation cache holds metadata about conversations, including participants, the last message ID, and the last message timestamp. It also tracks the unread message count for each conversation.</p>
+            <h4>Example Conversation Cache</h4>
+            <div class="table-container7">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "b30f706b8764cdb3ef733fae29bfef81",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_id": b30f706b8764cdb3ef733fae29bfef81",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_name": "Design Discussion",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"participants": [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "1234",<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"is_admin": true<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2017-02-04 08:33:46"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>III. User Conversation Cache</h4>
+            <p>User conversation cache lists all conversations a user is part of, including pinned and archived conversations for quick access. It helps in rapidly loading a user's conversation history.</p>
+            <h4>Example User Conversation Cache</h4>
+            <div class="table-container7">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "7a39f348a90ca9973a9af26fdb5b0387",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"conversation_id": "b30f706b8764cdb3ef733fae29bfef81",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "e193c87b2fd6a181c04cc8a4b97238ce",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>IV. Message Cache</h4>
+            <p>Message cache stores individual messages with details like message ID, conversation ID, sender ID, timestamp, content, and status. This enables quick retrieval and display of messages within conversations.</p>
+            <h4>Example Message Cache</h4>
+            <div class="table-container6">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "651c6a4488742276767202af02c9a3a4",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sender_id": "1234",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"recipient_id": "3456",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "Hello There!",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"timestamp": "2024-06-28T09:15:00Z",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "read",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>V. Group Cache</h4>
+            <p>Group Cache stores essential metadata related to groups within the chat application, such as group names, creators, and settings. It optimizes group-related operations by caching frequently accessed group data, enhancing performance in group management tasks and facilitating quick retrieval of group details.
+            <h4>Example Group Cache</h4>
+            <div class="table-container6">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "group:9876",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"group_name": "We Rock Designs",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_by": "1234",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"members": [<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "1234",<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"is_admin": true<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"group_profile_picture_url": "string",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2023-12-20 13:34:12",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "active"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+                
+            </p>
+
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/caching-image1.png" alt=""></p>
+            </div>
+            <br>
+
+            <h3>2. CDN (Content Delivery Network)</h3>
+            <p>The CDN optimizes media content distribution by storing and delivering images, videos, and other media files from geographically distributed servers closer to users. This geographical proximity reduces latency and accelerates content delivery, enhancing user experience by ensuring fast and reliable access to multimedia content across devices.<br>
+
+            <p><span class="bold-italic">I. Push CDN</span><br>
+            Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
+            
+            <p><span class="bold-italic">II. Pull CDN</span><br>
+            Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
+            <br>
+            <h3 style="text-align: center;">High level architecture of WhatsApp after Optimizations</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/whatsapp/whatsapp-architecture-optimized.png" alt=""></p>
+            </div>
+            <br>
+
+            <hr>
+            <section id="8">
+            <h2>8. Data Flow [5-8 mins]</h2>
             <div class="note">
                 <p>It's important to describe how data moves through the entire system, ensuring everyone understands clearly. According to our estimates and discussions, the system's non-functional requirements focus on handling high numbers of users efficiently, implementing strong data security, and expanding the infrastructure quickly as needed.</p>
             </div>

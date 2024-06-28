@@ -23,7 +23,8 @@
                 <li><a href="#3">Design Goals</a></li>
                 <li><a href="#4">High-Level Design</a></li>
                 <li><a href="#5">Deep Dive</a></li>
-                <li><a href="#6">Data Flow</a></li>
+                <li><a href="#6">Further Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
             </ul>
         </nav>
     </div>
@@ -191,7 +192,6 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;{
                     <br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "UUID",<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID,<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"hash_key": "string",<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"
                     <br>
@@ -311,16 +311,88 @@
             <p>Clean Up Service plays a vital role in system maintenance, periodically scanning for and removing expired pastes. This helps manage storage space, maintain system performance, and ensure that temporary or time-sensitive content is appropriately handled.<br>
             
             <h3 style="text-align: center;">High level architecture of Pastebin</h3>
-
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/pastebin/pastebin-architecture.png" alt="" width="1000"></p>
+                <img src="images/high level design/pastebin/pastebin-architecture.png" alt="" width="900"></p>
             </div>
             <br>
+
             <hr>
+            <section id="6">
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Caching</h3>
+            <p>
+                Caching is crucial for optimizing performance and scalability in a service like Pastebin. By storing frequently accessed data such as text snippets, user metadata, and access logs in memory, caching reduces the need for repeated database queries. This enhances the speed of content retrieval and lightens the load on primary servers, allowing Pastebin to efficiently handle a large volume of concurrent users.
+                <br><br>
+                During peak usage periods or temporary network disruptions, caching ensures consistent service delivery by keeping essential data readily available. This reliability translates to a smoother user experience without interruptions. Overall, caching in systems like Redis, Memcached, and cloud-based solutions such as AWS ElastiCache and Microsoft Azure Cache for Redis is integral to Pastebin's infrastructure. These systems offer efficient key-value storage and scalable caching solutions, essential for managing Pastebin's dynamic content creation and sharing demands.                <br>
+            </p>
+
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
             <br>
 
-            <section id="6">
-            <h2>6. Data Flow [5-8 mins]</h2>
+            <h4>I. User Cache</h4>
+            <p>The User Cache is an in-memory data store that holds frequently accessed user data to provide low-latency access. It is used to quickly retrieve user information without repeatedly querying the User Database.</p>
+            <h4>Example User Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "a152cda36954931db6c34c10964b2514",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "a152cda36954931db6c34c10964b2514",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "testuser",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "user@example.com",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "abe77298821adc672a57d84223479023",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2020-04-24 02:36:56"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>II. Paste Cache</h4>
+            <p>The User Cache is an in-memory data store that holds frequently accessed user data to provide low-latency access. It is used to quickly retrieve user information without repeatedly querying the User Database.</p>
+            <h4>Example Paste Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "082a2926b0c49f32870feb851c2e82e9",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"paste_id": "082a2926b0c49f32870feb851c2e82e9",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key_id": "137865431611218489155987613097308746794",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "Hello There! Wanna try Pastebin?",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"visibility": "public",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2023-07-22 13:59:32"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+            <h3 style="text-align: center;">High level architecture of Pastebin after Optimization</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/pastebin/pastebin-architecture-optimized.png" alt="" width="900"></p>
+            </div>
+            <br>
+
+            <hr>
+            <section id="7">
+            <h2>7. Data Flow [5-8 mins]</h2>
             <div class="note">
                 It's crucial to clearly explain how data flows through the entire Pastebin system. Our non-functional requirements focus on efficiently managing a large user base, ensuring robust data security, and rapidly scaling the infrastructure as necessary, as determined by our estimates and discussions.
             </div>
