@@ -16,7 +16,7 @@
     <div class="inner">
         <nav>
             <ul>
-                <li><a href="index.html#designs" class="title">Back</a></li>
+                <li><a href="index.html#1" class="title">Back</a></li>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#1">Feature Expectations</a></li>
                 <li><a href="#2">Estimations</a></li>
@@ -35,7 +35,7 @@
     <!-- Main -->
     <section id="main" class="wrapper style1-alt">
         <div class="ubc-ss">
-            <h1 style="text-align: center;"><img src="images/high level design/pastebin/paste.png" alt="" width="50"> Pastebin System Design</h1>
+            <h1 style="text-align: center;"><img src="images/high level design/pastebin/pastebin-logo.png" alt="" width="50"> Pastebin System Design</h1>
         </div>
 
         <div class="inner">
@@ -230,7 +230,7 @@
             <h3>1. Users</h3>
             <p>Users interact with the paste-bin service by creating new pastes or retrieving existing ones via URLs. This simple interface belies the complex system behind it, designed to handle potentially millions of interactions efficiently and securely.
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/common/users-image1.png" alt="User Image" width="100">
+                <img src="images/high level design/pastebin/users-image1.png" alt="User Image" width="100">
             </div>
             </p>
             <br>
@@ -238,7 +238,7 @@
             <h3>2. Load Balancer</h3>
             <p>The Load Balancer serves as the front door to the service, intelligently distributing incoming requests across multiple app servers. This crucial component ensures no single server becomes overwhelmed, maintaining high availability and responsiveness even under heavy traffic conditions.</p>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/common/load-balancer-image1.png" alt="" width="450">
+                <img src="images/high level design/pastebin/load-balancer-image1.png" alt="" width="450">
             </div>
             <br>
 
@@ -253,7 +253,7 @@
             </ul>            
             The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
             <div style="display: flex; justify-content: center;">
-                <img src="images/high level design/common/api-gateway-image1.png" alt="" width="600"></p>
+                <img src="images/high level design/pastebin/api-gateway-image1.png" alt="" width="600"></p>
             </div>
             <br>
 

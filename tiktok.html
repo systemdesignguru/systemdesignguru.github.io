@@ -1,0 +1,624 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>TikTok System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+     
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#1" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Deep Dive</a></li>
+                <li><a href="#6">Futher Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/tiktok/tiktok-logo.png" alt="" width="50"> TikTok System Design</h1>
+        </div>
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p><span class="bold-italic">Interviewer:</span> Let's discuss the system design for a platform similar to TikTok<br></p>
+
+            <div class="definition">
+                <span class="bold-italic">TikTok is a social media app that allows users to create, share, and discover short videos.</span>
+            </div>
+            <br>
+            <section id="1">
+                <h2>1. Feature Expectations [5 mins]</h2>
+                <p style="margin: 0;">
+                    <span class="bold-italic">You:</span> Could you clarify the expected user interaction patterns we should optimize for? For example, are we focusing more on video consumption or on user-generated content and interactions?<br>
+                    <br>
+                    <div class="note">
+                        Understanding the big picture will guide us in detailing how many users the system should handle, how fast it needs to perform, and what security measures are crucial.
+                    </div>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> That’s a good question. We aim to balance both aspects, with a strong emphasis on user-generated content and interactions. How would you approach managing user privacy and data security given the scale of the platform?<br>
+                    <br>
+                    <span class="bold-italic">You:</span> That makes sense. Regarding scalability, are we considering a cloud-native approach, or should we also explore hybrid or on-premises options for specific components?<br>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> Good point. We're primarily looking at a cloud-native approach, leveraging scalability and flexibility. Lastly, how would you ensure the system maintains high availability during peak traffic times or unexpected surges?<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Understood. Could you clarify the expected uptime requirements and any specific disaster recovery strategies we should consider?<br>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> Absolutely. We aim for at least 99.99% uptime and would appreciate your insights on how to achieve that. These questions help ensure we're on the same page regarding the system's goals and constraints.<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Thank you for the clarification. Based on our discussion, let's outline the functional requirements for the system.<br>
+                    <br>
+
+                    <h4>Functional Requirements</h4>
+                    <ol>
+                        <li>Video Upload and Processing</li>
+                        <li>User Interactions</li>
+                        <li>Personalized Feeds</li>
+                        <li>Content Discovery</li>
+                    </ol>
+                </p>
+            
+
+            <p>These features are central to the user experience and represent the primary interactions on the platform.</p>
+            <p>To keep our discussion focused and manageable, I won't delve into secondary features like Trends, Continuous Engagement and Hashtags at this time. These aspects are important for enhancing discoverability and engagement but require a deeper exploration that goes beyond our current scope.</p>
+            <p>Understanding the diverse user base of TikTok is crucial for effective platform design. TikTok attracts individuals seeking creative expression, celebrities looking to engage with fans, organizations aiming to reach wider audiences, and advertisers seeking to promote products or services. Each user segment has unique needs and expectations, from seamless content creation tools to effective promotional opportunities.</p>
+            <p>By knowing our audience, whether they are creators, influencers, brands, or advertisers, we can tailor the platform's features and functionalities to enhance user engagement, promote content discoverability, and provide a satisfying experience that meets their specific goals.</p>
+
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <p>
+                Understanding the system's data processing needs is critical not only for ensuring sufficient network and storage capacity but also for anticipating scalability requirements as user demands grow. This proactive approach helps in designing a resilient system that can handle peak loads efficiently, maintaining consistent performance and reliability over time.
+            </p>
+            <ul>
+                <li>Assuming Daily Active Users (DAU) of <strong>500 million</strong> users.</li>
+                <li>On average, each user uploads <strong>1 video per day</strong> on average, totaling <strong>500 million video uploads daily</strong>.</li>
+                <li>Assuming <strong>10 MB per video</strong>, resulting in a daily storage requirement of <strong>5 PB (petabytes)</strong>.</li>
+                <li>With <strong>1 million requests per second (RPS)</strong> at peak times, we require <strong>1,000 servers (workers)</strong> and <strong>50 PB of daily bandwidth</strong> to handle data transfers efficiently.</li>
+            </ul>            
+            
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            <p>Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
+            <ol>
+                <li>High Availability</li>
+                <li>Scalability</li>
+                <li>Security</li>
+                <li>Performance</li>
+                <li>Usability</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>To design a high-level system architecture for TikTok, we'll focus on the following aspects: </p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Defining APIs for TikTok is crucial as it establishes structured communication channels between different system components. This organization simplifies future feature enhancements and modifications. APIs facilitate controlled access to TikTok's functionalities, enabling seamless integration with external programs or services. This capability supports the platform's growth and expansion, ensuring a cohesive and scalable ecosystem for users, developers, and partners alike.</p>
+            
+            <!-- Get Tweet -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Video Upload</span></p>
+            <div class="table-container10">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /api/videos/upload</code></td>
+                            <td><code>video_file, title, description</code></td>
+                            <td>{"message": "Video uploaded successfully."}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">User Interactions</span></p>
+            <div class="table-container10">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /api/videos/interactions</code></td>
+                            <td><code>video_id, action</code></td>
+                            <td>{"message": "Action recorded successfully."}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Recommendation</span></p>
+            <div class="table-container6">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /api/feed</code></td>
+                            <td><code>user_id</code></td>
+                            <td>{"feed": [...array of videos data...]}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Follow User</span></p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /users/{user_id}/follow</code></td>
+                            <td><code>user_id</code>, <code>target_user_id</code></td>
+                            <td>Follow relationship data (user_id, target_user_id)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Unfollow User</span></p>
+                <div class="table-container9">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>DELETE /users/{user_id}/follow</code></td>
+                            <td><code>user_id</code>, <code>target_user_id</code></td>
+                            <td>Success or error message</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+            <p>
+                In designing TikTok's backend architecture, NoSQL databases are chosen over traditional SQL databases due to their ability to handle large volumes of unstructured or semi-structured data, which suits TikTok's dynamic content creation and consumption model. With 500 million daily active users generating and interacting with extensive video content, NoSQL databases like MongoDB or Cassandra provide scalable storage and retrieval capabilities without the rigid schema constraints of SQL databases, supporting seamless performance during peak usage periods.
+            </p>
+
+            <!-- Table: Users -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <br>
+            <p>A graph database is ideal for storing user information in TikTok due to its ability to efficiently represent complex relationships between users, such as followers, following, and shared interests, which are crucial for personalized content recommendations and social network analysis. 
+            <br><br>
+            Examples of graph databases include Neo4j, Amazon Neptune, and JanusGraph, which excel in managing interconnected data structures and performing fast queries for relationship-based data models like social networks.
+            </p>
+            <p>Example of user data representation in a Graph Database</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/users-table.png" alt="User Image" width="700">
+            </div>
+            <br>
+
+            <!-- Table: Videos -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Videos Table</span></p>
+            <div class="table-container5">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"video_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"media_url": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"likes": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"views": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"media_url": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comments": [<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comment_text": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comment_time": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <!-- Table: Recommendation -->
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Recommendation Table</span></p>
+            <div class="table-container6">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "UUID",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"recommendations": [<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post_id": "UUID",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post_author_id": "UUID",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "timestamp"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                </div>
+            </div> 
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            Designing a system step by step helps us solve difficult problems by breaking them into smaller, easier tasks. This way, each part of the system gets careful planning and fits together smoothly. It also lets us make changes and improvements as needed based on feedback and new needs, which helps create a strong and successful final product like TikTok.
+            <br>
+            <br>
+            
+            <h3>1. Users</h3>
+            <p>Users are individuals who engage with TikTok by creating, uploading, and interacting with videos. User data includes profiles, preferences, and social interactions, crucial for personalized content delivery.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/users-image1.png" alt="User Image" width="100">
+            </div>
+            </p>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>Load Balancer is critical for ensuring that the incoming traffic is evenly distributed across multiple servers. This helps in managing the load and ensuring high availability and reliability of the service. It prevents any single server from becoming a bottleneck.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/load-balancer-image1.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>API gateway acts as a single point of entry for all API calls, consolidating various microservices or backend services behind a unified API interface. Centralizes API requests from clients, managing authentication, rate limiting, and routing requests to appropriate backend services like user data retrieval or video operations.
+            <br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>/POST Video</em></b>: Initiates a request to upload a new video to TikTok.</li>
+                <li><b><em>/GET Video</em></b>: Retrieves details of a specific video based on its identifier.</li>
+                <li><b><em>/GET Feed</em></b>: Retrieves personalized video feeds for a user based on their preferences and interactions.</li>
+                <li><b><em>/POST Follow</em></b>: Establishes a request to follow another user on TikTok, creating a social connection.</li>
+                <li><b><em>/POST Unfollow</em></b>: Sends a request to unfollow another user, terminating the social connection.</li>
+                <li><b><em>/POST Interact</em></b>: Initiates a request to interact with a video, such as liking, commenting, or sharing.</li>
+            </ul>
+            The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/api-gateway-image1.png" alt="" width="600"></p>
+            </div>
+            <br>
+
+            <h3>4. User Service</h3>
+            <p>User service handles user-related functionalities including user authentication, profile management, and social connections. It interfaces with the User Database and manages user sessions, permissions, and notifications.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/user-service-image1.png" alt="" width="750"></p>
+            </div>
+            <br>
+
+            <h3>5. User Database</h3>
+            <p>User database stores user profiles, preferences, and social interactions (e.g., follows, likes). This data supports personalized content recommendations and social network functionalities within TikTok.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/user-database-image1.png" alt="" width="900"></p>
+            </div>
+            <br>
+
+            <h3>6. Media Service</h3>
+            <p>Media Service is responsible for managing media-related operations such as processes uploads, stores media files in the Object Store, and updates the Message Database with URLs linking to stored media. It ensures efficient management and retrieval of media content, supporting multimedia messaging capabilities within the chat application.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/media-service-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>7. Media Storage</h3>
+            <p>Media storage serves as a dedicated repository, the Object Store securely stores media files uploaded by users within the chat application. It efficiently manages large volumes of media data and integrates with the Media Service for seamless upload, storage, and retrieval of media files associated with messages exchanged between users.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/media-storage-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>8. Video Database</h3>
+            <p>Video database stores metadata associated with each video, including unique identifiers, titles, descriptions, and timestamps. It also includes a reference to the media URL where the video content is stored.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/video-database-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+            
+            <h3>9. User Interaction Service</h3>
+            <p>User Interaction Service manages user activities like following/unfollowing users, updating social graphs, and handling interactions such as liking and commenting on videos. It ensures real-time updates and supports critical engagement features for TikTok's social platform dynamics.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/user-interaction-service-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>10. Recommendation Service</h3>
+            <p>Recommendation service curates and delivers personalized video feeds tailored to each user's preferences and interactions. It utilizes algorithms to select and rank videos, ensuring content relevancy and engagement through both push (real-time updates) and pull (browsing and searching) mechanisms.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/recommendation-service-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>Recommendation Generation</h3>
+            <p><strong>1. Push Model</strong>
+            <br>The push model proactively delivers new content to the user based on their preferences and interactions. This approach ensures that users receive timely and relevant updates without having to search for them.<br>
+            <span class="bold-italic">I. User Interaction Tracking</span>: Track user interactions such as likes, comments, shares, and follows in real-time.
+            <br>
+            <span class="bold-italic">II. Content Matching</span>: Use algorithms (like collaborative filtering and content-based filtering) to identify new videos that match the user's preferences.
+            <br>
+            <span class="bold-italic">III. Real-Time Updates</span>: Push new video recommendations to the user's feed as soon as they become relevant.
+            </p>
+        
+            <p><strong>2. Pull Model</strong>
+            <br>The pull model allows users to actively request and explore content by scrolling through their feed, searching for specific hashtags, or exploring trends.<br>
+            <span class="bold-italic">I. User Request</span>: The user requests new content by scrolling their feed or performing a search.<br>
+            <span class="bold-italic">II. Content Retrieval</span>: Fetch relevant videos from the database based on the user's request.          
+            </p>
+
+            <h3>11. Recommendation Database</h3>
+            <p>Recommendation database stores data related to content recommendations for users. This includes recommended videos, user interaction history, and preference scores calculated by the recommendation algorithms. This database supports the Recommendation Service by providing personalized video suggestions based on user behavior and interactions.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/recommendation-database-image1.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>12. Notification Service</h3>
+            <p>Manages the delivery of notifications to users for various interactions such as likes, comments, follows, and mentions. It ensures users are promptly informed about activities related to their content and interactions on the platform.<br>
+            <h3 style="text-align: center;">High level architecture of TikTok</h3>
+
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/tiktok-architecture.png" alt="" width="900"></p>
+            </div>
+            <br>
+
+            <hr>
+            <section id="6">
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Caching</h3>
+            <p>
+                Caching in the TikTok architecture plays a crucial role in improving performance and user experience by storing frequently accessed data in high-speed memory. This reduces the strain on primary databases and services, leading to faster data retrieval and response times. User cache, video cache, and recommendation cache specifically streamline access to user profiles, popular videos, and personalized content suggestions, respectively, ensuring efficient service delivery and enhanced scalability for high traffic volumes on the platform.
+                <br>
+            </p>
+
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
+            <br>
+
+            <h4>I. User Cache</h4>
+            <p>The User Cache stores frequently accessed user data to reduce latency and improve performance. It enhances the efficiency of retrieving user information and interactions.</p>
+            <h4>Example User Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "f5498eadb82c40e3209d0227e6b7fdba",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "f5498eadb82c40e3209d0227e6b7fdba",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "TikTokuser",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "user@example.com",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password_hash": "a40e1c2480f5489e6c6f4592674a4cf4",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2020-05-22 07:26:27"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>II. Video Cache</h4>
+            <p>Caches frequently accessed video metadata and media URLs to reduce database load and improve response times for video retrieval requests.
+            </p>
+            <h4>Example Tweet Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "dd44dbe2728e1944d25ee8c35cd9cb01",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"video_id": "dd44dbe2728e1944d25ee8c35cd9cb01",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "2d182f5c9395f587d3712c6c29fbdc42",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Sunshine in my mind",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"likes": 185,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"views": 1478,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"media_url": "https://example.com/some-url",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2024-07-09 22:10:55"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>III. Recommendation Cache</h4>
+            <p>Caches recommendation data to quickly provide users with personalized content, reducing the need to repeatedly query the Recommendation Database.</p>
+            <h4>Example Recommendation Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "684e9771fd442c1bb6b1c05cf17d14c8",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "1250b56d67f7b288c56d51975239e918",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"recommendations": [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post_id": "9fc9d913973592188cb15df207700a74",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"post_author_id": "9fc9d913973592188cb15df207700a74",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2023-09-01 22:03:55"<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/caching-image1.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+
+            <h3>2. CDN (Content Delivery Network)</h3>
+            <p>CDN enhances video delivery performance globally by caching content at edge locations. This reduces latency and improves streaming quality for users worldwide.<br>
+
+            <p><span class="bold-italic">I. Push CDN</span><br>
+            Push CDNs proactively distribute pre-cached content from origin servers to edge servers globally, optimizing availability and reducing latency for static content like images and videos.
+            
+            <p><span class="bold-italic">II. Pull CDN</span><br>
+            Pull CDNs fetch content from origin servers on demand, checking edge server caches first and dynamically caching new or updated content, ideal for dynamic websites needing real-time updates and flexibility in content delivery.
+            <br>
+            <h3 style="text-align: center;">High level architecture of TikTok after Optimizations</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/tiktok/tiktok-architecture-optimized.png" alt="" width="1000"></p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>7. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>It's essential to explain the end-to-end flow of the design, ensuring clarity on how data moves through the system. Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
+            </div>
+            <br>
+
+            <h3>User Uploads Video:</h3>
+            <ol>
+                <li>The user uploads a video through the TikTok app.</li>
+                <li>The request is received by the API Gateway.</li>
+                <li>The API Gateway routes the request through the Load Balancer to the Media Service.</li>
+                <li>Media Service processes and stores the video in the Object Store.</li>
+                <li>Media Service updates the Video Database with video metadata and the media URL.</li>
+                <li>Video Cache is updated with video metadata for quick access.</li>
+            </ol>
+            <br>
+
+            <h3>User Interacts with Video:</h3>
+            <ol>
+                <li>The user interacts with a video (like, comment, share), and the request is received by the API Gateway.</li>
+                <li>The API Gateway routes the request through the Load Balancer to the User Interaction Service.</li>
+                <li>User Interaction Service updates the User Database with the interaction data.</li>
+                <li>User Cache is updated with frequently accessed user data.</li>
+                <li>Notification Service sends notifications to relevant users, and Recommendation Service updates the Recommendation Database and Recommendation Cache with the new interaction data.</li>
+            </ol>
+            <br>
+
+            <h3>Following/Unfollowing Users:</h3>
+            <ol>
+                <li>A user follows or unfollows another user through the Internet.</li>
+                <li>The request reaches the API Gateway via the Load Balancer.</li>
+                <li>The API Gateway processes the /POST Follower request, updating the User Cache and User Database.</li>
+                <li>The News Feed Service adjusts the follower's news feed accordingly.</li>
+                <li>The Notification Service sends out notifications if appropriate.</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
+            <br>
+            
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
