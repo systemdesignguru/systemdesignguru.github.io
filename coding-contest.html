@@ -1,0 +1,645 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Coding Contest System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#1" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Deep Dive</a></li>
+                <li><a href="#6">Futher Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/coding-contest/coding-contest-logo.png" alt="" width="50"> Coding Contest System Design</h1>
+        </div>
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p><span class="bold-italic">Interviewer:</span> Let’s talk about designing a coding contest platform similar to LeetCode contests or HackerRank contests<br></p>
+
+            <div class="definition">
+                <span class="bold-italic">Coding Contests are competitive programming events hosted by LeetCode or HackerRank, a popular platform for practicing coding and preparing for technical interviews.</span>
+            </div>
+            <br>
+            <section id="1">
+                <h2>1. Feature Expectations [5 mins]</h2>
+                <p style="margin: 0;">
+                    <span class="bold-italic">You:</span> Before diving into the design, could you clarify a few points? Specifically, how many contests do we expect to run simultaneously? And do we anticipate handling live code submissions during contests?<br>
+                    <br>
+                    <div class="note">
+                        Understanding the big picture will help us determine the system's capacity needs, performance requirements, and essential security measures for handling coding contests effectively.
+                    </div>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> That’s a good question. We aim to balance both aspects, with a strong emphasis on user-generated content and interactions. How would you approach managing user privacy and data security given the scale of the platform?<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Great. For code evaluation, do we need to support multiple programming languages, and if so, how many? Also, should the evaluation be instant or can it be batched?<br>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> We need to support multiple languages—around 10 to start. The evaluation should be batched to handle large volumes of submissions efficiently, but we want to ensure results are available as quickly as possible.<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Thanks for the details. This helps me better understand the requirements. I’ll proceed with the design considering these points.<br>
+                    <br>
+
+                    <h4>Functional Requirements</h4>
+                    <ol>
+                        <li><span class="bold-italic">Register for Contests:</span> Users should be able to sign up for available contests by selecting a contest, providing necessary information, and confirming their registration. This ensures users can participate in their chosen contests and are properly enrolled.</li>
+                        <br>
+                        <li><span class="bold-italic">Submit Code:</span> Users should be able to upload their code solutions for contest problems. The code will be queued for evaluation, allowing participants to compete and showcase their skills.</li>
+                        <br>
+                        <li><span class="bold-italic">View Submissions:</span> Users should be able to view their past code submissions and results. This helps participants review their work, analyze performance, and track progress throughout the contest.</li>
+                        <br>
+                        <li><span class="bold-italic">Generate Leaderboards:</span> The system should create and display leaderboards showing user rankings based on contest performance. This motivates participants by highlighting top performers and fostering competition.</li>
+                    </ol>
+                </p>
+            
+
+            <p>These features are key to how users interact with the coding contest platform and are the main focus of our design. For now, I won’t cover secondary features like detailed analytics or advanced user profiles. These are important but not our main focus right now.</p>
+            <p>It's important to understand the different types of users on the platform. We have participants who want to test their coding skills, educators creating challenges, and organizations looking for top talent. Each group has different needs, from easy code submissions to clear performance results.</p>
+            <p>By knowing who our users are whether they're coders, teachers, or recruiters, we can design the platform to better meet their needs and improve their experience.</p>
+
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <p>
+                Understanding the data processing needs of a coding contest platform is crucial for ensuring adequate network and storage capacity, as well as planning for scalability as user demands increase. By anticipating these requirements, we can design a robust system that handles peak loads effectively, ensuring consistent performance and reliability as the platform grows.
+            </p>
+            <ul>
+                <li>Assuming <strong>1 contest every week</strong> with Daily Active Users (DAU) of <strong>1 million</strong> users.</li>
+                <li>On average, each user submits code <strong>1-2 times</strong> per contest period, leading to a high volume of submissions.</li>
+                <li>Assuming an average code submission size of <strong>1 MB</strong>, the total daily storage requirement could be up to <strong>2 TB</strong> if every user submits twice per day.</li>
+                <li>For a high volume of submissions and result retrievals, peak bandwidth requirements may reach up to <strong>10-20 Gbps</strong> to handle data transfers efficiently.</li>
+            </ul>            
+            
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            <p>Based on estimations and discussions, the non-functional requirements for the coding contest platform include ensuring high performance under heavy user loads, implementing robust data security measures, and designing scalable infrastructure to support rapid growth.</p>
+            <ol>
+                <li><span class="bold-italic">Availability:</span> The system must be operational and accessible at all times, especially during key contest periods. This involves ensuring high uptime with reliable infrastructure, redundancy, and failover mechanisms, and conducting regular monitoring to prevent and address issues.</li>
+                <br>
+                <li><span class="bold-italic">Scalability:</span> The system should manage increasing users and submissions efficiently by scaling both vertically (upgrading resources) and horizontally (adding servers) to maintain performance during high demand.</li>
+                <br>
+                <li><span class="bold-italic">Low latency:</span> The system must provide quick responses for actions like code submissions and result retrievals to ensure a smooth user experience, particularly during peak times.</li>
+                <br>
+                <li><span class="bold-italic">Security:</span> The platform must protect user data and contest information with secure authentication, data encryption, and defenses against vulnerabilities like SQL injection and cross-site scripting (XSS).</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>To design a high-level system architecture for Coding Contests, we'll focus on the following aspects: </p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Defining APIs for a coding contest platform is important because it sets up clear communication between different parts of the system. This makes it easier to add new features or make changes in the future. APIs allow controlled access to the platform's functions, enabling smooth integration with other tools and services. This helps the platform grow and adapt, providing a well-organized and scalable environment for users, developers, and partners. By having well-defined APIs, the platform can manage user interactions efficiently and support continuous improvement and expansion.</p>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Contests</span></p>
+            <div class="table-container7">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /contests</code></td>
+                            <td></td>
+                            <td>{"contest": [...array of contests data...]}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Register to Contest</span></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /register</code></td>
+                            <td><code>userId, contestId</code></td>
+                            <td>{"message": "User registered successfully for contest."}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Contest Details</span></p>
+            <div class="table-container9">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /contest/{contestId}</code></td>
+                            <td><code>contestId</code></td>
+                            <td><code>contestId</code>, <code>name</code>, <code>date</code>, <code>rules</code>, <br><code>problems {problemId, title, description}</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Submit Code</span></p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /submitcode</code></td>
+                            <td><code>userId</code>, <code>contestId</code>, <code>problemId</code>, <code>code</code>, <code>language</code></td>
+                            <td><code>submissionId</code>, <code>status</code>, <code>message</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Submission Results</span></p>
+            <div class="table-container9">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /result/{submissionId}</code></td>
+                            <td><code>submissionId</code></td>
+                            <td><code>submissionId</code>, <code>status</code>, <code>result</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Leadership Results</span></p>
+            <div class="table-container">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /leaderboard/{contestId}</code></td>
+                            <td><code>contestId</code></td>
+                            <td><code>contestId</code>, <code>leaderboard {userId, username, score, rank}</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+            <p>
+                For a coding contest platform, NoSQL databases are used instead of traditional SQL databases because they handle large amounts of diverse data more easily. With many users interacting, submitting code, and generating results during contests, NoSQL databases like MongoDB or Cassandra can scale up to manage this data efficiently. They offer flexibility to handle different types of data and high traffic without being limited by fixed schemas. This makes the platform perform smoothly even during busy contest times, ensuring that data is stored and retrieved quickly and reliably.
+            </p>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"passwordHash": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"registrationDate": "timestamp"
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Contests Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contestId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"startDate": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"endDate": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Results Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"resultId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contestId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"problemId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"score": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"runtime": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"memoryUsage": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"outcome": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"submissionDate": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            Designing a system step by step helps us manage complex challenges by breaking them down into simpler, more manageable tasks. For a coding contest platform, this approach ensures that each component such as user management, contest handling, and result tracking is carefully planned and integrates seamlessly. It also allows for adjustments and improvements based on user feedback and evolving requirements, leading to a robust and effective final product that can handle large numbers of participants and interactions smoothly.
+            <br>
+            <br>
+            
+            <h3>1. Users</h3>
+            <p>Users interact with the coding contest platform through various devices like desktops, laptops, and mobile phones. They can engage in several activities, including submitting code, viewing real-time leaderboards and registering for contests.
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/users.png" alt="User Image" width="100">
+            </div>
+            </p>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>Load balancer plays a crucial role in managing incoming traffic by distributing it across multiple servers. This distribution helps in maintaining high availability and reliability of the platform, preventing any single server from becoming a bottleneck and ensuring that user requests are handled efficiently even under high load.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/load-balancer.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>API Gateway acts as the central entry point for all API requests to the platform. It is responsible for routing requests to the appropriate microservices based on the request type, handling authentication to ensure secure access, and managing authorization to enforce user permissions, thereby streamlining the request flow and enhancing security.
+            <br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>/GET contests</em></b>: Retrieves a list of all available contests. This endpoint provides details such as contest names, dates, and statuses, allowing users to view and browse through ongoing and upcoming contests.</li>
+                <li><b><em>/POST register</em></b>: Enables users to register for upcoming contests. The request includes user and contest details.</li>
+                <li><b><em>/GET contest/{contestId}</em></b>: Retrieves details about a specific contest, including contest rules, problem statements, and schedule.</li>
+                <li><b><em>/POST submitcode</em></b>: Allows users to submit their code for evaluation. The request includes the code and contest-related details.</li>
+                <li><b><em>/GET result/{submissionId}</em></b>: Retrieves the result of a specific code submission, including execution outcomes and performance metrics.</li>
+                <li><b><em>/GET leaderboard/{contestId}</em></b>: Retrieves the leaderboard for a specific contest, showing the rankings of participants based on their scores.</li>
+            </ul>
+            The API Gateway abstracts the complexity of the backend services from the clients and provides a unified interface.<br><br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/api-gateway.png" alt="" width="600"></p>
+            </div>
+            <br>
+
+            <h3>4. User Service</h3>
+            <p>User Service manages all aspects related to users, including their registration, profile management, and authentication processes. It interacts with the User Database to handle user data such as credentials, profiles, and activity history, ensuring that user information is effectively managed and readily accessible.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/user-service.png" alt="" width="750"><br></p>
+            </div>
+            <br>
+
+            <h3>5. User Database</h3>
+            <p>User Database stores comprehensive data about users, including their profiles, login credentials, and historical activity. This database is integral for managing user-related information and ensuring that user details are consistently updated and available for various platform functionalities.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/user-database.png" alt="" width="900"><br></p>
+            </div>
+            <br>
+            <br>
+            
+            <h3>6. Contest Service</h3>
+            <p>Contest Service oversees the management of contests, including their creation, registration, and rule enforcement. It interacts with the Contest Database to handle contest-related data, such as problems and participant details, ensuring that all aspects of contest management are efficiently executed.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/contest-service.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>7. Contest Database</h3>
+            <p>Contest Database is responsible for storing all contest-related details, including problems, test cases, and participant data. It provides a centralized repository for contest information, allowing the Contest Service and other components to access and manage contest data effectively.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/contest-database.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>8. Code Evaluation Service</h3>
+            <p>Code Evaluation Service processes code submissions by receiving them from users and preparing them for execution. It enqueues the submissions in the Message Queue for asynchronous processing, enabling efficient handling of code evaluation tasks.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/code-evaluation-service.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+            
+            <h3>9. Message Queue</h3>
+            <p>Message Queue acts as a buffer for code submissions, ensuring reliable delivery to Worker Nodes for processing. It facilitates asynchronous processing by decoupling the receipt of code submissions from their evaluation, allowing the system to handle high volumes efficiently.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/message-queue.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>10. Worker Nodes</h3>
+            <p>Worker Nodes are responsible for executing submitted code in isolated environments. They fetch relevant test cases from the Contest Database, run the code against these test cases, and generate results, which are then stored in the Results Database. They also update user scores based on execution outcomes.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/worker-nodes.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>11. Results Database</h3>
+            <p>Results Database stores detailed results of code executions, including performance metrics such as runtime and memory usage, and outcomes of test cases. It provides a centralized location for storing and retrieving results, which are used for updating scores and leaderboards.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/results-database.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>12. Leadership Service</h3>
+            <p>Leadership Service manages and updates leaderboards for ongoing and past contests. It retrieves relevant data from the Contest Database to generate and maintain real-time rankings, ensuring that users have access to up-to-date leaderboard information.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/leadership-service.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>13. Notification Service</h3>
+            <p>The Notification Service sends push notifications to users' devices based on events such as new messages or updates in conversation status, enhancing user engagement by keeping users informed in real-time.<br>
+            <h3 style="text-align: center;">High Level Architecture of Coding Contest</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/coding-contest-architecture.png" alt=""></p>
+            </div>
+            <br>
+
+            <hr>
+            <section id="6">
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Caching</h3>
+            <p>
+                Caching in the coding contest platform architecture is essential for enhancing performance and user experience by storing frequently accessed data in fast memory. This approach reduces the load on primary databases and services, leading to quicker data retrieval and response times. Key caches include user cache, problem cache, and result cache, which streamline access to user profiles, contest problems, and submission results. This ensures efficient service delivery and scalability, especially during peak contest periods.
+                <br>
+            </p>
+
+            <h4>Data Stored in Cache</h4>
+            <div class="table-container3">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": "string"<br>
+                    &nbsp;&nbsp;}
+                </div>
+            </div>
+            <br>
+
+            <h4>I. User Cache</h4>
+            <p>The User Cache stores frequently accessed user data to reduce latency and improve performance. It enhances the efficiency of retrieving user information and interactions.</p>
+            <h4>Example User Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "cd91434e9a774973658a27e3b8601b62",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "cd91434e9a774973658a27e3b8601b62",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "codeguru",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "codeguru@example.com",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"passwordHash": "54e3e334a14587f2ed63c9afef9cd05c",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"created_at": "2024-01-15 20:16:52"<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>II. Contest Cache</h4>
+            <p>Caches frequently accessed video metadata and media URLs to reduce database load and improve response times for video retrieval requests.
+            </p>
+            <h4>Example Contest Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "0cb95b4bf8be50faf0e462d6a2aca35e",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contestId": "0cb95b4bf8be50faf0e462d6a2aca35e",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "Week 28 - Coding Contest",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "Coding contest for the week 28 of year 2024,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"startDate": "2024-12-01 20:00:00,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"endDate": "2024-12-01 22:00:00",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "active",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+
+            <h4>III. Results Cache</h4>
+            <p>Caches recommendation data to quickly provide users with personalized content, reducing the need to repeatedly query the Recommendation Database.</p>
+            <h4>Example Results Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "2601b627ed01c03b21221670618eb9ca",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"resultId": "2601b627ed01c03b21221670618eb9ca",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "cd91434e9a774973658a27e3b8601b62",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contestId": "0cb95b4bf8be50faf0e462d6a2aca35e",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"problemId": "54e3e334a14587f2ed63c9afef9cd05c",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"score": 95.5,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"runtime": 49
+                                ms,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"memoryUsage": 17.44
+                                MB,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"outcome": "Accepted",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"submissionDate": 2024-12-01 22:17:00,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+
+
+            <h4>IV. Leadership Cache</h4>
+            <p>Caches recommendation data to quickly provide users with personalized content, reducing the need to repeatedly query the Recommendation Database.</p>
+            <h4>Example Leadership Cache</h4>
+            <div class="table-container8">
+                <div class="code-block"> 
+                    &nbsp;&nbsp;[<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key": "684e9771fd442c1bb6b1c05cf17d14c8",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value": {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contestId": "0cb95b4bf8be50faf0e462d6a2aca35e",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"leaderboard": [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rank": 1,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "607db23177348b465e7801b890cdfc2a",<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "codelover"<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"score": "99.8"<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lastSubmissionTime": 2024-12-01 22:13:57<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                    &nbsp;&nbsp;]<br>
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/caching.png" alt="" width="1100"></p>
+            </div>
+            <br>
+
+
+            <h3>2. CDN (Content Delivery Network)</h3>
+            <p>Using a Content Delivery Network (CDN) in a coding contest platform can be beneficial, though it's not strictly required. Here are some reasons why a CDN might be useful:<br>
+
+            <p><span class="bold-italic">I. Push CDN</span><br>
+            A pull CDN fetches content from the main server when a user requests it for the first time. It then saves this content at various locations around the world, so future requests can be served faster. This is good for things that don't change often, like images, CSS, or JavaScript files. The CDN automatically updates when there are changes on the main server. For a coding contest platform, a pull CDN can handle problem statements, test cases, and other static content. It helps in delivering these items quickly and reduces the load on the main server.</p>
+            
+            <p><span class="bold-italic">II. Pull CDN</span><br>
+            With a push CDN, content is manually uploaded to the CDN's servers before users request it. This way, the content is already available on the CDN's servers. Push CDN is useful for content that needs to be ready at a specific time, like new contest problems released at the start of a contest. For coding contests, a push CDN can ensure that new problem sets or important updates are available to all users right when the contest begins.</p>
+            
+            <br>
+            <h3 style="text-align: center;">High Level Architecture of Coding Contest after Optimizations</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/coding-contest/coding-contest-architecture-optimized.png" alt="" width="1100"></p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="7">
+            <h2>7. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>It's essential to explain the end-to-end flow of the design, ensuring clarity on how data moves through the system. Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
+            </div>
+            <br>
+
+            <h3>User Participation:</h3>
+            <ul>
+                <li>Registered users view available contests and select one to participate in.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Contest Service.</li>
+                <li>Contest Service retrieves contest details and problem set from the Contests and Problems Databases.</li>
+                <li>Contest details and problems are presented to the user.</li>
+            </ul>
+
+            <h3>Code Submission:</h3>
+            <ul>
+                <li>The user submits their solution code for a problem in the contest.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Submission Service.</li>
+                <li>Submission Service processes the code and stores it in the Submissions Database.</li>
+                <li>The Submission Service may trigger a code evaluation process.</li>
+            </ul>
+
+            <h3>Leaderboard and Contest Closure:</h3>
+            <ul>
+                <li>At the end of the contest, the platform calculates final standings.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Leaderboard Service.</li>
+                <li>Leaderboard Service calculates rankings based on submission results and updates the Leaderboard Database.</li>
+                <li>Users can view the final leaderboard and contest results through the platform interface.</li>
+            </ul>
+
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
+            <br>
+            
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
