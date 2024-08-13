@@ -399,7 +399,7 @@
             <br>
 
             <h3>10. Worker Nodes</h3>
-            <p>Worker Nodes are responsible for executing submitted code in isolated environments. They fetch relevant test cases from the Contest Database, run the code against these test cases, and generate results, which are then stored in the Results Database. They also update user scores based on execution outcomes.<br>
+            <p>Worker Nodes are responsible for executing submitted code in isolated environments to ensure that any potential malicious activity is contained within a single container, preventing it from affecting others. They fetch relevant test cases from the Contest Database, run the code against these test cases, generate results, and store them in the Results Database. They also update user scores based on the execution outcomes.<br>
             <div style="display: flex; justify-content: center;">
                 <img src="images/high level design/coding-contest/worker-nodes.png" alt="" width="1000"></p>
             </div>

@@ -1,0 +1,543 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Ticket Master System Design</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="images/icon.png">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="index.html#1" class="title">Back</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#1">Feature Expectations</a></li>
+                <li><a href="#2">Estimations</a></li>
+                <li><a href="#3">Design Goals</a></li>
+                <li><a href="#4">High-Level Design</a></li>
+                <li><a href="#5">Deep Dive</a></li>
+                <li><a href="#6">Futher Optimizations</a></li>
+                <li><a href="#7">Data Flow</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Main -->
+    <section id="main" class="wrapper style1-alt">
+        <div class="ubc-ss">
+            <h1 style="text-align: center;"><img src="images/high level design/ticket-master/ticket-master-logo.png" alt="" width="50"> Ticket Master System Design</h1>
+        </div>
+        <div class="inner">
+            <div class="note">
+                <p>Never dive directly into the design phase; it may raise red flags during the interview!</p>
+            </div>
+            <br>
+
+            <p><span class="bold-italic">Interviewer:</span> We need a system where users can buy tickets for events like concerts and sports. It should handle high traffic smoothly, especially during big events.<br></p>
+
+            <div class="definition">
+                <span class="bold-italic">Ticket Master is an online platform that allows users to search for, purchase, and manage tickets for various events, including concerts, sports, theater shows, and more. It handles high traffic during popular events, providing real-time updates on ticket availability and supporting multiple payment methods. The system is designed to manage large volumes of users and transactions efficiently, ensuring a smooth experience for both event organizers and attendees.</span>
+            </div>
+            <br>
+            <section id="1">
+                <h2>1. Feature Expectations [5 mins]</h2>
+                <p style="margin: 0;">
+                    <span class="bold-italic">You:</span> Could you clarify a few things before we start working on the design? More specifically, how many events at once do we anticipate managing? Do we also need to allow for real-time ticket availability updates?<br>
+                    <br>
+                    <div class="note">
+                        Feature expectations for Ticket Master include providing users with a seamless booking experience, real-time event availability, efficient search capabilities, and secure payment processing.
+                    </div>
+                    <br>
+                    <span class="bold-italic">Interviewer:</span> We expect to handle hundreds of events at the same time, especially during peak seasons. Real-time updates for ticket availability are crucial to ensure users see accurate information.<br>
+                    <br>
+                    <span class="bold-italic">You:</span> Thank you for the insights. This helps in shaping the design. I’ll proceed considering these factors.<br>
+                    <br>
+
+                    <h4>Functional Requirements</h4>
+                    <ol>
+                        <li><span class="bold-italic">Select and Purchase Tickets:</span> Users should be able to select tickets for an event, choose their preferred seating or ticket type, and complete the purchase.</li>
+                        <br>
+                        <li><span class="bold-italic">Search and Browse Events:</span> Users should be able to search for and browse available events by category, location, and date.</li>
+                        <br>
+                        <li><span class="bold-italic">View Event Details:</span> The system should display real-time updates on ticket availability, ensuring users see the most current information and preventing overselling of tickets.</li>
+                        <br>
+                    </ol>
+            <p>The core features we’re focusing on are crucial to how users engage with the Ticket Master platform. At this stage, we won’t address secondary features like in-depth analytics or advanced user profiles, though these are also important.</p>
+            <p>Understanding the different user types is essential. We cater to event-goers searching for tickets, event organizers handling ticket sales, and venue managers coordinating seating. Each user group has unique requirements, from simple ticket purchases to detailed event management.</p>
+            <p>By recognizing whether our users are attendees, organizers, or venue operators, we can tailor the platform to better serve their needs and enhance their overall experience.</p></p>
+
+            <div class="note">
+                <p>Limit the number of features discussed to one or two, as covering more can be time-consuming and may detract from explaining the most critical aspects of the design.</p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="2">
+            <h2>2. Estimations [5 mins]</h2>
+            <p>
+                Estimations are essential in the system design of a ticket management system as they help predict the required resources, such as network bandwidth, storage, and processing power, to handle expected ticket volumes. Accurate estimations ensure the system is designed to meet demand efficiently, preventing bottlenecks and ensuring smooth performance during peak times.
+            </p>
+            <ul>
+                <li>Assume <strong>100K daily active users</strong> and <strong>500-1,000</strong> events at any given time during peak periods.</li>
+                <li>Storage required per user is <strong>1 MB</strong>, so for <strong>100K users</strong>, it totals <strong>1 TB</strong> for user profiles.</li>
+                <li>With <strong>1K</strong> ticket purchases per second, the system would need approximately <strong>100 TB</strong> for <strong>1 million events</strong>, each with <strong>100K tickets</strong>.</li>
+            </ul>            
+            
+
+            <div class="note">
+                <p>Clear estimations demonstrate planning and analytical skills crucial for system scalability and performance assessment.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="3">
+            <h2>3. Design Goals [5 mins]</h2>
+            <p>Based on estimations and discussions, defining non-functional requirements for a Ticket Master system is important because they establish the criteria for performance, reliability, and user experience that are crucial for the system’s overall effectiveness. </p>
+            <ol>
+                <li><span class="bold-italic">Strong Consistency:</span> We need to prioritize consistency over availability to prevent double bookings.</li>
+                <li><span class="bold-italic">Availability:</span> The system is read-heavy, as more users search for events than actually book tickets.</li>
+                <li><span class="bold-italic">Scalability:</span> Scalability is crucial to properly handle event traffic</li>
+                <li><span class="bold-italic">Low Latency:</span> Event searches should have minimal latency.</li>
+            </ol>
+            <br>
+
+            <div class="note">
+                <p>Specify latency/throughput targets and decide on consistency/availability levels based of estimations discussed for robust system design.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="4">
+            <h2>4. High-Level Design [5-8 mins]</h2>
+            <p>To design a high-level system architecture for Ticket Master, we'll focus on the following aspects: </p>
+
+            <h3>I. APIs for Read/Write Scenarios</h3>
+            <p>Defining your APIs for Ticket Master is crucial because it establishes clear, standardized methods for interacting with your system, ensuring seamless integration between clients and the backend. Well-defined APIs enable efficient retrieval of event information, accurate search functionality, and reliable booking processes. This clarity enhances user experience by providing consistent and predictable responses, reduces the likelihood of errors, and facilitates easier maintenance and scaling of the system. By outlining precise endpoints and their functions, you streamline development, improve collaboration among teams, and support robust, scalable solutions for event management and ticketing.</p>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Events</span></p>
+            <div class="table-container6">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /events</code></td>
+                            <td></td>
+                            <td>{"event": [...array of events data...]}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Get Specific Event Data</span></p>
+            <div class="table-container7">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET /event/:eventID</code></td>
+                            <td><code>eventID</code></td>
+                            <td>{"eventID": [...details about the event...]}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Search for Events</span></p>
+            <div class="table-container8">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GET search?term={filterText}</code></td>
+                            <td><code>filterText</code></td>
+                            <td>{"event": [...array of events data...]}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Reserve Seat</span></p>
+            <div class="table-container8">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /booking/reserve</code></td>
+                            <td><code>eventID</code>, <code>venueID</code>, <code>seatID</code></td>
+                            <td><code>ticketID</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Confirm Booking</span></p>
+            <div class="table-container6">     
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>Parameters</td>
+                            <td>Response</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>POST /booking/confirm</code></td>
+                            <td><code>ticketID</code></td>
+                            <td>Confimation Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <h3>II. Database Schema</h3>
+            <p>
+                Defining your database schema is essential because it ensures a structured and organized approach to storing and retrieving data, which promotes data integrity and efficiency. For Ticket Master, choosing NoSQL over SQL is advantageous due to NoSQL's flexibility in handling unstructured or semi-structured data, which is common in event management systems where data types and structures can vary significantly. NoSQL databases offer horizontal scalability, allowing the system to handle large volumes of diverse and dynamic data seamlessly, and provide the ability to quickly adapt to changing requirements, which is crucial for managing event details and user interactions in a rapidly evolving environment.
+            </p>
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Users Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"passwordHash": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"histroy": {list of events}
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Event Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"venue": "venueID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"performer": "performerID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventDate": "timestamp",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ticketsSold": "number"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Venue Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"venueID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"location": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"numberOfSeats": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bookings": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"seatMap": {list of seats},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Performer Table</span></p>
+            <div class="table-container4">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"performerID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "string",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"shows": {list of shows},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <p style="text-align: center; text-decoration: underline; margin: 0;"><span class="bold-italic">Ticket Table</span></p>
+            <div class="table-container5">         
+                <div class="code-block"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ticketID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"seatID": "UUID",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ticketPrice": "number",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ticketStatus": {booked / not booked},<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}
+                </div>
+            </div> 
+
+            <div class="note">
+                <p>Ensure clear and concise communication of design choices and their implications to demonstrate deep understanding and critical thinking.</p>
+            </div>
+
+            <hr>
+            <br>
+
+            <section id="5">
+            <h2>5. Deep Dive [10-12 mins]</h2>
+            Designing Ticket Master from users to main logic is crucial because it ensures that the system is built with a user-centric approach, focusing on delivering a seamless and intuitive experience. By starting with user requirements and interactions, you align the system's features and workflows with actual needs and expectations, which enhances usability and satisfaction. This user-focused design approach helps in identifying key functionalities and interactions early on, allowing you to create an efficient and responsive main logic that handles bookings, searches, and event management effectively. Ultimately, this method ensures that the system is not only robust and scalable but also tailored to provide a smooth, engaging experience for users.
+            <br>
+            <br>
+            
+            <h3>1. Users</h3>
+            <p>End-users are the primary actors who interact with the ticketing platform. They use the system to search for events, book tickets, manage their user accounts, and receive notifications about their bookings or upcoming events. Users connect to the system over the internet, sending requests via a web or mobile interface. These requests are routed through various services to fulfill their needs.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/users.png" alt="User Image" width="100">
+            </div>
+            <br>
+
+            <h3>2. Load Balancer</h3>
+            <p>Load Balancer is a critical component that distributes incoming user requests across multiple server instances. This ensures that no single server becomes a bottleneck, thereby optimizing resource utilization and enhancing the system's resilience to high traffic volumes. It manages the traffic flow to various microservices like the API Gateway, ensuring that each service receives requests in a balanced and efficient manner.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/load-balancer.png" alt="" width="450">
+            </div>
+            <br>
+
+            <h3>3. API Gateway</h3>
+            <p>API Gateway acts as a centralized entry point for all user requests. It routes these requests to the appropriate backend microservices based on the type of request, such as searching for events, booking tickets, or managing user accounts. It interfaces with all microservices, ensuring smooth and secure communication between the client and the backend services.
+            <br></p>
+            Key functionalities include:
+            <ul>
+                <li><b><em>GET /events</em></b>: Get a list of all upcoming events with details like name, date, location, and availability.</li>
+                <li><b><em>GET /event/:eventID</em></b>: Get detailed information about a specific event using its eventID.</li>
+                <li><b><em>GET search?term={filterText}</em></b>: Search for events based on a given search term.</li>
+                <li><b><em>POST /booking/reserve</em></b>: Reserve tickets for a specified event allowing users to initiate a reservation for tickets, holding the selected seats for a specified duration.</li>
+                <li><b><em>POST /booking/confirm</em></b>: Confirm the reservation and complete the booking process.</li>
+            </ul>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/api-gateway.png" alt="" width="600"></p>
+            </div>
+            <br>
+
+            <h3>4. User Service</h3>
+            <p>User Service manages all user-related functionalities, including user registration, authentication, and profile management. Interacts with the User Database to store and retrieve user information, such as account details, preferences, and transaction history. Handles requests related to user activities, such as logging in, updating profiles, and managing account settings.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/user-service.png" alt="" width="750"><br></p>
+            </div>
+            <br>
+
+            <h3>5. User Database</h3>
+            <p>User Database stores all user-related information, including account credentials, personal data, preferences, and transaction history. It is the primary data source for the User Service, ensuring that user data is securely stored and efficiently retrieved.</p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/user-database.png" alt="" width="900"><br></p>
+            </div>
+            <br>
+            <br>
+            
+            <h3>6. Event Service</h3>
+            <p>Event Service is responsible for managing all event-related operations, including creating, updating, and retrieving event details. Interacts with the Event Database to maintain accurate and up-to-date information about events. It serves as the backbone for event data, ensuring that all event-related queries, updates, and searches are handled efficiently.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/event-service.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>7. Event Database</h3>
+            <p>Event Database is the primary repository for all event-related data, including event names, dates, venues, descriptions, and ticket types. It interacts with both the Search Service and Event Service to provide and manage event information as required by the system.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/event-database.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>8. Performer Database</h3>
+            <p>This database stores detailed information about performers, such as artists, bands, and other entertainment entities. It accesses this database to fetch performer details during user searches.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/performer-database.png" alt="" width="1000"></p>
+            </div>
+            <br>
+            
+            <h3>9. Venue Database</h3>
+            <p>Stores information about venues where events take place, including details like seating layouts, capacities, and locations. This database is accessed by the Event Service and Search Service to manage and retrieve venue-specific data, ensuring that users get accurate venue information when booking tickets or searching for events.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/venue-database.png" alt="" width="1000"><br></p>
+            </div>
+            <br>
+
+            <h3>10. Search Service</h3>
+            <p>Search Service handles all search-related queries from users, such as searching for events, performers, or venues. It processes search queries and fetches results from the corresponding databases, enhancing the user experience with efficient data retrieval.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/search-service.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>11. Booking Service</h3>
+            <p>Booking Service manages the entire ticket reservation and purchasing process, including seat selection, order management, and payment processing. Interacts with the Ticket Database to manage ticket inventory, including tracking available seats, reservations, and sales. Works closely with the Payment Service to ensure secure and successful transactions before confirming a booking. It is a crucial component for managing user transactions, ensuring that ticket bookings are processed smoothly and securely.</p>
+            
+            Key functionalities include:
+            <ul>
+                <li><b><em>Seat Reservation: </em></b>Communicates with the Distributed Ticket Lock to temporarily lock seats during the booking process, ensuring that seats are not double-booked.</li>
+                <li><b><em>Order Management: </em></b>Handles the full lifecycle of ticket orders, from initial reservation to final purchase.</li>
+            </ul>
+
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/booking-service.png" alt="" width="1000">
+            </div>
+            <br>
+
+            <h3>12. Distributed Ticket Lock</h3>
+            <p>Distributed Ticket Lock is essential for maintaining the integrity of the ticketing system, preventing double bookings by temporarily locking tickets during the reservation process. Booking Service communicates with the Distributed Ticket Lock to lock and unlock seats during the reservation process. This mechanism helps maintain accurate ticket inventory and prevents overselling. 
+            <br><br>
+            Distributed Ticket Lock is especially critical in scenarios where there is high concurrency, such as during the sale of tickets for popular events. It ensures that once a user initiates a booking process, the selected seats are locked for a short duration (e.g., 10 minutes), allowing the user to complete the purchase without interference from other users.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/distributed-ticket-lock.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>13. Payment Service</h3>
+            <p>Payment Service handles the financial transactions associated with ticket purchases. It integrates with external payment gateways to process payments securely, manage refunds, and handle other financial aspects. Once a user confirms a booking, the Booking Service hands off the transaction to the Payment Service, which processes the payment. Upon successful payment, the Payment Service notifies the Booking Service to finalize the ticket purchase. It also interacts with the Notification Service to inform users about payment confirmation and any issues.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/payment-service.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>14. Ticket Database</h3>
+            <p>Ticket Database is responsible for storing and managing all ticket-related data, including available tickets, reserved tickets, and sales records. It works in tandem with the Booking Service to update ticket availability in real time as users make reservations and complete purchases. The database ensures that the ticketing system accurately reflects the current inventory at all times.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/ticket-database.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+            <h3>15. Notification Service</h3>
+            <p>Notification Service is responsible for sending out various notifications to users, including booking confirmations, event reminders, and promotional messages. This service works with multiple components such as the Booking Service and User Service to trigger notifications based on specific events, such as a successful booking or an upcoming event. Notifications can be sent via email, SMS, or in-app alerts, ensuring that users are kept informed throughout their interaction with the platform.<br>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/ticket-master-architecture.png" alt=""></p>
+            </div>
+            <br>
+
+            <hr>
+            <section id="6">
+            <h2>6. Futher Optimizations [2 - 5 mins]</h2>
+            <h3>1. Search Optimization using ElasticSearch</h3>
+            <p>
+                ElasticSearch is a search-optimized database that enhances the search functionality across the platform. It provides fast and efficient search results for queries related to events, performers, and venues. Search Service leverages ElasticSearch to quickly retrieve relevant information from the Performer, Event, and Venue databases. ElasticSearch indexes this data to make searches more responsive and scalable, especially when dealing with large datasets.
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/elasticsearch.png" alt="" width="1000"></p>
+            </div>
+            <br>
+
+
+            <h3>2. CDN (Content Delivery Network)</h3>
+            <p>CDN (Content Delivery Network) is used to enhance performance and reliability by distributing static assets, such as images, CSS, and JavaScript files, across a network of geographically dispersed servers. This ensures faster load times and reduced latency for users accessing the site from various locations. Additionally, the CDN can cache and deliver frequently accessed event data, ticketing information, and search results, decreasing the load on the origin servers and improving response times. By offloading traffic to the CDN, Ticket Master can handle high volumes of concurrent users and traffic spikes more efficiently, providing a smoother and more responsive booking experience.<br>
+            
+            <h3 style="text-align: center;">High Level Architecture of Ticket Master after Optimizations</h3>
+            <div style="display: flex; justify-content: center;">
+                <img src="images/high level design/ticket-master/ticket-master-architecture-optimized.png" alt="" width="1100"></p>
+            </div>
+            <hr>
+            <br>
+
+            <section id="7">
+            <h2>7. Data Flow [5-8 mins]</h2>
+            <div class="note">
+                <p>It's essential to explain the end-to-end flow of the design, ensuring clarity on how data moves through the system. Based on estimations and discussions, the non-functional requirements for the system include addressing critical aspects such as performance under high user loads, robust data security measures, and scalable infrastructure to accommodate rapid growth.</p>
+            </div>
+            <br>
+
+            <h3>View Available Events:</h3>
+            <ul>
+                <li>Users view all the available events.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Event Service.</li>
+                <li>The Event Service retrieves the event list from the Events Database.</li>
+                <li>The event details, including name, date, location, and availability, are presented to the user.</li>
+            </ul>
+
+            <h3>View Specific Event Details:</h3>
+            <ul>
+                <li>Users select an event to see more detailed information.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Event Service.</li>
+                <li>The Event Service retrieves detailed information for the selected event from the Events Database.</li>
+                <li>The detailed event information is presented to the user.</li>
+            </ul>
+
+            <h3>Search for Events:</h3>
+            <ul>
+                <li>Users search for events using a specific keyword or term.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway routes the request to the Event Service.</li>
+                <li>The Event Service searches the Events Database for matching events based on the filter text.</li>
+                <li>The search results are presented to the user.</li>
+            </ul>
+
+            <h3>Reserve Tickets:</h3>
+            <ul>
+                <li>Users initiate a reservation for tickets to a selected event.</li>
+                <li>The request is sent to the API Gateway.</li>
+                <li>The API Gateway receives the reservation request and routes it to the Booking Service.</li>
+                <li>The Booking Service interacts with the Distributed Ticket Lock system to temporarily block seats in the Ticket Database for 10 minutes.</li>
+                <li>Reservation details are stored, and the seats are temporarily held.</li>
+            </ul>
+
+            <h3>Booking Confirmation:</h3>
+            <ul>
+                <li>Users confirm their reservation by submitting payment details.</li>
+                <li>The API Gateway routes this request to the Payment Service.</li>
+                <li>The Payment Service processes the payment and confirms the reservation in the Ticket Database.</li>
+                <li>The Booking Service finalizes the booking and updates the seat status from held to reserved.</li>
+                <li>Once the booking is confirmed, the Notification Service is triggered to send confirmation notifications including booking ID and ticket information is sent to the user.</li>
+            </ul>
+
+            <div class="note">
+                <p>Don't forget to explain the end to end flow of your design!</p>
+            </div>
+            <br>
+            
+            <p>This architecture is designed to be scalable, resilient, and efficient, ensuring that the platform can handle a high volume of user interactions and data processing with minimal latency and high availability.</p>
+
+            <br>
+        </div>
+    </section>
+</div>
+
+<footer id="footer">
+    <p class="footer-copyright">&copy; 2024 System Design Guru. All rights reserved. Images and some content are owned by their respective creators.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
